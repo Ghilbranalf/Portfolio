@@ -1,0 +1,721 @@
+import React, { useEffect, useState, useRef } from 'react';
+import './index.css';
+
+function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    // Mencegah glitch render 2x di React Strict Mode
+    if (isMounted.current) return;
+    isMounted.current = true;
+
+    // ── LOADER ──
+    setTimeout(() => {
+      const loader = document.getElementById('loader');
+      if (loader) {
+        loader.classList.add('hidden');
+        startHeroAnimations();
+      }
+    }, 1800);
+
+    // ── CURSOR ──
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    
+    const handleMouseMove = (e) => { 
+        mx = e.clientX; 
+        my = e.clientY; 
+        if(cursor) { cursor.style.left = mx+'px'; cursor.style.top = my+'px'; }
+    };
+    document.addEventListener('mousemove', handleMouseMove);
+
+    let animId;
+    function animRing() {
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      if (ring) { ring.style.left = rx+'px'; ring.style.top = ry+'px'; }
+      animId = requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    document.querySelectorAll('a, button, .service-card, .skill-chip, .project-card').forEach(el => {
+      el.addEventListener('mouseenter', () => { 
+          if(cursor) { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; cursor.style.opacity='.4'; }
+          if(ring) { ring.style.width='60px'; ring.style.height='60px'; }
+      });
+      el.addEventListener('mouseleave', () => { 
+          if(cursor) { cursor.style.transform='translate(-50%,-50%) scale(1)'; cursor.style.opacity='1'; }
+          if(ring) { ring.style.width='36px'; ring.style.height='36px'; }
+      });
+    });
+
+    // ── PARTICLES ──
+    const canvas = document.getElementById('particle-canvas');
+    let ctx, W, H, particles = [];
+    if (canvas) {
+        ctx = canvas.getContext('2d');
+        function resizeCanvas() { 
+            if(!canvas) return;
+            W = canvas.width = window.innerWidth; 
+            H = canvas.height = window.innerHeight; 
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        for (let i = 0; i < 80; i++) {
+            particles.push({
+                x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
+                vx: (Math.random()-.5)*.4, vy: (Math.random()-.5)*.4,
+                r: Math.random()*1.5+.5, op: Math.random()*.5+.1
+            });
+        }
+        function drawParticles() {
+            if (!ctx) return;
+            ctx.clearRect(0,0,W,H);
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0 || p.x > W) p.vx *= -1;
+                if (p.y < 0 || p.y > H) p.vy *= -1;
+                ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+                ctx.fillStyle = `rgba(45,212,191,${p.op})`; ctx.fill();
+                for (let j = i+1; j < particles.length; j++) {
+                    const d = Math.hypot(particles[j].x-p.x, particles[j].y-p.y);
+                    if (d < 100) { ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(45,212,191,${.06*(1-d/100)})`; ctx.stroke(); }
+                }
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+    }
+
+    // ── NAVBAR ──
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if(nav) nav.classList.toggle('scrolled', window.scrollY > 40);
+        updateActiveNav();
+    });
+
+    function updateActiveNav() {
+        const sections = ['home','expertise','skills','about','projects','contact'];
+        const links = document.querySelectorAll('.nav-links a');
+        let current = '';
+        sections.forEach(id => { 
+            const el = document.getElementById(id); 
+            if (el && el.getBoundingClientRect().top < 120) current = id; 
+        });
+        links.forEach(l => { 
+            l.classList.toggle('active', l.getAttribute('href') === '#'+current); 
+        });
+    }
+
+    // ── TYPING ──
+    const roles = ['Web Developer', 'Frontend Engineer', 'React Developer', 'Full-Stack Builder'];
+    let ri = 0, ci = 0, del = false;
+    let typEl = document.getElementById('typingEl');
+    
+    function type() {
+        if (!typEl) typEl = document.getElementById('typingEl');
+        if (!typEl) return;
+        
+        const word = roles[ri];
+        typEl.textContent = (del ? word.slice(0,ci--) : word.slice(0,ci++));
+        if (!del && ci > word.length) { del = true; setTimeout(type, 1400); return; }
+        if (del && ci < 0) { del = false; ri = (ri+1)%roles.length; ci = 0; }
+        setTimeout(type, del ? 55 : 95);
+    }
+
+    // ── HERO ANIMATIONS ──
+    function startHeroAnimations() {
+        const els = [
+            {el: document.getElementById('heroBadge'), d: 0},
+            {el: document.getElementById('heroTitle'), d: 120},
+            {el: document.getElementById('typingEl'), d: 240, cb: type},
+            {el: document.getElementById('heroSub'), d: 320},
+            {el: document.getElementById('heroActions'), d: 420},
+            {el: document.getElementById('heroStats'), d: 500},
+            {el: document.getElementById('heroImg'), d: 100},
+        ];
+        els.forEach(({el,d,cb}) => {
+            if (!el) return;
+            setTimeout(() => {
+                el.style.transition = 'opacity .8s ease, transform .8s ease';
+                el.style.opacity = '1'; el.style.transform = 'none';
+                if (cb) cb();
+            }, d);
+        });
+    }
+
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+    const svcObs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+            if (e.isIntersecting) {
+                setTimeout(() => {
+                    e.target.style.transition = 'opacity .7s ease, transform .7s ease, border-color .4s, box-shadow .4s';
+                    e.target.style.opacity = '1'; e.target.style.transform = 'none';
+                }, Array.from(document.querySelectorAll('.service-card')).indexOf(e.target) * 100);
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.service-card').forEach(el => svcObs.observe(el));
+
+    const skillObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                const chips = document.querySelectorAll('.skill-chip');
+                chips.forEach((c,i) => {
+                    setTimeout(() => {
+                        c.style.transition = 'opacity .5s ease, transform .5s ease, border-color .3s, box-shadow .3s';
+                        c.style.opacity = '1'; c.style.transform = 'none';
+                    }, i * 70);
+                });
+                skillObs.disconnect();
+            }
+        });
+    }, { threshold: 0.1 });
+    const firstChip = document.querySelector('.skill-chip');
+    if (firstChip) skillObs.observe(firstChip);
+
+    const tlObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                const items = document.querySelectorAll('.tl-item');
+                items.forEach((it,i) => {
+                    setTimeout(() => {
+                        it.style.transition = 'opacity .6s ease, transform .6s ease';
+                        it.style.opacity = '1'; it.style.transform = 'none';
+                    }, i*140);
+                });
+                tlObs.disconnect();
+            }
+        });
+    }, { threshold: 0.1 });
+    const firstTl = document.querySelector('.tl-item');
+    if (firstTl) tlObs.observe(firstTl);
+
+    const valObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                const cards = document.querySelectorAll('.value-card');
+                cards.forEach((c,i) => {
+                    setTimeout(() => {
+                        c.style.transition = 'opacity .6s ease, transform .6s ease, border-color .3s';
+                        c.style.opacity = '1'; c.style.transform = 'none';
+                    }, i*120);
+                });
+                valObs.disconnect();
+            }
+        });
+    }, { threshold: 0.1 });
+    const firstVal = document.querySelector('.value-card');
+    if (firstVal) valObs.observe(firstVal);
+
+    const projObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                const cards = document.querySelectorAll('.project-card');
+                cards.forEach((c,i) => {
+                    setTimeout(() => {
+                        c.style.transition = 'opacity .7s ease, transform .7s ease, border-color .4s, box-shadow .4s';
+                        c.style.opacity = '1'; c.style.transform = 'none';
+                    }, i*120);
+                });
+                projObs.disconnect();
+            }
+        });
+    }, { threshold: 0.1 });
+    const firstProj = document.querySelector('.project-card');
+    if (firstProj) projObs.observe(firstProj);
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const href = a.getAttribute('href');
+            if (href === '#') return;
+            const target = document.querySelector(href);
+            if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+    });
+
+  }, []);
+
+  return (
+    <>
+      <div id="loader">
+          <div className="loader-logo">Ghilbran<span>Portfolio</span></div>
+          <div className="loader-bar"><div className="loader-bar-inner"></div></div>
+      </div>
+
+      <div id="cursor"></div>
+      <div id="cursor-ring"></div>
+
+      <canvas id="particle-canvas"></canvas>
+
+      {/* NAVBAR */}
+      <nav id="navbar">
+          <div className="nav-inner">
+              <a href="#home" className="nav-logo">Ghilbran<span>.</span></a>
+              <ul className="nav-links">
+                  <li><a href="#home" className="active">Home</a></li>
+                  <li><a href="#expertise">Services</a></li>
+                  <li><a href="#skills">Skills</a></li>
+                  <li><a href="#about">About</a></li>
+                  <li><a href="#projects">Projects</a></li>
+                  <li><a href="#contact" className="nav-cta">Contact</a></li>
+              </ul>
+              <button className="hamburger" id="ham" aria-label="menu" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                  <span></span><span></span><span></span>
+              </button>
+          </div>
+      </nav>
+      
+      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`} id="mobileMenu">
+          <a href="#home" onClick={() => setIsMobileMenuOpen(false)}>Home</a>
+          <a href="#expertise" onClick={() => setIsMobileMenuOpen(false)}>Services</a>
+          <a href="#skills" onClick={() => setIsMobileMenuOpen(false)}>Skills</a>
+          <a href="#about" onClick={() => setIsMobileMenuOpen(false)}>About</a>
+          <a href="#projects" onClick={() => setIsMobileMenuOpen(false)}>Projects</a>
+          <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</a>
+      </div>
+
+      {/* HERO */}
+      <section id="home">
+          <div className="container">
+              <div className="hero-grid">
+                  <div className="hero-left">
+                      <div className="hero-badge" id="heroBadge">
+                          <span className="dot"></span>
+                          Available for Projects
+                      </div>
+                      <h1 className="hero-title" id="heroTitle">
+                          Hello, I'm<br/>
+                          <span className="name">Ghilbran Alfaries</span>
+                          <span className="name accent-name">Pryma</span>
+                      </h1>
+                      <p className="typing-line" id="typingEl"></p>
+                      <p className="hero-subtitle" id="heroSub">
+                          Mahasiswa Teknik Informatika di Universitas Telkom Purwokerto yang berfokus pada pengembangan website modern menggunakan React, Tailwind CSS, dan Java. Membangun platform digital yang efisien, responsif, dan berorientasi solusi.
+                      </p>
+                      <div className="hero-actions" id="heroActions">
+                          <a href="#contact" className="btn btn-primary"><i className="fas fa-paper-plane"></i> Get In Touch</a>
+                          <a href="#projects" className="btn btn-ghost"><i className="fas fa-eye"></i> View Work</a>
+                      </div>
+                      <div className="hero-stats" id="heroStats">
+                          <div className="stat"><div className="stat-num">3+</div><div className="stat-label">Years Learning</div></div>
+                          <div className="stat" style={{ borderLeft: "1px solid rgba(255,255,255,0.08)", paddingLeft: "32px" }}><div className="stat-num">10+</div><div className="stat-label">Projects Done</div></div>
+                          <div className="stat" style={{ borderLeft: "1px solid rgba(255,255,255,0.08)", paddingLeft: "32px" }}><div className="stat-num">4</div><div className="stat-label">Tech Stacks</div></div>
+                      </div>
+                  </div>
+                  <div className="hero-visual">
+                      <div className="hero-img-wrap" id="heroImg">
+                          <img src="/mnt/user-data/uploads/1778685156049_image.png" alt="Ghilbran Alfaries Pryma" className="hero-img" onError={(e) => e.target.src='https://ui-avatars.com/api/?name=G+A&background=0d1628&color=2dd4bf&size=400&bold=true&font-size=0.4'} />
+                          <div className="hero-badge-float b1">
+                              <div className="badge-icon"><i className="fas fa-code"></i></div>
+                              <div className="badge-text"><strong>React Developer</strong><span>Frontend & Backend</span></div>
+                          </div>
+                          <div className="hero-badge-float b2">
+                              <div className="badge-icon"><i className="fas fa-graduation-cap"></i></div>
+                              <div className="badge-text"><strong>Telkom University</strong><span>Informatika '23</span></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      {/* EXPERTISE */}
+      <section id="expertise" className="section-pad">
+          <div className="container">
+              <div className="section-center reveal">
+                  <div className="section-label">Services</div>
+                  <h2 className="section-title">What I Do</h2>
+                  <p className="section-desc">Tidak hanya fokus pada tampilan, tapi juga performa dan arsitektur. Saya handle proyek dari nol hingga deployment.</p>
+              </div>
+              <div className="services-grid">
+                  <div className="service-card">
+                      <div className="svc-icon"><i className="fas fa-layer-group"></i></div>
+                      <h4>Frontend Development</h4>
+                      <p>Membangun antarmuka web responsif dan interaktif menggunakan React.js dan Tailwind CSS untuk pengalaman pengguna optimal.</p>
+                  </div>
+                  <div className="service-card">
+                      <div className="svc-icon"><i className="fas fa-server"></i></div>
+                      <h4>Backend Development</h4>
+                      <p>Mengembangkan logika server-side dan manajemen database yang efisien menggunakan Java dan JavaScript/Node.js.</p>
+                  </div>
+                  <div className="service-card">
+                      <div className="svc-icon"><i className="fab fa-wordpress"></i></div>
+                      <h4>WordPress Development</h4>
+                      <p>Kustomisasi dan pengelolaan CMS berbasis WordPress untuk kebutuhan website bisnis dan konten profesional.</p>
+                  </div>
+                  <div className="service-card">
+                      <div className="svc-icon"><i className="fas fa-laptop-code"></i></div>
+                      <h4>Custom Web Solutions</h4>
+                      <p>Solusi pengembangan website kustom mulai dari perancangan desain hingga tahap deployment dan maintenance.</p>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      {/* SKILLS */}
+      <section id="skills" className="section-pad">
+          <div className="container">
+              <div className="skills-layout">
+                  <div>
+                      <div className="section-label reveal">Skills</div>
+                      <h2 className="section-title reveal">Tech Stack &amp;<br/>Expertise</h2>
+                      <p className="section-desc reveal" style={{ marginBottom: 0 }}>Tools dan teknologi yang saya gunakan untuk membangun produk digital berkualitas tinggi.</p>
+                      <div style={{ marginTop: "40px" }} className="reveal">
+                          <div className="value-card">
+                              <div className="val-icon"><i className="fas fa-bolt"></i></div>
+                              <div className="val-text"><h6>Fast Learner</h6><p>Selalu mengikuti perkembangan teknologi terbaru dan adaptif terhadap stack baru.</p></div>
+                          </div>
+                          <div className="value-card">
+                              <div className="val-icon"><i className="fas fa-code-branch"></i></div>
+                              <div className="val-text"><h6>Clean Architecture</h6><p>Menulis kode yang terstruktur, reusable, dan mudah dipelihara dalam jangka panjang.</p></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div className="skills-grid">
+                      <div className="skill-chip" style={{ "--clr": "#61dafb" }}>
+                          <i className="fab fa-react" style={{ color: "#61dafb" }}></i>
+                          <div className="sk-name">React</div><div className="sk-level">Advanced</div>
+                      </div>
+                      <div className="skill-chip" style={{ "--clr": "#06b6d4" }}>
+                          <i className="fas fa-wind" style={{ color: "#06b6d4" }}></i>
+                          <div className="sk-name">Tailwind CSS</div><div className="sk-level">Advanced</div>
+                      </div>
+                      <div className="skill-chip" style={{ "--clr": "#f7df1e" }}>
+                          <i className="fab fa-js" style={{ color: "#f7df1e" }}></i>
+                          <div className="sk-name">JavaScript</div><div className="sk-level">Advanced</div>
+                      </div>
+                      <div className="skill-chip" style={{ "--clr": "#007396" }}>
+                          <i className="fab fa-java" style={{ color: "#007396" }}></i>
+                          <div className="sk-name">Java</div><div className="sk-level">Intermediate</div>
+                      </div>
+                      <div className="skill-chip" style={{ "--clr": "#000000" }}>
+                          <span style={{ fontSize: "1.4rem", fontWeight: 900, color: "#fff", display: "block", marginBottom: "8px" }}>N</span>
+                          <div className="sk-name">Next.js</div><div className="sk-level">Intermediate</div>
+                      </div>
+                      <div className="skill-chip" style={{ "--clr": "#68a063" }}>
+                          <i className="fab fa-node-js" style={{ color: "#68a063" }}></i>
+                          <div className="sk-name">Express.js</div><div className="sk-level">Intermediate</div>
+                      </div>
+                      <div className="skill-chip" style={{ "--clr": "#4479a1" }}>
+                          <i className="fas fa-database" style={{ color: "#4479a1" }}></i>
+                          <div className="sk-name">MySQL</div><div className="sk-level">Intermediate</div>
+                      </div>
+                      <div className="skill-chip" style={{ "--clr": "#7952b3" }}>
+                          <i className="fab fa-bootstrap" style={{ color: "#7952b3" }}></i>
+                          <div className="sk-name">Bootstrap</div><div className="sk-level">Advanced</div>
+                      </div>
+                      <div className="skill-chip" style={{ "--clr": "#e34f26" }}>
+                          <i className="fab fa-html5" style={{ color: "#e34f26" }}></i>
+                          <div className="sk-name">HTML & CSS</div><div className="sk-level">Advanced</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      {/* ABOUT */}
+      <section id="about" className="section-pad">
+          <div className="container">
+              <div className="about-grid">
+                  <div>
+                      <div className="section-label reveal">About</div>
+                      <h2 className="section-title reveal">Logic & Code to<br/>Build Solutions</h2>
+                      <p className="reveal" style={{ color: "var(--muted2)", lineHeight: 1.8, marginBottom: "40px", textAlign: "justify" }}>
+                          Sebagai mahasiswa Informatika, saya menggabungkan struktur data yang efisien dengan antarmuka modern. Website bukan sekadar tampilan visual—ia adalah alat yang harus mempermudah pekerjaan manusia.
+                      </p>
+
+                      <div className="timeline-section">
+                          <div className="timeline-title">Education</div>
+                          <div className="timeline">
+                              <div className="tl-item">
+                                  <div className="tl-date">2020 – 2023</div>
+                                  <div className="tl-place">SMA Negeri 1 Bumiayu</div>
+                                  <div className="tl-desc">MIPA — Fondasi ilmu sains dan logika.</div>
+                              </div>
+                              <div className="tl-item">
+                                  <div className="tl-date">2023 – Sekarang</div>
+                                  <div className="tl-place">Telkom University Purwokerto</div>
+                                  <div className="tl-desc">S1 Teknik Informatika — Berfokus pada web development & software engineering.</div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div className="timeline-section">
+                          <div className="timeline-title" style={{ "--c": "var(--accent2)" }}>Experience</div>
+                          <div className="timeline" style={{ "--tl": "var(--accent2)" }}>
+                              <div className="tl-item exp">
+                                  <div className="tl-date">Jan 2026 – Mar 2026</div>
+                                  <div className="tl-place">Bikin Kreatif</div>
+                                  <div className="tl-desc">Magang — Web Developer intern, membangun dan mengembangkan fitur aplikasi web.</div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div className="about-values">
+                          <div className="value-card">
+                              <div className="val-icon"><i className="fas fa-paint-brush"></i></div>
+                              <div className="val-text"><h6>Modern Design</h6><p>Implementasi UI/UX terkini dengan React dan Tailwind CSS.</p></div>
+                          </div>
+                          <div className="value-card">
+                              <div className="val-icon"><i className="fas fa-shield-alt"></i></div>
+                              <div className="val-text"><h6>Clean Code</h6><p>Standar kode bersih untuk kemudahan pengembangan jangka panjang.</p></div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div className="about-visual reveal-right">
+                      <div className="about-img-wrap">
+                          <img src="/mnt/user-data/uploads/1778685156049_image.png" alt="Ghilbran Alfaries" onError={(e) => e.target.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=900&auto=format&fit=crop'} />
+                      </div>
+                      <div className="about-facts">
+                          <div className="fact-card reveal"><div className="fact-num">3+</div><div className="fact-label">Years of Coding</div></div>
+                          <div className="fact-card reveal"><div className="fact-num">10+</div><div className="fact-label">Projects Completed</div></div>
+                          <div className="fact-card reveal"><div className="fact-num" style={{ color: "var(--accent2)" }}>1</div><div className="fact-label">Internship</div></div>
+                          <div className="fact-card reveal"><div className="fact-num" style={{ color: "var(--accent2)" }}>9+</div><div className="fact-label">Tech Skills</div></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      {/* PROJECTS */}
+      <section id="projects" className="section-pad">
+          <div className="container">
+              <div className="section-center reveal">
+                  <div className="section-label">Work</div>
+                  <h2 className="section-title">Featured Projects</h2>
+                  <p className="section-desc">Beberapa proyek yang pernah saya kerjakan — dari skala personal hingga kebutuhan klien.</p>
+              </div>
+              <div className="projects-grid">
+
+                  {/* 1. Ibravia Company Profile */}
+                  <div className="project-card">
+                      <div className="project-thumb">
+                          <div className="project-screen-wrap img-loading" id="thumb-ibravia">
+                              <img src="https://api.screenshotmachine.com?key=demo&url=https://ibravia.com&dimension=1280x800&device=desktop&format=jpg&cacheLimit=0" 
+                                   alt="Ibravia Company Profile"
+                                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                                   onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
+                                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
+                              />
+                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a1f14,#0d3321)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                  <i className="fas fa-building" style={{ color: '#2dd4bf', fontSize: '2.5rem' }}></i>
+                                  <span style={{ color: '#2dd4bf', fontSize: '0.8rem', fontWeight: 700 }}>IBRAVIA</span>
+                              </div>
+                          </div>
+                          <div className="overlay">
+                              <a href="https://ibravia.com" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
+                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
+                          </div>
+                      </div>
+                      <div className="project-body">
+                          <div className="device-badges">
+                              <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
+                          </div>
+                          <div className="project-tag">Company Profile · Real Estate</div>
+                          <h4>Ibravia Residence Website</h4>
+                          <p>Website company profile perumahan Ibravia berbasis WordPress dengan custom theme dan plugin. Menampilkan katalog unit rumah, fitur pencarian properti, halaman lokasi, dan kontak terintegrasi untuk kemudahan calon pembeli.</p>
+                          <div className="project-stack">
+                              <span className="stack-tag">WordPress</span><span className="stack-tag">PHP</span><span className="stack-tag">CSS</span><span className="stack-tag">JavaScript</span>
+                          </div>
+                      </div>
+                  </div>
+
+                  {/* 2. Ibravia Admin Dashboard */}
+                  <div className="project-card">
+                      <div className="project-thumb">
+                          <div className="project-screen-wrap img-loading" id="thumb-dashboard-ibravia">
+                              <div className="thumb-fallback" style={{ background: "linear-gradient(135deg,#0d2030,#0a2540)", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "14px" }}>
+                                  <i className="fas fa-chart-bar" style={{ color: "#818cf8", fontSize: "2.5rem" }}></i>
+                                  <span style={{ color: "#818cf8", fontSize: "0.8rem", fontWeight: 700 }}>ADMIN DASHBOARD</span>
+                              </div>
+                          </div>
+                          <div className="overlay">
+                              <a href="#" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
+                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
+                          </div>
+                      </div>
+                      <div className="project-body">
+                          <div className="device-badges">
+                              <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
+                          </div>
+                          <div className="project-tag">Dashboard · Real Estate</div>
+                          <h4>Admin Dashboard Ibravia</h4>
+                          <p>Dashboard manajemen internal untuk tim Ibravia. Dilengkapi visualisasi data penjualan unit, manajemen data pembeli, tabel dinamis, dan sistem role-based access control untuk admin dan marketing.</p>
+                          <div className="project-stack">
+                              <span className="stack-tag">React</span><span className="stack-tag">Bootstrap</span><span className="stack-tag">Java</span><span className="stack-tag">MySQL</span>
+                          </div>
+                      </div>
+                  </div>
+
+                  {/* 3. Geefi Residence */}
+                  <div className="project-card">
+                      <div className="project-thumb">
+                          <div className="project-screen-wrap img-loading" id="thumb-geefi">
+                              <img src="https://api.screenshotmachine.com?key=demo&url=https://geefi-residence.vercel.app&dimension=1280x800&device=desktop&format=jpg&cacheLimit=0"
+                                   alt="Geefi Residence"
+                                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                                   onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
+                                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
+                              />
+                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#1a0f28,#2d1a40)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                  <i className="fas fa-home" style={{ color: '#818cf8', fontSize: '2.5rem' }}></i>
+                                  <span style={{ color: '#818cf8', fontSize: '0.8rem', fontWeight: 700 }}>GEEFI RESIDENCE</span>
+                              </div>
+                          </div>
+                          <div className="overlay">
+                              <a href="https://geefi-residence.vercel.app" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
+                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
+                          </div>
+                      </div>
+                      <div className="project-body">
+                          <div className="device-badges">
+                              <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
+                              <span className="device-badge mobile"><i className="fas fa-mobile-alt" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Mobile</span>
+                          </div>
+                          <div className="project-tag">Web App · Real Estate</div>
+                          <h4>Geefi Residence</h4>
+                          <p>Website perumahan Geefi yang fully responsive untuk desktop dan mobile. Menampilkan galeri unit, harga, cicilan, dan lokasi properti dengan desain modern yang dioptimasi untuk konversi leads.</p>
+                          <div className="project-stack">
+                              <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">Vercel</span>
+                          </div>
+                      </div>
+                  </div>
+
+                  {/* 4. Gradia Mobile App */}
+                  <div className="project-card">
+                      <div className="project-thumb">
+                          <div className="project-screen-wrap img-loading" id="thumb-gradia">
+                              <img src="https://api.screenshotmachine.com?key=demo&url=https://gradia-three.vercel.app&dimension=390x844&device=mobile&format=jpg&cacheLimit=0"
+                                   alt="Gradia Mobile App"
+                                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                                   onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
+                                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
+                              />
+                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0d1f0d,#1a3320)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                  <i className="fas fa-mobile-alt" style={{ color: '#2dd4bf', fontSize: '2.5rem' }}></i>
+                                  <span style={{ color: '#2dd4bf', fontSize: '0.8rem', fontWeight: 700 }}>GRADIA APP</span>
+                              </div>
+                          </div>
+                          <div className="overlay">
+                              <a href="https://gradia-three.vercel.app" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
+                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
+                          </div>
+                      </div>
+                      <div className="project-body">
+                          <div className="device-badges">
+                              <span className="device-badge app"><i className="fas fa-mobile-alt" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Mobile App</span>
+                          </div>
+                          <div className="project-tag">Mobile Application</div>
+                          <h4>Gradia Mobile App</h4>
+                          <p>Aplikasi mobile berbasis web yang didesain khusus dengan tampilan dan UX native-like. Dioptimasi untuk layar smartphone dengan navigasi intuitif dan performa tinggi menggunakan React.</p>
+                          <div className="project-stack">
+                              <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">PWA</span><span className="stack-tag">Vercel</span>
+                          </div>
+                      </div>
+                  </div>
+
+                  {/* 5. Dashboard SMMS */}
+                  <div className="project-card">
+                      <div className="project-thumb">
+                          <div className="project-screen-wrap img-loading" id="thumb-smms">
+                              <img src="https://api.screenshotmachine.com?key=demo&url=https://dashboard-smms.vercel.app&dimension=1280x800&device=desktop&format=jpg&cacheLimit=0"
+                                   alt="Dashboard SMMS"
+                                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                                   onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
+                                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
+                              />
+                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0d1628,#1e2a48)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                  <i className="fas fa-tachometer-alt" style={{ color: '#818cf8', fontSize: '2.5rem' }}></i>
+                                  <span style={{ color: '#818cf8', fontSize: '0.8rem', fontWeight: 700 }}>SMMS DASHBOARD</span>
+                              </div>
+                          </div>
+                          <div className="overlay">
+                              <a href="https://dashboard-smms.vercel.app" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
+                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
+                          </div>
+                      </div>
+                      <div className="project-body">
+                          <div className="device-badges">
+                              <span className="device-badge ui"><i className="fas fa-palette" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> UI Design</span>
+                              <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
+                          </div>
+                          <div className="project-tag">Dashboard · Management System</div>
+                          <h4>Dashboard SMMS</h4>
+                          <p>Desain dan implementasi dashboard manajemen sistem dengan UI yang bersih dan profesional. Menampilkan data statistik, tabel interaktif, dan komponen visualisasi untuk monitoring dan pengelolaan data secara efisien.</p>
+                          <div className="project-stack">
+                              <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">Chart.js</span><span className="stack-tag">Vercel</span>
+                          </div>
+                      </div>
+                  </div>
+
+                  {/* 6. E-Commerce Platform */}
+                  <div className="project-card">
+                      <div className="project-thumb">
+                          <div className="project-screen-wrap">
+                              <div className="thumb-fallback" style={{ background: "linear-gradient(135deg,#0d1628,#1a2d4a)", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "14px" }}>
+                                  <i className="fas fa-shopping-cart" style={{ color: "#2dd4bf", fontSize: "2.5rem" }}></i>
+                                  <span style={{ color: "#2dd4bf", fontSize: "0.8rem", fontWeight: 700 }}>E-COMMERCE</span>
+                              </div>
+                          </div>
+                          <div className="overlay">
+                              <a href="#" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
+                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
+                          </div>
+                      </div>
+                      <div className="project-body">
+                          <div className="device-badges">
+                              <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
+                              <span className="device-badge mobile"><i className="fas fa-mobile-alt" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Mobile</span>
+                          </div>
+                          <div className="project-tag">Web App · Full-Stack</div>
+                          <h4>E-Commerce Platform</h4>
+                          <p>Platform belanja online full-stack dengan sistem autentikasi JWT, manajemen produk & kategori, keranjang belanja, dan integrasi payment gateway untuk pengalaman belanja yang seamless.</p>
+                          <div className="project-stack">
+                              <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">Express.js</span><span className="stack-tag">MySQL</span>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+              <div className="text-center" style={{ marginTop: "40px", textAlign: "center" }}>
+                  <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="btn btn-ghost reveal"><i className="fab fa-github"></i> View All on GitHub</a>
+              </div>
+          </div>
+      </section>
+
+      {/* CONTACT / FOOTER */}
+      <footer id="contact" className="section-pad">
+          <div className="container">
+              <div className="contact-inner reveal">
+                  <div className="section-label" style={{ justifyContent: "center" }}>Contact</div>
+                  <h2 className="section-title" style={{ fontSize: "clamp(2rem,4vw,3rem)" }}>Let's Build Something<br/><span style={{ color: "var(--accent)" }}>Amazing Together</span></h2>
+                  <p style={{ color: "var(--muted2)", margin: "16px auto 0", maxWidth: "500px", lineHeight: 1.8 }}>Terbuka untuk proyek freelance, kolaborasi, maupun full-time opportunity. Jangan ragu untuk reach out!</p>
+                  <a href="mailto:ghilbranroyale@gmail.com" className="contact-email">ghilbranroyale@gmail.com</a>
+                  <div className="contact-info">
+                      <div className="contact-info-item"><i className="fas fa-map-marker-alt"></i> Bumiayu, Indonesia</div>
+                      <div className="contact-info-item"><i className="fas fa-graduation-cap"></i> Telkom University Purwokerto</div>
+                  </div>
+                  <div className="social-row">
+                      <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="social-btn" title="GitHub"><i className="fab fa-github"></i></a>
+                      <a href="https://www.linkedin.com/in/ghilbran-alfaries-pryma-a4ba7b3b6" target="_blank" rel="noreferrer" className="social-btn" title="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
+                      <a href="https://www.instagram.com/ghilbrann" target="_blank" rel="noreferrer" className="social-btn" title="Instagram"><i className="fab fa-instagram"></i></a>
+                  </div>
+              </div>
+              <hr className="footer-divider" />
+              <p className="footer-copy">© 2026 <span>Ghilbran Alfaries Pryma</span>. Crafted with ♥ and lots of ☕</p>
+          </div>
+      </footer>
+    </>
+  );
+}
+
+export default App;
