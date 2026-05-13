@@ -312,7 +312,7 @@ function App() {
                   </div>
                   <div className="hero-visual">
                       <div className="hero-img-wrap" id="heroImg">
-                          <img src="/mnt/user-data/uploads/1778685156049_image.png" alt="Ghilbran Alfaries Pryma" className="hero-img" onError={(e) => e.target.src='https://ui-avatars.com/api/?name=G+A&background=0d1628&color=2dd4bf&size=400&bold=true&font-size=0.4'} />
+                          <img src="/images/bran.png" alt="Ghilbran Alfaries Pryma" className="hero-img" onError={(e) => e.target.src='https://ui-avatars.com/api/?name=G+A&background=0d1628&color=2dd4bf&size=400&bold=true&font-size=0.4'} />
                           <div className="hero-badge-float b1">
                               <div className="badge-icon"><i className="fas fa-code"></i></div>
                               <div className="badge-text"><strong>React Developer</strong><span>Frontend & Backend</span></div>
