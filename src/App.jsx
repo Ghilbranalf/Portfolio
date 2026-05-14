@@ -258,7 +258,7 @@ function App() {
       {/* NAVBAR */}
       <nav id="navbar">
           <div className="nav-inner">
-              <a href="#home" className="nav-logo">Ghilbran<span>.</span></a>
+              <a href="#home" className="nav-logo">My<span>Portfolio</span></a>
               <ul className="nav-links">
                   <li><a href="#home" className="active">Home</a></li>
                   <li><a href="#expertise">Services</a></li>
