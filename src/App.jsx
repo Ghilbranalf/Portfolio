@@ -4,7 +4,7 @@ import ibraviaImg from './assets/ibravia.jpg';
 import geefiImg from './assets/geefi.jpg';
 import gradiaImg from './assets/gradia.jpg';
 import sanggaluriImg from './assets/sanggaluri.jpg';
-import baksoPakMulImg from './assets/baksopakmul.png';
+import baksoPakMulImg from './assets/baksopakmul.jpg';
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
