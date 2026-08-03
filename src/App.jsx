@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './index.css';
+import ibraviaImg from './assets/ibravia.jpg';
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -599,7 +600,7 @@ function App() {
                   <div className="project-card">
                       <div className="project-thumb">
                           <div className="project-screen-wrap img-loading" id="thumb-ibravia">
-                              <img src="https://api.screenshotmachine.com?key=demo&url=https://ibravia.com&dimension=1280x800&device=desktop&format=jpg&cacheLimit=0" 
+                              <img src={ibraviaImg} 
                                    alt="Ibravia Company Profile"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
