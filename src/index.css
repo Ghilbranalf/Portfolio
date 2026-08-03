@@ -40,7 +40,7 @@ body:hover #cursor { opacity: 1; }
 }
 #loader.hidden { opacity: 0; visibility: hidden; }
 .loader-logo { font-size: 2.5rem; font-weight: 900; color: #fff; letter-spacing: -1px; }
-.loader-logo span { color: var(--accent); }
+.loader-logo span { color: var(--accent); margin-left: 0.4em; }
 .loader-bar { width: 120px; height: 2px; background: rgba(255,255,255,0.08); border-radius: 4px; margin-top: 24px; overflow: hidden; }
 .loader-bar-inner { height: 100%; width: 0%; background: var(--accent); border-radius: 4px; animation: loadbar 1.6s ease forwards; }
 @keyframes loadbar { to { width: 100%; } }
