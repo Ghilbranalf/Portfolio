@@ -50,9 +50,9 @@ function App() {
       });
     });
 
-    // ── PARTICLES ──
+    // ── STARFIELD + CONSTELLATIONS ──
     const canvas = document.getElementById('particle-canvas');
-    let ctx, W, H, particles = [];
+    let ctx, W, H, stars = [], shootingStars = [];
     if (canvas) {
         ctx = canvas.getContext('2d');
         function resizeCanvas() { 
@@ -61,31 +61,122 @@ function App() {
             H = canvas.height = window.innerHeight; 
         }
         resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        for (let i = 0; i < 80; i++) {
-            particles.push({
-                x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
-                vx: (Math.random()-.5)*.4, vy: (Math.random()-.5)*.4,
-                r: Math.random()*1.5+.5, op: Math.random()*.5+.1
-            });
+        window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
+
+        function initStars() {
+          stars = [];
+          const count = Math.floor((W * H) / 6000);
+          for (let i = 0; i < count; i++) {
+              stars.push({
+                  x: Math.random() * W, y: Math.random() * H,
+                  r: Math.random() * 1.8 + 0.3,
+                  baseOp: Math.random() * 0.6 + 0.2,
+                  op: 0,
+                  twinkleSpeed: Math.random() * 0.02 + 0.005,
+                  twinkleOffset: Math.random() * Math.PI * 2,
+                  driftX: (Math.random() - 0.5) * 0.08,
+                  driftY: (Math.random() - 0.5) * 0.04,
+              });
+          }
         }
-        function drawParticles() {
+        initStars();
+
+        function spawnShootingStar() {
+          shootingStars.push({
+            x: Math.random() * W * 0.8,
+            y: Math.random() * H * 0.4,
+            len: Math.random() * 80 + 60,
+            speed: Math.random() * 8 + 6,
+            angle: (Math.random() * 20 + 20) * Math.PI / 180,
+            op: 1,
+            life: 0,
+            maxLife: Math.random() * 40 + 30,
+          });
+        }
+        setInterval(spawnShootingStar, Math.random() * 3000 + 3000);
+        setTimeout(spawnShootingStar, 2000);
+
+        let time = 0;
+        function drawStarfield() {
             if (!ctx) return;
-            ctx.clearRect(0,0,W,H);
-            particles.forEach((p, i) => {
-                p.x += p.vx; p.y += p.vy;
-                if (p.x < 0 || p.x > W) p.vx *= -1;
-                if (p.y < 0 || p.y > H) p.vy *= -1;
-                ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-                ctx.fillStyle = `rgba(45,212,191,${p.op})`; ctx.fill();
-                for (let j = i+1; j < particles.length; j++) {
-                    const d = Math.hypot(particles[j].x-p.x, particles[j].y-p.y);
-                    if (d < 100) { ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(45,212,191,${.06*(1-d/100)})`; ctx.stroke(); }
+            ctx.clearRect(0, 0, W, H);
+            time += 0.016;
+
+            // Draw stars with twinkling
+            stars.forEach((s, i) => {
+                s.x += s.driftX;
+                s.y += s.driftY;
+                if (s.x < -10) s.x = W + 10;
+                if (s.x > W + 10) s.x = -10;
+                if (s.y < -10) s.y = H + 10;
+                if (s.y > H + 10) s.y = -10;
+
+                const twinkle = Math.sin(time * s.twinkleSpeed * 60 + s.twinkleOffset);
+                s.op = s.baseOp + twinkle * 0.25;
+                s.op = Math.max(0.05, Math.min(1, s.op));
+
+                // Star glow
+                if (s.r > 1.2) {
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${s.op * 0.08})`;
+                    ctx.fill();
+                }
+
+                // Star core
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${s.op})`;
+                ctx.fill();
+
+                // Constellation lines
+                for (let j = i + 1; j < stars.length; j++) {
+                    const d = Math.hypot(stars[j].x - s.x, stars[j].y - s.y);
+                    if (d < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(s.x, s.y);
+                        ctx.lineTo(stars[j].x, stars[j].y);
+                        ctx.strokeStyle = `rgba(255,255,255,${0.04 * (1 - d / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
                 }
             });
-            requestAnimationFrame(drawParticles);
+
+            // Draw shooting stars
+            shootingStars.forEach((ss, i) => {
+                ss.life++;
+                ss.x += Math.cos(ss.angle) * ss.speed;
+                ss.y += Math.sin(ss.angle) * ss.speed;
+                ss.op = 1 - (ss.life / ss.maxLife);
+
+                if (ss.op <= 0) { shootingStars.splice(i, 1); return; }
+
+                const tailX = ss.x - Math.cos(ss.angle) * ss.len;
+                const tailY = ss.y - Math.sin(ss.angle) * ss.len;
+
+                const grad = ctx.createLinearGradient(tailX, tailY, ss.x, ss.y);
+                grad.addColorStop(0, `rgba(255,255,255,0)`);
+                grad.addColorStop(0.7, `rgba(255,255,255,${ss.op * 0.5})`);
+                grad.addColorStop(1, `rgba(255,255,255,${ss.op})`);
+
+                ctx.beginPath();
+                ctx.moveTo(tailX, tailY);
+                ctx.lineTo(ss.x, ss.y);
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // Bright head
+                ctx.beginPath();
+                ctx.arc(ss.x, ss.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${ss.op})`;
+                ctx.fill();
+            });
+
+            requestAnimationFrame(drawStarfield);
         }
-        drawParticles();
+        drawStarfield();
     }
 
     // ── NAVBAR ──
@@ -254,6 +345,14 @@ function App() {
       <div id="cursor-ring"></div>
 
       <canvas id="particle-canvas"></canvas>
+
+      {/* CSS SHOOTING STARS */}
+      <div className="shooting-stars">
+        <div className="shooting-star"></div>
+        <div className="shooting-star"></div>
+        <div className="shooting-star"></div>
+        <div className="shooting-star"></div>
+      </div>
 
       {/* NAVBAR */}
       <nav id="navbar">
