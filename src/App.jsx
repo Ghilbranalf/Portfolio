@@ -342,7 +342,7 @@ function App() {
   return (
     <>
       <div id="loader">
-          <div className="loader-logo">Ghilbran <span>Portfolio</span></div>
+          <div className="loader-logo">Ghilbran&nbsp;<span>Portfolio</span></div>
           <div className="loader-bar"><div className="loader-bar-inner"></div></div>
       </div>
 
