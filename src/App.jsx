@@ -596,19 +596,19 @@ function App() {
               </div>
               <div className="projects-grid">
 
-                  {/* 1. Ibravia Company Profile */}
+                  {/* 1. Ibravia - Company Profile & Admin Dashboard */}
                   <div className="project-card">
                       <div className="project-thumb">
                           <div className="project-screen-wrap img-loading" id="thumb-ibravia">
                               <img src={ibraviaImg} 
-                                   alt="Ibravia Company Profile"
+                                   alt="Ibravia Company Profile & Dashboard"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
                                    onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                               />
-                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a1f14,#0d3321)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                  <i className="fas fa-building" style={{ color: '#2dd4bf', fontSize: '2.5rem' }}></i>
-                                  <span style={{ color: '#2dd4bf', fontSize: '0.8rem', fontWeight: 700 }}>IBRAVIA</span>
+                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                  <i className="fas fa-building" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
+                                  <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>IBRAVIA</span>
                               </div>
                           </div>
                           <div className="overlay">
@@ -619,39 +619,13 @@ function App() {
                       <div className="project-body">
                           <div className="device-badges">
                               <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
+                              <span className="device-badge app"><i className="fas fa-cog" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Dashboard</span>
                           </div>
-                          <div className="project-tag">Company Profile · Real Estate</div>
-                          <h4>Ibravia Residence Website</h4>
-                          <p>Website company profile perumahan Ibravia berbasis WordPress dengan custom theme dan plugin. Menampilkan katalog unit rumah, fitur pencarian properti, halaman lokasi, dan kontak terintegrasi untuk kemudahan calon pembeli.</p>
+                          <div className="project-tag">Company Profile · Dashboard · Real Estate</div>
+                          <h4>Ibravia Residence</h4>
+                          <p>Website company profile dan admin dashboard perumahan Ibravia. Menampilkan katalog unit, pencarian properti, serta dashboard internal dengan visualisasi penjualan, manajemen pembeli, dan role-based access control.</p>
                           <div className="project-stack">
-                              <span className="stack-tag">WordPress</span><span className="stack-tag">PHP</span><span className="stack-tag">CSS</span><span className="stack-tag">JavaScript</span>
-                          </div>
-                      </div>
-                  </div>
-
-                  {/* 2. Ibravia Admin Dashboard */}
-                  <div className="project-card">
-                      <div className="project-thumb">
-                          <div className="project-screen-wrap img-loading" id="thumb-dashboard-ibravia">
-                              <div className="thumb-fallback" style={{ background: "linear-gradient(135deg,#0d2030,#0a2540)", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "14px" }}>
-                                  <i className="fas fa-chart-bar" style={{ color: "#818cf8", fontSize: "2.5rem" }}></i>
-                                  <span style={{ color: "#818cf8", fontSize: "0.8rem", fontWeight: 700 }}>ADMIN DASHBOARD</span>
-                              </div>
-                          </div>
-                          <div className="overlay">
-                              <a href="#" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
-                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
-                          </div>
-                      </div>
-                      <div className="project-body">
-                          <div className="device-badges">
-                              <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
-                          </div>
-                          <div className="project-tag">Dashboard · Real Estate</div>
-                          <h4>Admin Dashboard Ibravia</h4>
-                          <p>Dashboard manajemen internal untuk tim Ibravia. Dilengkapi visualisasi data penjualan unit, manajemen data pembeli, tabel dinamis, dan sistem role-based access control untuk admin dan marketing.</p>
-                          <div className="project-stack">
-                              <span className="stack-tag">React</span><span className="stack-tag">Bootstrap</span><span className="stack-tag">Java</span><span className="stack-tag">MySQL</span>
+                              <span className="stack-tag">WordPress</span><span className="stack-tag">React</span><span className="stack-tag">PHP</span><span className="stack-tag">Java</span><span className="stack-tag">MySQL</span><span className="stack-tag">Bootstrap</span>
                           </div>
                       </div>
                   </div>
