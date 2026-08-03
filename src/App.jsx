@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './index.css';
 import ibraviaImg from './assets/ibravia.jpg';
+import geefiImg from './assets/geefi.jpg';
+import gradiaImg from './assets/gradia.jpg';
+import sanggaluriImg from './assets/sanggaluri.jpg';
+import baksoPakMulImg from './assets/baksopakmul.png';
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -626,23 +630,19 @@ function App() {
                           <p>Website company profile dan admin dashboard perumahan Ibravia. Menampilkan katalog unit, pencarian properti, serta dashboard internal dengan visualisasi penjualan, manajemen pembeli, dan role-based access control.</p>
                           <div className="project-stack">
                               <span className="stack-tag">WordPress</span><span className="stack-tag">React</span><span className="stack-tag">PHP</span><span className="stack-tag">Java</span><span className="stack-tag">MySQL</span><span className="stack-tag">Bootstrap</span>
-                          </div>
-                      </div>
-                  </div>
-
-                  {/* 3. Geefi Residence */}
+                                {/* 2. Geefi Residence */}
                   <div className="project-card">
                       <div className="project-thumb">
                           <div className="project-screen-wrap img-loading" id="thumb-geefi">
-                              <img src="https://api.screenshotmachine.com?key=demo&url=https://geefi-residence.vercel.app&dimension=1280x800&device=desktop&format=jpg&cacheLimit=0"
+                              <img src={geefiImg}
                                    alt="Geefi Residence"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
                                    onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                               />
-                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#1a0f28,#2d1a40)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                  <i className="fas fa-home" style={{ color: '#818cf8', fontSize: '2.5rem' }}></i>
-                                  <span style={{ color: '#818cf8', fontSize: '0.8rem', fontWeight: 700 }}>GEEFI RESIDENCE</span>
+                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                  <i className="fas fa-home" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
+                                  <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>GEEFI RESIDENCE</span>
                               </div>
                           </div>
                           <div className="overlay">
@@ -664,19 +664,19 @@ function App() {
                       </div>
                   </div>
 
-                  {/* 4. Gradia Mobile App */}
+                  {/* 3. Gradia Mobile App */}
                   <div className="project-card">
                       <div className="project-thumb">
                           <div className="project-screen-wrap img-loading" id="thumb-gradia">
-                              <img src="https://api.screenshotmachine.com?key=demo&url=https://gradia-three.vercel.app&dimension=390x844&device=mobile&format=jpg&cacheLimit=0"
+                              <img src={gradiaImg}
                                    alt="Gradia Mobile App"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
                                    onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                               />
-                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0d1f0d,#1a3320)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                  <i className="fas fa-mobile-alt" style={{ color: '#2dd4bf', fontSize: '2.5rem' }}></i>
-                                  <span style={{ color: '#2dd4bf', fontSize: '0.8rem', fontWeight: 700 }}>GRADIA APP</span>
+                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                  <i className="fas fa-mobile-alt" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
+                                  <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>GRADIA APP</span>
                               </div>
                           </div>
                           <div className="overlay">
@@ -697,19 +697,19 @@ function App() {
                       </div>
                   </div>
 
-                  {/* 5. Dashboard SMMS */}
+                  {/* 4. Sanggaluri */}
                   <div className="project-card">
                       <div className="project-thumb">
-                          <div className="project-screen-wrap img-loading" id="thumb-smms">
-                              <img src="https://api.screenshotmachine.com?key=demo&url=https://dashboard-smms.vercel.app&dimension=1280x800&device=desktop&format=jpg&cacheLimit=0"
-                                   alt="Dashboard SMMS"
+                          <div className="project-screen-wrap img-loading" id="thumb-sanggaluri">
+                              <img src={sanggaluriImg}
+                                   alt="Sanggaluri Internal Portal"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
                                    onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                               />
-                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0d1628,#1e2a48)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                  <i className="fas fa-tachometer-alt" style={{ color: '#818cf8', fontSize: '2.5rem' }}></i>
-                                  <span style={{ color: '#818cf8', fontSize: '0.8rem', fontWeight: 700 }}>SMMS DASHBOARD</span>
+                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                  <i className="fas fa-user-shield" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
+                                  <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>SANGGALURI</span>
                               </div>
                           </div>
                           <div className="overlay">
@@ -719,25 +719,31 @@ function App() {
                       </div>
                       <div className="project-body">
                           <div className="device-badges">
-                              <span className="device-badge ui"><i className="fas fa-palette" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> UI Design</span>
+                              <span className="device-badge ui"><i className="fas fa-lock" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Internal Portal</span>
                               <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
                           </div>
-                          <div className="project-tag">Dashboard · Management System</div>
-                          <h4>Dashboard SMMS</h4>
-                          <p>Desain dan implementasi dashboard manajemen sistem dengan UI yang bersih dan profesional. Menampilkan data statistik, tabel interaktif, dan komponen visualisasi untuk monitoring dan pengelolaan data secara efisien.</p>
+                          <div className="project-tag">Internal Portal · Management System</div>
+                          <h4>Sanggaluri Portal</h4>
+                          <p>Internal portal aman & terpercaya khusus tim manajemen Sanggaluri. Dilengkapi sistem autentikasi terenkripsi untuk mengelola data operasional dan aktivitas perusahaan secara efisien.</p>
                           <div className="project-stack">
-                              <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">Chart.js</span><span className="stack-tag">Vercel</span>
+                              <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">Vercel</span>
                           </div>
                       </div>
                   </div>
 
-                  {/* 6. E-Commerce Platform */}
+                  {/* 5. Ecommerce Bakso Pak Mul */}
                   <div className="project-card">
                       <div className="project-thumb">
-                          <div className="project-screen-wrap">
-                              <div className="thumb-fallback" style={{ background: "linear-gradient(135deg,#0d1628,#1a2d4a)", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "14px" }}>
-                                  <i className="fas fa-shopping-cart" style={{ color: "#2dd4bf", fontSize: "2.5rem" }}></i>
-                                  <span style={{ color: "#2dd4bf", fontSize: "0.8rem", fontWeight: 700 }}>E-COMMERCE</span>
+                          <div className="project-screen-wrap img-loading" id="thumb-baksopakmul">
+                              <img src={baksoPakMulImg}
+                                   alt="Ecommerce Bakso Pak Mul"
+                                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                                   onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
+                                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
+                              />
+                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                  <i className="fas fa-shopping-cart" style={{ color: "#fff", fontSize: "2.5rem" }}></i>
+                                  <span style={{ color: "#fff", fontSize: "0.8rem", fontWeight: 700 }}>BAKSO PAK MUL</span>
                               </div>
                           </div>
                           <div className="overlay">
@@ -750,17 +756,16 @@ function App() {
                               <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
                               <span className="device-badge mobile"><i className="fas fa-mobile-alt" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Mobile</span>
                           </div>
-                          <div className="project-tag">Web App · Full-Stack</div>
-                          <h4>E-Commerce Platform</h4>
-                          <p>Platform belanja online full-stack dengan sistem autentikasi JWT, manajemen produk & kategori, keranjang belanja, dan integrasi payment gateway untuk pengalaman belanja yang seamless.</p>
+                          <div className="project-tag">Web App · E-Commerce</div>
+                          <h4>E-Commerce Bakso Pak Mul</h4>
+                          <p>Platform e-commerce penyedia bahan baku bakso & mie ayam. Dilengkapi katalog produk lengkap, sistem transaksi instan, kemitraan grosir, serta pengalaman belanja mobile & desktop yang intuitif.</p>
                           <div className="project-stack">
-                              <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">Express.js</span><span className="stack-tag">MySQL</span>
+                              <span className="stack-tag">Next.js</span><span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">MySQL</span>
                           </div>
                       </div>
-                  </div>
-
-              </div>
-              <div className="text-center" style={{ marginTop: "40px", textAlign: "center" }}>
+                   </div>
+               </div>
+               <div className="text-center" style={{ marginTop: "40px", textAlign: "center" }}>
                   <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="btn btn-ghost reveal"><i className="fab fa-github"></i> View All on GitHub</a>
               </div>
           </div>
