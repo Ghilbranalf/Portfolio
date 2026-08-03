@@ -630,7 +630,11 @@ function App() {
                           <p>Website company profile dan admin dashboard perumahan Ibravia. Menampilkan katalog unit, pencarian properti, serta dashboard internal dengan visualisasi penjualan, manajemen pembeli, dan role-based access control.</p>
                           <div className="project-stack">
                               <span className="stack-tag">WordPress</span><span className="stack-tag">React</span><span className="stack-tag">PHP</span><span className="stack-tag">Java</span><span className="stack-tag">MySQL</span><span className="stack-tag">Bootstrap</span>
-                                {/* 2. Geefi Residence */}
+                          </div>
+                      </div>
+                  </div>
+                  
+                  {/* 2. Geefi Residence */}
                   <div className="project-card">
                       <div className="project-thumb">
                           <div className="project-screen-wrap img-loading" id="thumb-geefi">
@@ -638,7 +642,6 @@ function App() {
                                    alt="Geefi Residence"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                               />
                               <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
                                   <i className="fas fa-home" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
@@ -672,7 +675,6 @@ function App() {
                                    alt="Gradia Mobile App"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                               />
                               <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
                                   <i className="fas fa-mobile-alt" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
@@ -705,7 +707,6 @@ function App() {
                                    alt="Sanggaluri Internal Portal"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                               />
                               <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
                                   <i className="fas fa-user-shield" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
@@ -739,7 +740,6 @@ function App() {
                                    alt="Ecommerce Bakso Pak Mul"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                               />
                               <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
                                   <i className="fas fa-shopping-cart" style={{ color: "#fff", fontSize: "2.5rem" }}></i>
