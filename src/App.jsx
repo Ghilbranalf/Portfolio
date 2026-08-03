@@ -5,6 +5,7 @@ import geefiImg from './assets/geefi.jpg';
 import gradiaImg from './assets/gradia.jpg';
 import sanggaluriImg from './assets/sanggaluri.jpg';
 import baksoPakMulImg from './assets/baksopakmul.jpg';
+import heroImg from './assets/hero.png';
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -577,7 +578,7 @@ function App() {
 
                   <div className="about-visual reveal-right">
                       <div className="about-img-wrap">
-                          <img src="/mnt/user-data/uploads/1778685156049_image.png" alt="Ghilbran Alfaries" onError={(e) => e.target.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=900&auto=format&fit=crop'} />
+                          <img src={heroImg} alt="Ghilbran Alfaries" />
                       </div>
                       <div className="about-facts">
                           <div className="fact-card reveal"><div className="fact-num">3+</div><div className="fact-label">Years of Coding</div></div>
