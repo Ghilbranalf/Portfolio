@@ -32,8 +32,8 @@ function App() {
           setTimeout(() => {
             zipper.classList.add('finished');
             startHeroAnimations();
-          }, 1200);
-        }, 150);
+          }, 2200);
+        }, 200);
       } else {
         startHeroAnimations();
       }
@@ -363,26 +363,36 @@ function App() {
 
       {/* ZIPPER UNZIP ANIMATION */}
       <div id="zipper-overlay" className="zipper-container">
+          <div className="zipper-seam-line"></div>
           <div className="zipper-panel zipper-left">
               <div className="zipper-teeth-edge left-teeth">
-                  {Array.from({ length: 40 }).map((_, i) => (
-                      <div key={i} className="zipper-tooth left-tooth"></div>
+                  {Array.from({ length: 45 }).map((_, i) => (
+                      <div key={i} className="zipper-tooth left-tooth">
+                          <span className="tooth-shine"></span>
+                      </div>
                   ))}
               </div>
           </div>
           <div className="zipper-panel zipper-right">
               <div className="zipper-teeth-edge right-teeth">
-                  {Array.from({ length: 40 }).map((_, i) => (
-                      <div key={i} className="zipper-tooth right-tooth"></div>
+                  {Array.from({ length: 45 }).map((_, i) => (
+                      <div key={i} className="zipper-tooth right-tooth">
+                          <span className="tooth-shine"></span>
+                      </div>
                   ))}
               </div>
           </div>
           <div className="zipper-slider-wrap" id="zipperSlider">
+              <div className="zipper-spark-glow"></div>
               <div className="zipper-head">
                   <div className="zipper-notch"></div>
+                  <div className="zipper-head-title">UNZIP</div>
                   <div className="zipper-pull-tab">
                       <div className="zipper-hole"></div>
                       <span className="zipper-logo-mini">G</span>
+                      <div className="zipper-grip-lines">
+                          <span></span><span></span><span></span>
+                      </div>
                   </div>
               </div>
           </div>
