@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './index.css';
 import Chatbot from './components/Chatbot';
+import IsometricTechStack from './components/IsometricTechStack';
 import ibraviaImg from './assets/ibravia.jpg';
 import geefiImg from './assets/geefi.jpg';
 import gradiaImg from './assets/gradia.jpg';
@@ -539,6 +540,9 @@ function App() {
                       <div className="section-label reveal">Skills</div>
                       <h2 className="section-title reveal">Tech Stack &amp;<br/>Expertise</h2>
                       <p className="section-desc reveal" style={{ marginBottom: 0 }}>Tools dan teknologi yang saya gunakan untuk membangun produk digital berkualitas tinggi.</p>
+                      <div style={{ marginTop: "30px" }} className="reveal">
+                           <IsometricTechStack />
+                      </div>
                       <div style={{ marginTop: "40px" }} className="reveal">
                           <div className="value-card">
                               <div className="val-icon"><i className="fas fa-bolt"></i></div>
