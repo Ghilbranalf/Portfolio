@@ -17,14 +17,27 @@ function App() {
     if (isMounted.current) return;
     isMounted.current = true;
 
-    // ── LOADER ──
+    // ── LOADER & ZIPPER ANIMATION ──
     setTimeout(() => {
       const loader = document.getElementById('loader');
+      const zipper = document.getElementById('zipper-overlay');
+      
       if (loader) {
         loader.classList.add('hidden');
+      }
+
+      if (zipper) {
+        setTimeout(() => {
+          zipper.classList.add('unzip');
+          setTimeout(() => {
+            zipper.classList.add('finished');
+            startHeroAnimations();
+          }, 1200);
+        }, 150);
+      } else {
         startHeroAnimations();
       }
-    }, 1800);
+    }, 1600);
 
     // ── CURSOR ──
     const cursor = document.getElementById('cursor');
@@ -346,6 +359,33 @@ function App() {
       <div id="loader">
           <div className="loader-logo">Ghilbran&nbsp;<span>Portfolio</span></div>
           <div className="loader-bar"><div className="loader-bar-inner"></div></div>
+      </div>
+
+      {/* ZIPPER UNZIP ANIMATION */}
+      <div id="zipper-overlay" className="zipper-container">
+          <div className="zipper-panel zipper-left">
+              <div className="zipper-teeth-edge left-teeth">
+                  {Array.from({ length: 40 }).map((_, i) => (
+                      <div key={i} className="zipper-tooth left-tooth"></div>
+                  ))}
+              </div>
+          </div>
+          <div className="zipper-panel zipper-right">
+              <div className="zipper-teeth-edge right-teeth">
+                  {Array.from({ length: 40 }).map((_, i) => (
+                      <div key={i} className="zipper-tooth right-tooth"></div>
+                  ))}
+              </div>
+          </div>
+          <div className="zipper-slider-wrap" id="zipperSlider">
+              <div className="zipper-head">
+                  <div className="zipper-notch"></div>
+                  <div className="zipper-pull-tab">
+                      <div className="zipper-hole"></div>
+                      <span className="zipper-logo-mini">G</span>
+                  </div>
+              </div>
+          </div>
       </div>
 
       <div id="cursor"></div>

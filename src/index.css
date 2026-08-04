@@ -45,6 +45,161 @@ body:hover #cursor { opacity: 1; }
 .loader-bar-inner { height: 100%; width: 0%; background: var(--accent); border-radius: 4px; animation: loadbar 1.6s ease forwards; }
 @keyframes loadbar { to { width: 100%; } }
 
+/* ── ZIPPER ANIMATION ── */
+.zipper-container {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.zipper-container.finished {
+    display: none !important;
+}
+
+.zipper-panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50.5%;
+    background: #050505;
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 1s ease;
+    z-index: 2;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.95);
+}
+
+.zipper-left {
+    left: 0;
+    border-right: 1.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.zipper-right {
+    right: 0;
+    border-left: 1.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.zipper-teeth-edge {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 6px 0;
+    z-index: 3;
+}
+
+.left-teeth {
+    right: -4px;
+}
+
+.right-teeth {
+    left: -4px;
+}
+
+.zipper-tooth {
+    width: 8px;
+    height: 10px;
+    background: linear-gradient(135deg, #ffffff 0%, #737373 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.35);
+}
+
+.left-tooth {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.right-tooth {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.zipper-slider-wrap {
+    position: absolute;
+    left: 50%;
+    top: -40px;
+    transform: translateX(-50%);
+    z-index: 4;
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease 0.4s;
+}
+
+.zipper-head {
+    width: 36px;
+    height: 44px;
+    background: linear-gradient(180deg, #ffffff 0%, #a3a3a3 100%);
+    border-radius: 8px;
+    border: 1.5px solid #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.45), 0 0 20px rgba(255, 255, 255, 0.25);
+}
+
+.zipper-notch {
+    position: absolute;
+    top: 5px;
+    width: 16px;
+    height: 6px;
+    background: #121212;
+    border-radius: 3px;
+}
+
+.zipper-pull-tab {
+    width: 20px;
+    height: 40px;
+    background: linear-gradient(180deg, #ffffff 0%, #666666 100%);
+    border: 1.5px solid #ffffff;
+    border-radius: 6px;
+    margin-bottom: -24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+    transform-origin: top center;
+    animation: zipperSwing 1s infinite alternate ease-in-out;
+}
+
+@keyframes zipperSwing {
+    0% { transform: rotate(-6deg); }
+    100% { transform: rotate(6deg); }
+}
+
+.zipper-hole {
+    width: 6px;
+    height: 6px;
+    background: #000000;
+    border-radius: 50%;
+}
+
+.zipper-logo-mini {
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: #000000;
+}
+
+/* UNZIP ACTIVATED STATE */
+.zipper-container.unzip .zipper-left {
+    transform: translateX(-105%) rotate(-3deg);
+    opacity: 0;
+}
+
+.zipper-container.unzip .zipper-right {
+    transform: translateX(105%) rotate(3deg);
+    opacity: 0;
+}
+
+.zipper-container.unzip .zipper-slider-wrap {
+    transform: translate(-50%, 112vh);
+    opacity: 0;
+}
+
+
 /* ── NOISE / BG ── */
 body::before {
     content: ''; position: fixed; inset: 0; z-index: 0;
