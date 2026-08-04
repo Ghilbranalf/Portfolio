@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './index.css';
 import Chatbot from './components/Chatbot';
-import StudentCard from './components/StudentCard';
 import ibraviaImg from './assets/ibravia.jpg';
 import geefiImg from './assets/geefi.jpg';
 import gradiaImg from './assets/gradia.jpg';
@@ -494,7 +493,6 @@ function App() {
                               <div className="badge-text"><strong>Telkom University</strong><span>Informatika '23</span></div>
                           </div>
                       </div>
-                      <StudentCard />
                   </div>
               </div>
           </div>
