@@ -494,9 +494,7 @@ function App() {
                               <div className="badge-text"><strong>Telkom University</strong><span>Informatika '23</span></div>
                           </div>
                       </div>
-                      <div className="student-id-card-wrap">
-                          <StudentCard />
-                      </div>
+                      <StudentCard />
                   </div>
               </div>
           </div>
