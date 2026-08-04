@@ -97,38 +97,48 @@ export default function Chatbot() {
     const q = userQuery.toLowerCase();
 
     if (q.includes('ipk') || q.includes('kuliah') || q.includes('semester') || q.includes('telkom') || q.includes('nim') || q.includes('student id') || q.includes('jurusan')) {
-      return `Ghilbran Alfaries adalah mahasiswa S1 Teknik Informatika di **Telkom University Purwokerto** (angkatan 2023, semester 6) dengan **IPK 3.70** (NIM: 2311102267). Fokus studinya meliputi Machine Learning, NLP, Mobile Development, dan Web Development.`;
+      return `Ghilbran Alfaries adalah mahasiswa S1 Teknik Informatika di **Telkom University Purwokerto** (angkatan 2023, semester 6) dengan **IPK 3.70** (NIM: 2311102267).
+
+Fokus studi utama Ghilbran:
+• **Machine Learning & NLP** (Fine-tuning IndoBERT & Random Forest)
+• **Mobile Development** (React Native & GRADIA App)
+• **Web Development** (React.js, Next.js App Router, & Tailwind CSS)`;
     }
 
     if (q.includes('proyek') || q.includes('project') || q.includes('gradia') || q.includes('bakso') || q.includes('geefi') || q.includes('sanggaluri') || q.includes('indobert')) {
-      return `Berikut beberapa project unggulan Ghilbran:
-• **GRADIA**: Aplikasi mobile React Native untuk manajemen akademik (presensi, penjadwalan, tugas, kalender interaktif).
-• **Bakso Pak Mul**: E-commerce Next.js + Supabase untuk supplier bahan bakso (integrasi Midtrans/iPaymu, ongkir, AI chatbot).
+      return `Berikut adalah beberapa project unggulan Ghilbran:
+
+• **GRADIA**: Aplikasi mobile React Native untuk manajemen akademik (presensi, jadwal, tugas, kalender interaktif).
+• **Bakso Pak Mul**: E-commerce Next.js + Supabase untuk supplier bahan bakso (integrasi Midtrans/iPaymu, ongkir, AI chatbot CS).
 • **Geefi Residence**: Website properti Next.js untuk PT Abyakta Ageng Propertindo (chatbot n8n & simulasi KPR).
 • **SanggaluriSM**: Sistem manajemen media sosial (dikembangkan bersama tim: Natasya, Rendi, Egi).
 • **Fine-tuning IndoBERT**: Klasifikasi sentimen review J&T dengan Hugging Face Trainer API.
 • **CUIP-X25 Honeypot**: Klasifikasi honeypot dataset dengan Random Forest & SMOTE.
 
-Cek selengkapnya di [GitHub Ghilbran](https://github.com/Ghilbranalf) atau bagian [Projects](#projects)!`;
+Lihat selengkapnya di [GitHub Ghilbran](https://github.com/Ghilbranalf) atau bagian [Projects](#projects)!`;
     }
 
     if (q.includes('skill') || q.includes('stack') || q.includes('ai') || q.includes('ml') || q.includes('react') || q.includes('next') || q.includes('bert')) {
       return `Tech Stack & Keahlian Ghilbran:
+
 • **Frontend**: React.js, React Native, Next.js (App Router), TypeScript, Tailwind CSS
 • **Backend**: Express.js, Supabase, PostgreSQL, MySQL
 • **AI & ML**: Fine-tuning IndoBERT, Hugging Face Trainer API, Random Forest, scikit-learn
 • **Tools**: Git, WordPress, Postman
 
-Jelajahi visualisasi lengkapnya di [Skills Section](#skills).`;
+Jelajahi visualisasi lengkapnya di bagian [Tech Stack](#skills).`;
     }
 
     if (q.includes('siapa') || q.includes('profil') || q.includes('orangnya') || q.includes('biodata')) {
-      return `**Ghilbran Alfaries** adalah mahasiswa Informatika Telkom University Purwokerto (IPK 3.70) yang detail-oriented, suka membangun sistem end-to-end (dari database hingga UI), dan aktif mengeksplorasi teknologi baru khususnya di bidang AI/ML serta Web & Mobile App Development.`;
+      return `**Ghilbran Alfaries** adalah mahasiswa Informatika Telkom University Purwokerto (IPK 3.70) yang detail-oriented.
+
+Ia berfokus pada pembangunan sistem end-to-end (mulai dari perancangan database hingga antarmuka UI) serta aktif mengeksplorasi teknologi AI/ML dan Web/Mobile App Development.`;
     }
 
     if (q.includes('kontak') || q.includes('hubungi') || q.includes('magang') || q.includes('freelance') || q.includes('hire')) {
-      return `Ghilbran saat ini masih aktif kuliah semester 6, namun **terbuka untuk kesempatan magang maupun proyek freelance**.
-Kamu bisa melihat portofolio lengkap di [GitHub Ghilbran](https://github.com/Ghilbranalf) atau menghubungi langsung via [Contact Section](#contact).`;
+      return `Ghilbran saat ini masih aktif kuliah semester 6 (IPK 3.70), tetapi **sangat terbuka untuk kesempatan magang maupun proyek freelance**.
+
+Silakan cek karya lainnya di [GitHub Ghilbran](https://github.com/Ghilbranalf) atau hubungi langsung melalui [Contact Section](#contact).`;
     }
 
     return `Ghilbran Alfaries adalah mahasiswa Informatika Telkom University Purwokerto (IPK 3.70) yang berfokus pada Machine Learning, NLP, serta Mobile & Web Development.
@@ -165,7 +175,7 @@ Project unggulannya antara lain **Bakso Pak Mul** (e-commerce Next.js), **GRADIA
         };
         setMessages((prev) => [...prev, botMsg]);
         setIsTyping(false);
-      }, 500);
+      }, 450);
       return;
     }
 
@@ -188,10 +198,10 @@ ${META_ANSWERS}
 
 ATURAN PENTING:
 1. Jawab LANGSUNG, SPESIFIK, dan berdasarkan data di atas — jangan mengarang informasi yang tidak ada.
-2. Kalau ditanya soal project tertentu, jelaskan dengan detail: tech stack yang dipakai, peran Ghilbran, dan tantangannya jika relevan.
-3. Gunakan nada percaya diri tapi rendah hati, gaya bahasa santai-profesional (seperti developer muda ngobrol dengan recruiter).
+2. Gunakan format Markdown yang rapi: gunakan list poin (bullet points '•') jika menyebutkan beberapa skill/project agar mudah dibaca.
+3. Gunakan nada percaya diri tapi rendah hati, gaya bahasa santai-profesional.
 4. Kalau ditanya hal di luar topik profil/skill/project Ghilbran, arahkan sopan kembali ke topik portfolio.
-5. Jawaban ringkas dan padat (maksimal 3-4 kalimat), kecuali diminta detail lebih lanjut.
+5. Jawaban ringkas, jelas, dan rapi (maksimal 3-5 kalimat/poin).
 6. Selalu jawab dalam Bahasa Indonesia kecuali pengunjung bertanya dalam Bahasa Inggris.
 `;
 
@@ -207,8 +217,8 @@ ATURAN PENTING:
               { role: 'system', content: systemPrompt },
               ...historyContext
             ],
-            temperature: 0.7,
-            max_tokens: 500
+            temperature: 0.6,
+            max_tokens: 450
           })
         });
 
@@ -247,7 +257,7 @@ ATURAN PENTING:
         }
       ]);
       setIsTyping(false);
-    }, 700);
+    }, 600);
   };
 
   const handleKeyPress = (e) => {
@@ -260,11 +270,11 @@ ATURAN PENTING:
     setMessages(INITIAL_MESSAGES);
   };
 
-  const renderFormattedText = (text) => {
+  const renderInlineText = (text) => {
     const parts = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
     return parts.map((part, i) => {
       if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={i}>{part.slice(2, -2)}</strong>;
+        return <strong key={i} className="chatbot-strong">{part.slice(2, -2)}</strong>;
       }
       const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)$/);
       if (linkMatch) {
@@ -277,17 +287,71 @@ ATURAN PENTING:
             href={url}
             target={isExternal ? '_blank' : '_self'}
             rel={isExternal ? 'noreferrer' : ''}
-            className="chatbot-link"
+            className="chatbot-link-pill"
             onClick={() => {
               if (!isExternal) setIsOpen(false);
             }}
           >
             {label}
+            <i className={isExternal ? "fas fa-external-link-alt" : "fas fa-chevron-right"} style={{ fontSize: '0.65rem', marginLeft: '4px' }}></i>
           </a>
         );
       }
       return part;
     });
+  };
+
+  const renderFormattedMessage = (content) => {
+    if (!content) return null;
+    const lines = content.split('\n').map((l) => l.trim()).filter((l) => l.length > 0);
+    
+    const blocks = [];
+    let currentList = null;
+
+    lines.forEach((line) => {
+      const isBullet = line.startsWith('•') || line.startsWith('- ') || line.startsWith('* ');
+      const isNumbered = /^\d+\.\s/.test(line);
+
+      if (isBullet || isNumbered) {
+        const cleanText = line.replace(/^(•|-|\*|\d+\.)\s*/, '');
+        if (!currentList || currentList.type !== (isNumbered ? 'ol' : 'ul')) {
+          currentList = { type: isNumbered ? 'ol' : 'ul', items: [] };
+          blocks.push(currentList);
+        }
+        currentList.items.push(cleanText);
+      } else {
+        currentList = null;
+        blocks.push({ type: 'p', text: line });
+      }
+    });
+
+    return (
+      <div className="chatbot-formatted-body">
+        {blocks.map((block, idx) => {
+          if (block.type === 'p') {
+            return (
+              <p key={idx} className="chatbot-paragraph">
+                {renderInlineText(block.text)}
+              </p>
+            );
+          }
+          if (block.type === 'ul' || block.type === 'ol') {
+            const Tag = block.type;
+            return (
+              <Tag key={idx} className={`chatbot-list ${block.type}-list`}>
+                {block.items.map((item, itemIdx) => (
+                  <li key={itemIdx} className="chatbot-list-item">
+                    {block.type === 'ul' && <span className="chatbot-bullet-dot"></span>}
+                    <div className="chatbot-list-content">{renderInlineText(item)}</div>
+                  </li>
+                ))}
+              </Tag>
+            );
+          }
+          return null;
+        })}
+      </div>
+    );
   };
 
   return (
@@ -304,7 +368,7 @@ ATURAN PENTING:
               <div className="chatbot-title-info">
                 <h4>Ghilbran AI Assistant</h4>
                 <span className="chatbot-status">
-                  <span className="chatbot-status-dot"></span> Powered by Groq AI
+                  <span className="chatbot-status-dot"></span> Groq AI Engine
                 </span>
               </div>
             </div>
@@ -340,9 +404,11 @@ ATURAN PENTING:
                 )}
                 <div className="chatbot-msg-bubble">
                   <div className="chatbot-msg-content">
-                    {renderFormattedText(msg.text)}
+                    {renderFormattedMessage(msg.text)}
                   </div>
-                  <span className="chatbot-msg-time">{msg.time}</span>
+                  <div className="chatbot-msg-footer">
+                    <span className="chatbot-msg-time">{msg.time}</span>
+                  </div>
                 </div>
               </div>
             ))}
