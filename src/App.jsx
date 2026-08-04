@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './index.css';
-import Chatbot from './components/Chatbot';
-import IsometricTechStack from './components/IsometricTechStack';
 import ibraviaImg from './assets/ibravia.jpg';
 import geefiImg from './assets/geefi.jpg';
 import gradiaImg from './assets/gradia.jpg';
@@ -18,27 +16,14 @@ function App() {
     if (isMounted.current) return;
     isMounted.current = true;
 
-    // ── LOADER & ZIPPER ANIMATION ──
+    // ── LOADER ──
     setTimeout(() => {
       const loader = document.getElementById('loader');
-      const zipper = document.getElementById('zipper-overlay');
-      
       if (loader) {
         loader.classList.add('hidden');
-      }
-
-      if (zipper) {
-        setTimeout(() => {
-          zipper.classList.add('unzip');
-          setTimeout(() => {
-            zipper.classList.add('finished');
-            startHeroAnimations();
-          }, 2400);
-        }, 250);
-      } else {
         startHeroAnimations();
       }
-    }, 1600);
+    }, 1800);
 
     // ── CURSOR ──
     const cursor = document.getElementById('cursor');
@@ -221,7 +206,7 @@ function App() {
     }
 
     // ── TYPING ──
-    const roles = ['Web & Mobile Developer', 'AI & Machine Learning', 'React & Next.js Specialist', 'Informatika @ Telkom Univ'];
+    const roles = ['Web Developer', 'Frontend Engineer', 'React Developer', 'Full-Stack Builder'];
     let ri = 0, ci = 0, del = false;
     let typEl = document.getElementById('typingEl');
     
@@ -362,58 +347,6 @@ function App() {
           <div className="loader-bar"><div className="loader-bar-inner"></div></div>
       </div>
 
-      {/* ZIPPER UNZIP ANIMATION */}
-      <div id="zipper-overlay" className="zipper-container">
-          <div className="zipper-laser-beam"></div>
-          <div className="zipper-seam-track"></div>
-          <div className="zipper-panel zipper-left">
-              <div className="zipper-fabric-texture"></div>
-              <div className="zipper-metallic-trim"></div>
-              <div className="zipper-teeth-edge left-teeth">
-                  {Array.from({ length: 50 }).map((_, i) => (
-                      <div key={i} className="zipper-tooth left-tooth" style={{ animationDelay: `${i * 0.02}s` }}>
-                          <span className="tooth-head"></span>
-                          <span className="tooth-shine"></span>
-                      </div>
-                  ))}
-              </div>
-          </div>
-          <div className="zipper-panel zipper-right">
-              <div className="zipper-fabric-texture"></div>
-              <div className="zipper-metallic-trim"></div>
-              <div className="zipper-teeth-edge right-teeth">
-                  {Array.from({ length: 50 }).map((_, i) => (
-                      <div key={i} className="zipper-tooth right-tooth" style={{ animationDelay: `${i * 0.02}s` }}>
-                          <span className="tooth-head"></span>
-                          <span className="tooth-shine"></span>
-                      </div>
-                  ))}
-              </div>
-          </div>
-          <div className="zipper-slider-wrap" id="zipperSlider">
-              <div className="zipper-spark-glow"></div>
-              <div className="zipper-energy-ring"></div>
-              <div className="zipper-head-3d">
-                  <div className="zipper-top-bridge"></div>
-                  <div className="zipper-side-guides"><span></span><span></span></div>
-                  <div className="zipper-notch-3d"></div>
-                  <div className="zipper-brand-text">GHILBRAN</div>
-                  <div className="zipper-connector-ring"></div>
-                  <div className="zipper-pull-tab-3d">
-                      <div className="zipper-tab-top">
-                          <div className="zipper-hole-3d"></div>
-                      </div>
-                      <div className="zipper-tab-body">
-                          <span className="zipper-logo-bold">G</span>
-                          <div className="zipper-grip-ridges">
-                              <span></span><span></span><span></span><span></span>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-
       <div id="cursor"></div>
       <div id="cursor-ring"></div>
 
@@ -540,9 +473,6 @@ function App() {
                       <div className="section-label reveal">Skills</div>
                       <h2 className="section-title reveal">Tech Stack &amp;<br/>Expertise</h2>
                       <p className="section-desc reveal" style={{ marginBottom: 0 }}>Tools dan teknologi yang saya gunakan untuk membangun produk digital berkualitas tinggi.</p>
-                      <div style={{ marginTop: "30px" }} className="reveal">
-                           <IsometricTechStack />
-                      </div>
                       <div style={{ marginTop: "40px" }} className="reveal">
                           <div className="value-card">
                               <div className="val-icon"><i className="fas fa-bolt"></i></div>
@@ -864,9 +794,6 @@ function App() {
               <p className="footer-copy">© 2026 <span>Ghilbran Alfaries Pryma</span>. Crafted with ♥ and lots of ☕</p>
           </div>
       </footer>
-
-      {/* CHATBOT */}
-      <Chatbot />
     </>
   );
 }
