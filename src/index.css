@@ -1109,4 +1109,349 @@ section { position: relative; z-index: 1; }
         right: 0;
         bottom: 66px;
         height: 480px;
-    }
+    }
+}
+
+/* ── 3D INTERACTIVE STUDENT ID CARD (NO LANYARD) ── */
+.student-id-card-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.student-id-card {
+    width: 270px;
+    height: 385px;
+    perspective: 1000px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.student-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.student-id-card.flipped .student-card-inner {
+    transform: rotateY(180deg);
+}
+
+.student-card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 18px;
+    overflow: hidden;
+    background: rgba(12, 12, 14, 0.94);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 30px var(--accent-glow);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-hologram-glare {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 40%, rgba(255, 255, 255, 0.08) 100%);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.student-card-header {
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+}
+
+.univ-brand {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: 1.2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.univ-tag {
+    font-size: 0.58rem;
+    color: var(--muted2);
+    letter-spacing: 1.5px;
+    margin-top: 2px;
+    display: block;
+}
+
+.student-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.student-avatar-wrap {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--border-hover) 100%);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.student-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    background: #000;
+}
+
+.student-status-dot {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 12px;
+    height: 12px;
+    background: #10b981;
+    border-radius: 50%;
+    border: 2px solid #050505;
+    box-shadow: 0 0 8px #10b981;
+}
+
+.student-details {
+    width: 100%;
+}
+
+.student-name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.student-role {
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: 600;
+    display: block;
+    margin-top: 2px;
+}
+
+.student-metrics-grid {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 6px;
+    margin-top: 10px;
+}
+
+.metric-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.metric-lbl {
+    font-size: 0.55rem;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.metric-val {
+    font-size: 0.75rem;
+    color: #ffffff;
+    font-weight: 800;
+    margin-top: 2px;
+}
+
+.highlight-val {
+    color: var(--accent);
+}
+
+.student-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+}
+
+.ic-chip {
+    width: 32px;
+    height: 24px;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border-radius: 4px;
+    border: 1px solid #fef08a;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 3px;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.chip-pattern {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+
+.barcode-box {
+    text-align: right;
+}
+
+.barcode-stripes {
+    display: flex;
+    gap: 1.5px;
+    height: 18px;
+    justify-content: flex-end;
+}
+
+.barcode-stripes span {
+    background: #ffffff;
+    height: 100%;
+    width: 1.5px;
+    display: block;
+}
+
+.barcode-stripes span:nth-child(2n) {
+    width: 3px;
+}
+.barcode-stripes span:nth-child(3n) {
+    width: 1px;
+}
+
+.barcode-text {
+    font-size: 0.5rem;
+    color: var(--muted2);
+    letter-spacing: 0.5px;
+    display: block;
+    margin-top: 2px;
+    font-family: monospace;
+}
+
+.card-flip-prompt {
+    font-size: 0.62rem;
+    color: var(--muted2);
+    text-align: center;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    opacity: 0.8;
+}
+
+/* BACK SIDE STYLING */
+.card-back {
+    transform: rotateY(180deg);
+}
+
+.mag-stripe {
+    height: 34px;
+    background: linear-gradient(90deg, #171717 0%, #262626 50%, #171717 100%);
+    margin: -16px -16px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.student-card-back-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.back-header {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.back-spec-box h5 {
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+}
+
+.back-spec-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.back-spec-box ul li {
+    font-size: 0.7rem;
+    color: var(--muted2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.back-spec-box ul li i {
+    color: var(--accent);
+    font-size: 0.75rem;
+}
+
+.back-contact-box {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.65rem;
+    color: var(--muted2);
+}
+
+.back-contact-box i {
+    color: var(--accent);
+    margin-right: 4px;
+}
+
+.official-seal {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.official-seal span {
+    border: 1.5px dashed var(--accent);
+    color: var(--accent);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
