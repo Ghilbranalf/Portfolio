@@ -55,16 +55,16 @@ const INITIAL_MESSAGES = [
   {
     id: 1,
     sender: 'bot',
-    text: 'Halo! 👋 Saya **Portfolio AI Assistant** milik Ghilbran Alfaries. Ada yang ingin kamu ketahui tentang profil, skill, pengalaman, atau project Ghilbran?',
+    text: 'Halo, saya **Portfolio AI Assistant** milik Ghilbran Alfaries. Ada yang ingin Anda ketahui mengenai profil, keahlian, pengalaman, atau proyek Ghilbran?',
     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
 ];
 
 const QUICK_QUESTIONS = [
-  '🚀 Project Unggulan',
-  '💻 Tech Stack & AI/ML',
-  '🎓 IPK & Profil',
-  '📧 Kontak & Hire'
+  'Project Unggulan',
+  'Tech Stack & AI/ML',
+  'IPK & Profil',
+  'Kontak & Informasi'
 ];
 
 export default function Chatbot() {
@@ -170,7 +170,7 @@ Project unggulannya antara lain **Bakso Pak Mul** (e-commerce Next.js), **GRADIA
         const botMsg = {
           id: Date.now() + 1,
           sender: 'bot',
-          text: 'Maaf, saya adalah asisten AI khusus untuk portfolio Ghilbran 🙂. Saya hanya bisa membantu pertanyaan seputar profil, skill, pengalaman, dan project-project Ghilbran. Ada yang mau ditanyakan soal itu?',
+          text: 'Maaf, saya adalah asisten AI khusus untuk portofolio Ghilbran Alfaries. Saya hanya membantu pertanyaan seputar profil, keahlian, pengalaman, dan proyek Ghilbran. Ada yang ingin Anda tanyakan mengenai hal tersebut?',
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
         setMessages((prev) => [...prev, botMsg]);
@@ -199,10 +199,11 @@ ${META_ANSWERS}
 ATURAN PENTING:
 1. Jawab LANGSUNG, SPESIFIK, dan berdasarkan data di atas — jangan mengarang informasi yang tidak ada.
 2. Gunakan format Markdown yang rapi: gunakan list poin (bullet points '•') jika menyebutkan beberapa skill/project agar mudah dibaca.
-3. Gunakan nada percaya diri tapi rendah hati, gaya bahasa santai-profesional.
+3. Gunakan nada profesional, sopan, dan percaya diri.
 4. Kalau ditanya hal di luar topik profil/skill/project Ghilbran, arahkan sopan kembali ke topik portfolio.
 5. Jawaban ringkas, jelas, dan rapi (maksimal 3-5 kalimat/poin).
 6. Selalu jawab dalam Bahasa Indonesia kecuali pengunjung bertanya dalam Bahasa Inggris.
+7. SANGAT PENTING: DILARANG KERAS MENGGUNAKAN EMOTIKON ATAU EMOJI APAPUN (seperti 👋, 🚀, 😊, 🙂, dll) dalam balasan. Berikan jawaban profesional murni tanpa simbol emoji.
 `;
 
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -224,14 +225,15 @@ ATURAN PENTING:
 
         if (response.ok) {
           const data = await response.json();
-          const replyText = data?.choices?.[0]?.message?.content;
-          if (replyText) {
+          const rawReplyText = data?.choices?.[0]?.message?.content;
+          if (rawReplyText) {
+            const cleanReplyText = rawReplyText.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}]/gu, '').trim();
             setMessages((prev) => [
               ...prev,
               {
                 id: Date.now() + 1,
                 sender: 'bot',
-                text: replyText,
+                text: cleanReplyText,
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
               }
             ]);
