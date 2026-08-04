@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './index.css';
+import Chatbot from './components/Chatbot';
 import ibraviaImg from './assets/ibravia.jpg';
 import geefiImg from './assets/geefi.jpg';
 import gradiaImg from './assets/gradia.jpg';
@@ -206,7 +207,7 @@ function App() {
     }
 
     // ── TYPING ──
-    const roles = ['Web Developer', 'Frontend Engineer', 'React Developer', 'Full-Stack Builder'];
+    const roles = ['Web & Mobile Developer', 'AI & Machine Learning', 'React & Next.js Specialist', 'Informatika @ Telkom Univ'];
     let ri = 0, ci = 0, del = false;
     let typEl = document.getElementById('typingEl');
     
@@ -794,6 +795,9 @@ function App() {
               <p className="footer-copy">© 2026 <span>Ghilbran Alfaries Pryma</span>. Crafted with ♥ and lots of ☕</p>
           </div>
       </footer>
+
+      {/* CHATBOT */}
+      <Chatbot />
     </>
   );
 }
