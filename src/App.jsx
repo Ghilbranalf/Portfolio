@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './index.css';
 import Chatbot from './components/Chatbot';
-import HangingIDCard from './components/HangingIDCard';
 import ibraviaImg from './assets/ibravia.jpg';
 import geefiImg from './assets/geefi.jpg';
 import gradiaImg from './assets/gradia.jpg';
@@ -483,7 +482,17 @@ function App() {
                       </div>
                   </div>
                   <div className="hero-visual">
-                      <HangingIDCard />
+                      <div className="hero-img-wrap" id="heroImg">
+                          <img src="/images/bran.png" alt="Ghilbran Alfaries Pryma" className="hero-img" onError={(e) => e.target.src='https://ui-avatars.com/api/?name=G+A&background=0d1628&color=2dd4bf&size=400&bold=true&font-size=0.4'} />
+                          <div className="hero-badge-float b1">
+                              <div className="badge-icon"><i className="fas fa-code"></i></div>
+                              <div className="badge-text"><strong>React Developer</strong><span>Frontend & Backend</span></div>
+                          </div>
+                          <div className="hero-badge-float b2">
+                              <div className="badge-icon"><i className="fas fa-graduation-cap"></i></div>
+                              <div className="badge-text"><strong>Telkom University</strong><span>Informatika '23</span></div>
+                          </div>
+                      </div>
                   </div>
               </div>
           </div>
