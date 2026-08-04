@@ -32,8 +32,8 @@ function App() {
           setTimeout(() => {
             zipper.classList.add('finished');
             startHeroAnimations();
-          }, 2200);
-        }, 200);
+          }, 2400);
+        }, 250);
       } else {
         startHeroAnimations();
       }
@@ -363,20 +363,27 @@ function App() {
 
       {/* ZIPPER UNZIP ANIMATION */}
       <div id="zipper-overlay" className="zipper-container">
-          <div className="zipper-seam-line"></div>
+          <div className="zipper-laser-beam"></div>
+          <div className="zipper-seam-track"></div>
           <div className="zipper-panel zipper-left">
+              <div className="zipper-fabric-texture"></div>
+              <div className="zipper-metallic-trim"></div>
               <div className="zipper-teeth-edge left-teeth">
-                  {Array.from({ length: 45 }).map((_, i) => (
-                      <div key={i} className="zipper-tooth left-tooth">
+                  {Array.from({ length: 50 }).map((_, i) => (
+                      <div key={i} className="zipper-tooth left-tooth" style={{ animationDelay: `${i * 0.02}s` }}>
+                          <span className="tooth-head"></span>
                           <span className="tooth-shine"></span>
                       </div>
                   ))}
               </div>
           </div>
           <div className="zipper-panel zipper-right">
+              <div className="zipper-fabric-texture"></div>
+              <div className="zipper-metallic-trim"></div>
               <div className="zipper-teeth-edge right-teeth">
-                  {Array.from({ length: 45 }).map((_, i) => (
-                      <div key={i} className="zipper-tooth right-tooth">
+                  {Array.from({ length: 50 }).map((_, i) => (
+                      <div key={i} className="zipper-tooth right-tooth" style={{ animationDelay: `${i * 0.02}s` }}>
+                          <span className="tooth-head"></span>
                           <span className="tooth-shine"></span>
                       </div>
                   ))}
@@ -384,14 +391,22 @@ function App() {
           </div>
           <div className="zipper-slider-wrap" id="zipperSlider">
               <div className="zipper-spark-glow"></div>
-              <div className="zipper-head">
-                  <div className="zipper-notch"></div>
-                  <div className="zipper-head-title">UNZIP</div>
-                  <div className="zipper-pull-tab">
-                      <div className="zipper-hole"></div>
-                      <span className="zipper-logo-mini">G</span>
-                      <div className="zipper-grip-lines">
-                          <span></span><span></span><span></span>
+              <div className="zipper-energy-ring"></div>
+              <div className="zipper-head-3d">
+                  <div className="zipper-top-bridge"></div>
+                  <div className="zipper-side-guides"><span></span><span></span></div>
+                  <div className="zipper-notch-3d"></div>
+                  <div className="zipper-brand-text">GHILBRAN</div>
+                  <div className="zipper-connector-ring"></div>
+                  <div className="zipper-pull-tab-3d">
+                      <div className="zipper-tab-top">
+                          <div className="zipper-hole-3d"></div>
+                      </div>
+                      <div className="zipper-tab-body">
+                          <span className="zipper-logo-bold">G</span>
+                          <div className="zipper-grip-ridges">
+                              <span></span><span></span><span></span><span></span>
+                          </div>
                       </div>
                   </div>
               </div>
