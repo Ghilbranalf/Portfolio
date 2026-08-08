@@ -341,6 +341,33 @@ function App() {
 
   }, []);
 
+  const handle3dMouseMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -12;
+    const rotateY = ((x - centerX) / centerX) * 12;
+
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+
+    const shine = card.querySelector('.card-shine-3d');
+    if (shine) {
+      shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 70%)`;
+    }
+  };
+
+  const handle3dMouseLeave = (e) => {
+    const card = e.currentTarget;
+    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    const shine = card.querySelector('.card-shine-3d');
+    if (shine) {
+      shine.style.background = `none`;
+    }
+  };
+
   return (
     <>
       <div id="loader">
@@ -578,14 +605,79 @@ function App() {
                   </div>
 
                   <div className="about-visual reveal-right">
-                      <div className="about-img-wrap">
-                          <img src={heroImg} alt="Ghilbran Alfaries" />
+                      {/* Ambient Glow Aura */}
+                      <div className="about-glow-orb"></div>
+                      <div className="about-glow-orb orb-secondary"></div>
+
+                      {/* 3D Interactive Card Container */}
+                      <div 
+                          className="about-card-3d"
+                          onMouseMove={handle3dMouseMove}
+                          onMouseLeave={handle3dMouseLeave}
+                      >
+                          {/* Dynamic Light Shine */}
+                          <div className="card-shine-3d"></div>
+
+                          {/* Border Glow */}
+                          <div className="card-border-glow"></div>
+
+                          {/* Main Image Layer */}
+                          <div className="about-img-wrap-3d">
+                              <img src={heroImg} alt="Ghilbran Alfaries Pryma" className="about-hero-img-3d" />
+                              <div className="about-img-overlay-3d"></div>
+                          </div>
+
+                          {/* Floating 3D Depth Badges */}
+                          <div className="float-badge-3d badge-top-right">
+                              <i className="fab fa-react" style={{ color: "#61dafb" }}></i>
+                              <div>
+                                  <strong>React &amp; Next.js</strong>
+                                  <span>Frontend Specialist</span>
+                              </div>
+                          </div>
+
+                          <div className="float-badge-3d badge-bottom-left">
+                              <i className="fas fa-cube" style={{ color: "#a855f7" }}></i>
+                              <div>
+                                  <strong>3D &amp; Interactive</strong>
+                                  <span>Clean Architecture</span>
+                              </div>
+                          </div>
+
+                          {/* Holographic scanline */}
+                          <div className="scanline-3d"></div>
                       </div>
+
+                      {/* Upgraded 4 Fact Cards */}
                       <div className="about-facts">
-                          <div className="fact-card reveal"><div className="fact-num">3+</div><div className="fact-label">Years of Coding</div></div>
-                          <div className="fact-card reveal"><div className="fact-num">10+</div><div className="fact-label">Projects Completed</div></div>
-                          <div className="fact-card reveal"><div className="fact-num" style={{ color: "var(--accent2)" }}>1</div><div className="fact-label">Internship</div></div>
-                          <div className="fact-card reveal"><div className="fact-num" style={{ color: "var(--accent2)" }}>9+</div><div className="fact-label">Tech Skills</div></div>
+                          <div className="fact-card reveal">
+                              <div className="fact-icon"><i className="fas fa-code"></i></div>
+                              <div>
+                                  <div className="fact-num">3+</div>
+                                  <div className="fact-label">Years of Coding</div>
+                              </div>
+                          </div>
+                          <div className="fact-card reveal">
+                              <div className="fact-icon"><i className="fas fa-project-diagram"></i></div>
+                              <div>
+                                  <div className="fact-num">10+</div>
+                                  <div className="fact-label">Projects Completed</div>
+                              </div>
+                          </div>
+                          <div className="fact-card reveal">
+                              <div className="fact-icon"><i className="fas fa-briefcase"></i></div>
+                              <div>
+                                  <div className="fact-num" style={{ color: "var(--accent2)" }}>1</div>
+                                  <div className="fact-label">Internship</div>
+                              </div>
+                          </div>
+                          <div className="fact-card reveal">
+                              <div className="fact-icon"><i className="fas fa-laptop-code"></i></div>
+                              <div>
+                                  <div className="fact-num" style={{ color: "var(--accent2)" }}>9+</div>
+                                  <div className="fact-label">Tech Skills</div>
+                              </div>
+                          </div>
                       </div>
                   </div>
               </div>

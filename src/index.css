@@ -225,15 +225,239 @@ section { position: relative; z-index: 1; }
 .val-text p { font-size: 0.8rem; color: var(--muted2); margin: 0; line-height: 1.6; }
 
 /* about right */
-.about-visual { position: sticky; top: 100px; }
-.about-img-wrap { position: relative; border-radius: 20px; overflow: hidden; margin-bottom: 20px; }
-.about-img-wrap::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.8)); z-index: 1; }
-.about-img-wrap img { width: 100%; border-radius: 20px; border: 1px solid var(--border); display: block; }
-.about-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.fact-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; transition: .3s; }
-.fact-card:hover { border-color: var(--border-hover); }
-.fact-num { font-size: 1.6rem; font-weight: 900; color: var(--accent); line-height: 1; }
-.fact-label { font-size: 0.72rem; color: var(--muted2); margin-top: 4px; }
+.about-visual { 
+    position: sticky; 
+    top: 100px; 
+    perspective: 1200px;
+}
+
+/* Ambient Glow Orbs */
+.about-glow-orb {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(45, 212, 191, 0.22) 0%, rgba(168, 85, 247, 0.12) 50%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(50px);
+    pointer-events: none;
+    z-index: 0;
+    animation: floatGlow 8s ease-in-out infinite alternate;
+}
+.about-glow-orb.orb-secondary {
+    top: auto;
+    left: auto;
+    right: -20px;
+    bottom: 80px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.22) 0%, rgba(59, 130, 246, 0.12) 50%, transparent 70%);
+    filter: blur(45px);
+    animation-delay: -4s;
+}
+
+@keyframes floatGlow {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-24px) scale(1.1); }
+}
+
+/* 3D Card Interactive Container */
+.about-card-3d {
+    position: relative;
+    z-index: 1;
+    border-radius: 24px;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 16px;
+    margin-bottom: 24px;
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(45, 212, 191, 0.08);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.about-card-3d:hover {
+    border-color: rgba(45, 212, 191, 0.4);
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(45, 212, 191, 0.2);
+}
+
+.card-shine-3d {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    pointer-events: none;
+    z-index: 10;
+    transition: background 0.1s ease;
+}
+
+.card-border-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    pointer-events: none;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.about-img-wrap-3d {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    transform: translateZ(25px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0a0e17;
+}
+
+.about-hero-img-3d {
+    width: 100%;
+    display: block;
+    border-radius: 18px;
+    transition: transform 0.5s ease;
+}
+
+.about-card-3d:hover .about-hero-img-3d {
+    transform: scale(1.03);
+}
+
+.about-img-overlay-3d {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(10, 14, 23, 0.85) 100%);
+    pointer-events: none;
+}
+
+/* Floating 3D Depth Badges */
+.float-badge-3d {
+    position: absolute;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: rgba(13, 22, 40, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 15px rgba(45, 212, 191, 0.15);
+    transform: translateZ(50px);
+    animation: floatBadge 4s ease-in-out infinite alternate;
+}
+
+.float-badge-3d.badge-top-right {
+    top: 24px;
+    right: 24px;
+}
+
+.float-badge-3d.badge-bottom-left {
+    bottom: 24px;
+    left: 24px;
+    animation-delay: -2s;
+}
+
+.float-badge-3d i {
+    font-size: 1.4rem;
+}
+
+.float-badge-3d strong {
+    display: block;
+    font-size: 0.78rem;
+    color: #fff;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.float-badge-3d span {
+    display: block;
+    font-size: 0.66rem;
+    color: var(--muted2);
+}
+
+@keyframes floatBadge {
+    0% { transform: translateZ(50px) translateY(0px); }
+    100% { transform: translateZ(50px) translateY(-8px); }
+}
+
+.scanline-3d {
+    position: absolute;
+    top: -30%;
+    left: 0;
+    right: 0;
+    height: 35%;
+    background: linear-gradient(to bottom, transparent, rgba(45, 212, 191, 0.12), transparent);
+    pointer-events: none;
+    animation: scanlineAnim 7s linear infinite;
+}
+
+@keyframes scanlineAnim {
+    0% { top: -35%; }
+    100% { top: 135%; }
+}
+
+/* 4 Upgraded Fact Cards */
+.about-facts { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 14px; 
+    position: relative;
+    z-index: 1;
+}
+
+.fact-card { 
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.09); 
+    border-radius: 16px; 
+    padding: 16px 18px; 
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+}
+
+.fact-card:hover { 
+    border-color: rgba(45, 212, 191, 0.4); 
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35), 0 0 20px rgba(45, 212, 191, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.fact-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(45, 212, 191, 0.1);
+    border: 1px solid rgba(45, 212, 191, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 1.05rem;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.fact-card:hover .fact-icon {
+    transform: scale(1.1) rotate(5deg);
+    background: rgba(45, 212, 191, 0.2);
+}
+
+.fact-num { 
+    font-size: 1.5rem; 
+    font-weight: 900; 
+    color: var(--accent); 
+    line-height: 1.1; 
+}
+
+.fact-label { 
+    font-size: 0.72rem; 
+    color: var(--muted2); 
+    margin-top: 2px; 
+}
 
 /* ── PROJECTS ── */
 #projects { background: var(--bg); }
