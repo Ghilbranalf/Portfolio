@@ -621,10 +621,36 @@ function App() {
                           {/* Border Glow */}
                           <div className="card-border-glow"></div>
 
-                          {/* Main Image Layer */}
-                          <div className="about-img-wrap-3d">
-                              <img src={heroImg} alt="Ghilbran Alfaries Pryma" className="about-hero-img-3d" />
-                              <div className="about-img-overlay-3d"></div>
+                          {/* Holographic Projection Chamber Container */}
+                          <div className="about-img-wrap-3d hologram-chamber">
+                              {/* 3D Hologram Projection Beam & Grid */}
+                              <div className="holo-beam"></div>
+                              <div className="holo-grid-mesh"></div>
+
+                              {/* Sci-Fi HUD Status Overlays */}
+                              <div className="holo-hud top-left">
+                                  <span className="holo-status-dot"></span>
+                                  <span className="holo-hud-text">HOLO_PROJ :: v3.0</span>
+                              </div>
+                              <div className="holo-hud top-right">
+                                  <span className="holo-hud-tag">ONLINE</span>
+                              </div>
+
+                              {/* Main Holographic Image */}
+                              <div className="holo-image-wrap">
+                                  <img src={heroImg} alt="Ghilbran Alfaries Hologram" className="about-hero-img-3d holo-image" />
+                                  <div className="holo-glitch-overlay"></div>
+                              </div>
+
+                              {/* Projector Emitter Base Ring */}
+                              <div className="holo-emitter-base">
+                                  <div className="emitter-ring ring-1"></div>
+                                  <div className="emitter-ring ring-2"></div>
+                                  <div className="emitter-ring ring-3"></div>
+                              </div>
+
+                              {/* Vertical Laser Scanline */}
+                              <div className="holo-laser-line"></div>
                           </div>
 
                           {/* Floating 3D Depth Badges */}
@@ -640,12 +666,9 @@ function App() {
                               <i className="fas fa-cube" style={{ color: "#a855f7" }}></i>
                               <div>
                                   <strong>3D &amp; Interactive</strong>
-                                  <span>Clean Architecture</span>
+                                  <span>Holographic Interface</span>
                               </div>
                           </div>
-
-                          {/* Holographic scanline */}
-                          <div className="scanline-3d"></div>
                       </div>
 
                       {/* Upgraded 4 Fact Cards */}

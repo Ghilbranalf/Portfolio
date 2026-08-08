@@ -302,31 +302,189 @@ section { position: relative; z-index: 1; }
     box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
 }
 
-.about-img-wrap-3d {
+.hologram-chamber {
     position: relative;
     border-radius: 18px;
     overflow: hidden;
     transform: translateZ(25px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: #0a0e17;
+    border: 1px solid rgba(45, 212, 191, 0.35);
+    background: radial-gradient(circle at 50% 100%, #0c182b 0%, #050a14 100%);
+    box-shadow: inset 0 0 35px rgba(45, 212, 191, 0.2), 0 0 30px rgba(45, 212, 191, 0.15);
 }
 
-.about-hero-img-3d {
+/* Projection Beam Cone */
+.holo-beam {
+    position: absolute;
+    bottom: -10%;
+    left: 5%;
+    right: 5%;
+    height: 90%;
+    background: linear-gradient(to top, rgba(45, 212, 191, 0.38) 0%, rgba(168, 85, 247, 0.18) 55%, transparent 100%);
+    clip-path: polygon(25% 100%, 75% 100%, 95% 0%, 5% 0%);
+    pointer-events: none;
+    z-index: 2;
+    animation: holoBeamPulse 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes holoBeamPulse {
+    0% { opacity: 0.55; filter: brightness(1); }
+    100% { opacity: 0.95; filter: brightness(1.4); }
+}
+
+/* Perspective Cyber Grid Mesh */
+.holo-grid-mesh {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(45, 212, 191, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(45, 212, 191, 0.12) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.45;
+}
+
+/* Sci-Fi HUD Status Labels */
+.holo-hud {
+    position: absolute;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: rgba(5, 10, 20, 0.75);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.68rem;
+    color: #2dd4bf;
+    letter-spacing: 1px;
+}
+
+.holo-hud.top-left {
+    top: 14px;
+    left: 14px;
+}
+
+.holo-hud.top-right {
+    top: 14px;
+    right: 14px;
+}
+
+.holo-status-dot {
+    width: 6px;
+    height: 6px;
+    background: #2dd4bf;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #2dd4bf;
+    animation: blinkDot 1.2s infinite alternate;
+}
+
+@keyframes blinkDot {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.holo-hud-tag {
+    color: #a855f7;
+    font-weight: 700;
+}
+
+/* Main Hologram Image Wrap & Glow */
+.holo-image-wrap {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+}
+
+.holo-image {
     width: 100%;
     display: block;
     border-radius: 18px;
-    transition: transform 0.5s ease;
+    mix-blend-mode: lighten;
+    filter: drop-shadow(0 0 15px rgba(45, 212, 191, 0.5)) contrast(1.15) brightness(1.1);
+    animation: holoFloat 4s ease-in-out infinite alternate, holoFlicker 9s infinite;
+    transition: transform 0.4s ease;
 }
 
-.about-card-3d:hover .about-hero-img-3d {
-    transform: scale(1.03);
+.about-card-3d:hover .holo-image {
+    transform: scale(1.04) translateY(-4px);
+    filter: drop-shadow(0 0 25px rgba(45, 212, 191, 0.75)) contrast(1.2) brightness(1.2);
 }
 
-.about-img-overlay-3d {
+@keyframes holoFloat {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-7px); }
+}
+
+@keyframes holoFlicker {
+    0%, 100% { opacity: 1; }
+    49% { opacity: 1; }
+    50% { opacity: 0.83; }
+    51% { opacity: 1; }
+    88% { opacity: 1; }
+    89% { opacity: 0.86; }
+    90% { opacity: 1; }
+}
+
+.holo-glitch-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 40%, rgba(10, 14, 23, 0.85) 100%);
+    background: linear-gradient(to bottom, transparent 60%, rgba(5, 10, 20, 0.9) 100%);
     pointer-events: none;
+}
+
+/* Projector Base Emitter Rings */
+.holo-emitter-base {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
+    height: 35px;
+    pointer-events: none;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emitter-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(45, 212, 191, 0.5);
+    box-shadow: 0 0 12px rgba(45, 212, 191, 0.4);
+    animation: ringExpand 3s linear infinite;
+}
+
+.emitter-ring.ring-1 { width: 40%; height: 12px; animation-delay: 0s; }
+.emitter-ring.ring-2 { width: 65%; height: 20px; animation-delay: -1s; }
+.emitter-ring.ring-3 { width: 90%; height: 28px; animation-delay: -2s; }
+
+@keyframes ringExpand {
+    0% { opacity: 0.8; transform: scale(0.7); }
+    100% { opacity: 0; transform: scale(1.15); }
+}
+
+/* Scanning Laser Bar */
+.holo-laser-line {
+    position: absolute;
+    top: -15%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #2dd4bf 30%, #a855f7 70%, transparent);
+    box-shadow: 0 0 15px #2dd4bf, 0 0 30px #a855f7;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.9;
+    animation: holoLaser 4.5s linear infinite;
+}
+
+@keyframes holoLaser {
+    0% { top: -15%; }
+    100% { top: 115%; }
 }
 
 /* Floating 3D Depth Badges */
