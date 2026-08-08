@@ -846,7 +846,7 @@ function App() {
                   </div>
               </div>
               <hr className="footer-divider" />
-              <p className="footer-copy">© 2026 <span>Ghilbran Alfaries Pryma</span>. Crafted with ♥ and lots of ☕</p>
+              <p className="footer-copy">© 2026 <span>Ghilbran Alfaries Pryma</span>. All Rights Reserved.</p>
           </div>
       </footer>
 
