@@ -6,7 +6,6 @@ import geefiImg from './assets/geefi.jpg';
 import gradiaImg from './assets/gradia.jpg';
 import sanggaluriImg from './assets/sanggaluri.jpg';
 import baksoPakMulImg from './assets/baksopakmul.jpg';
-import heroImg from './assets/hero.png';
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -341,33 +340,6 @@ function App() {
 
   }, []);
 
-  const handle3dMouseMove = (e) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -12;
-    const rotateY = ((x - centerX) / centerX) * 12;
-
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-
-    const shine = card.querySelector('.card-shine-3d');
-    if (shine) {
-      shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 70%)`;
-    }
-  };
-
-  const handle3dMouseLeave = (e) => {
-    const card = e.currentTarget;
-    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-    const shine = card.querySelector('.card-shine-3d');
-    if (shine) {
-      shine.style.background = `none`;
-    }
-  };
-
   return (
     <>
       <div id="loader">
@@ -605,73 +577,40 @@ function App() {
                   </div>
 
                   <div className="about-visual reveal-right">
-                      {/* Ambient Glow Aura */}
+                      {/* Ambient Glow */}
                       <div className="about-glow-orb"></div>
                       <div className="about-glow-orb orb-secondary"></div>
 
-                      {/* 3D Interactive Card Container */}
-                      <div 
-                          className="about-card-3d"
-                          onMouseMove={handle3dMouseMove}
-                          onMouseLeave={handle3dMouseLeave}
-                      >
-                          {/* Dynamic Light Shine */}
-                          <div className="card-shine-3d"></div>
-
-                          {/* Border Glow */}
-                          <div className="card-border-glow"></div>
-
-                          {/* Holographic Projection Chamber Container */}
-                          <div className="about-img-wrap-3d hologram-chamber">
-                              {/* 3D Hologram Projection Beam & Grid */}
-                              <div className="holo-beam"></div>
-                              <div className="holo-grid-mesh"></div>
-
-                              {/* Sci-Fi HUD Status Overlays */}
-                              <div className="holo-hud top-left">
-                                  <span className="holo-status-dot"></span>
-                                  <span className="holo-hud-text">HOLO_PROJ :: v3.0</span>
-                              </div>
-                              <div className="holo-hud top-right">
-                                  <span className="holo-hud-tag">ONLINE</span>
-                              </div>
-
-                              {/* Main Holographic Image */}
-                              <div className="holo-image-wrap">
-                                  <img src={heroImg} alt="Ghilbran Alfaries Hologram" className="about-hero-img-3d holo-image" />
-                                  <div className="holo-glitch-overlay"></div>
-                              </div>
-
-                              {/* Projector Emitter Base Ring */}
-                              <div className="holo-emitter-base">
-                                  <div className="emitter-ring ring-1"></div>
-                                  <div className="emitter-ring ring-2"></div>
-                                  <div className="emitter-ring ring-3"></div>
-                              </div>
-
-                              {/* Vertical Laser Scanline */}
-                              <div className="holo-laser-line"></div>
+                      {/* 3D Orbit Container */}
+                      <div className="orbit-scene">
+                          {/* Central Photo */}
+                          <div className="orbit-center">
+                              <img src="/images/bran.png" alt="Ghilbran Alfaries Pryma" onError={(e) => e.target.src='https://ui-avatars.com/api/?name=G+A&background=0d1628&color=2dd4bf&size=400&bold=true&font-size=0.4'} />
+                              <div className="orbit-center-glow"></div>
                           </div>
 
-                          {/* Floating 3D Depth Badges */}
-                          <div className="float-badge-3d badge-top-right">
-                              <i className="fab fa-react" style={{ color: "#61dafb" }}></i>
-                              <div>
-                                  <strong>React &amp; Next.js</strong>
-                                  <span>Frontend Specialist</span>
-                              </div>
+                          {/* Orbit Ring 1 — Inner (slower, smaller) */}
+                          <div className="orbit-ring ring-inner">
+                              <div className="orbit-icon" style={{"--angle": "0deg", "--clr": "#61dafb"}}><i className="fab fa-react"></i><span>React</span></div>
+                              <div className="orbit-icon" style={{"--angle": "90deg", "--clr": "#f7df1e"}}><i className="fab fa-js"></i><span>JS</span></div>
+                              <div className="orbit-icon" style={{"--angle": "180deg", "--clr": "#007396"}}><i className="fab fa-java"></i><span>Java</span></div>
+                              <div className="orbit-icon" style={{"--angle": "270deg", "--clr": "#06b6d4"}}><i className="fas fa-wind"></i><span>Tailwind</span></div>
                           </div>
 
-                          <div className="float-badge-3d badge-bottom-left">
-                              <i className="fas fa-cube" style={{ color: "#a855f7" }}></i>
-                              <div>
-                                  <strong>3D &amp; Interactive</strong>
-                                  <span>Holographic Interface</span>
-                              </div>
+                          {/* Orbit Ring 2 — Outer (faster, larger) */}
+                          <div className="orbit-ring ring-outer">
+                              <div className="orbit-icon" style={{"--angle": "45deg", "--clr": "#ffffff"}}><i className="fab fa-node-js"></i><span>Node</span></div>
+                              <div className="orbit-icon" style={{"--angle": "135deg", "--clr": "#4479a1"}}><i className="fas fa-database"></i><span>MySQL</span></div>
+                              <div className="orbit-icon" style={{"--angle": "225deg", "--clr": "#e34f26"}}><i className="fab fa-html5"></i><span>HTML</span></div>
+                              <div className="orbit-icon" style={{"--angle": "315deg", "--clr": "#7952b3"}}><i className="fab fa-bootstrap"></i><span>Bootstrap</span></div>
                           </div>
+
+                          {/* Decorative orbit paths */}
+                          <div className="orbit-path path-inner"></div>
+                          <div className="orbit-path path-outer"></div>
                       </div>
 
-                      {/* Upgraded 4 Fact Cards */}
+                      {/* Fact Cards */}
                       <div className="about-facts">
                           <div className="fact-card reveal">
                               <div className="fact-icon"><i className="fas fa-code"></i></div>
