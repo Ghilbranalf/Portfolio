@@ -6,6 +6,7 @@ import geefiImg from './assets/geefi.jpg';
 import gradiaImg from './assets/gradia.jpg';
 import sanggaluriImg from './assets/sanggaluri.jpg';
 import baksoPakMulImg from './assets/baksopakmul.jpg';
+import dprdImg from './assets/dprd.svg';
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,40 +26,57 @@ function App() {
       }
     }, 1800);
 
-    // ── CURSOR ──
+    // ── CURSOR (GPU Accelerated with translate3d) ──
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursor-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    let cursorScale = 1, cursorOp = 1;
+    let hasMoved = false;
     
     const handleMouseMove = (e) => { 
         mx = e.clientX; 
         my = e.clientY; 
-        if(cursor) { cursor.style.left = mx+'px'; cursor.style.top = my+'px'; }
+        if (!hasMoved) {
+            rx = mx;
+            ry = my;
+            hasMoved = true;
+        }
     };
-    document.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     let animId;
-    function animRing() {
-      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-      if (ring) { ring.style.left = rx+'px'; ring.style.top = ry+'px'; }
-      animId = requestAnimationFrame(animRing);
+    function animCursor() {
+      if (hasMoved) {
+        rx += (mx - rx) * 0.16; 
+        ry += (my - ry) * 0.16;
+        if (cursor) { 
+          cursor.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%) scale(${cursorScale})`; 
+          cursor.style.opacity = cursorOp;
+        }
+        if (ring) { 
+          ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`; 
+        }
+      }
+      animId = requestAnimationFrame(animCursor);
     }
-    animRing();
+    animCursor();
 
     document.querySelectorAll('a, button, .service-card, .skill-chip, .project-card').forEach(el => {
       el.addEventListener('mouseenter', () => { 
-          if(cursor) { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; cursor.style.opacity='.4'; }
-          if(ring) { ring.style.width='60px'; ring.style.height='60px'; }
+          cursorScale = 2.2;
+          cursorOp = 0.4;
+          if (ring) { ring.style.width = '56px'; ring.style.height = '56px'; }
       });
       el.addEventListener('mouseleave', () => { 
-          if(cursor) { cursor.style.transform='translate(-50%,-50%) scale(1)'; cursor.style.opacity='1'; }
-          if(ring) { ring.style.width='36px'; ring.style.height='36px'; }
+          cursorScale = 1;
+          cursorOp = 1;
+          if (ring) { ring.style.width = '36px'; ring.style.height = '36px'; }
       });
     });
 
-    // ── STARFIELD + CONSTELLATIONS ──
+    // ── STARFIELD + CONSTELLATIONS (Optimized) ──
     const canvas = document.getElementById('particle-canvas');
-    let ctx, W, H, stars = [], shootingStars = [];
+    let ctx, W, H, stars = [];
     if (canvas) {
         ctx = canvas.getContext('2d');
         function resizeCanvas() { 
@@ -67,40 +85,26 @@ function App() {
             H = canvas.height = window.innerHeight; 
         }
         resizeCanvas();
-        window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
+        window.addEventListener('resize', () => { resizeCanvas(); initStars(); }, { passive: true });
 
         function initStars() {
           stars = [];
-          const count = Math.floor((W * H) / 6000);
+          // Ringan dan hemat CPU: max 70 bintang
+          const count = Math.min(70, Math.max(30, Math.floor((W * H) / 18000)));
           for (let i = 0; i < count; i++) {
               stars.push({
                   x: Math.random() * W, y: Math.random() * H,
-                  r: Math.random() * 1.8 + 0.3,
-                  baseOp: Math.random() * 0.6 + 0.2,
+                  r: Math.random() * 1.5 + 0.4,
+                  baseOp: Math.random() * 0.5 + 0.25,
                   op: 0,
                   twinkleSpeed: Math.random() * 0.02 + 0.005,
                   twinkleOffset: Math.random() * Math.PI * 2,
-                  driftX: (Math.random() - 0.5) * 0.08,
-                  driftY: (Math.random() - 0.5) * 0.04,
+                  driftX: (Math.random() - 0.5) * 0.06,
+                  driftY: (Math.random() - 0.5) * 0.03,
               });
           }
         }
         initStars();
-
-        function spawnShootingStar() {
-          shootingStars.push({
-            x: Math.random() * W * 0.8,
-            y: Math.random() * H * 0.4,
-            len: Math.random() * 80 + 60,
-            speed: Math.random() * 8 + 6,
-            angle: (Math.random() * 20 + 20) * Math.PI / 180,
-            op: 1,
-            life: 0,
-            maxLife: Math.random() * 40 + 30,
-          });
-        }
-        setInterval(spawnShootingStar, Math.random() * 3000 + 3000);
-        setTimeout(spawnShootingStar, 2000);
 
         let time = 0;
         function drawStarfield() {
@@ -108,8 +112,9 @@ function App() {
             ctx.clearRect(0, 0, W, H);
             time += 0.016;
 
-            // Draw stars with twinkling
-            stars.forEach((s, i) => {
+            // Gambar semua inti bintang dalam single-path batching (1x fill)
+            ctx.beginPath();
+            stars.forEach((s) => {
                 s.x += s.driftX;
                 s.y += s.driftY;
                 if (s.x < -10) s.x = W + 10;
@@ -118,92 +123,66 @@ function App() {
                 if (s.y > H + 10) s.y = -10;
 
                 const twinkle = Math.sin(time * s.twinkleSpeed * 60 + s.twinkleOffset);
-                s.op = s.baseOp + twinkle * 0.25;
-                s.op = Math.max(0.05, Math.min(1, s.op));
+                s.op = Math.max(0.1, Math.min(0.9, s.baseOp + twinkle * 0.25));
 
-                // Star glow
-                if (s.r > 1.2) {
-                    ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255,255,255,${s.op * 0.08})`;
-                    ctx.fill();
-                }
-
-                // Star core
-                ctx.beginPath();
+                ctx.moveTo(s.x + s.r, s.y);
                 ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255,255,255,${s.op})`;
-                ctx.fill();
+            });
+            ctx.fillStyle = 'rgba(255,255,255,0.75)';
+            ctx.fill();
 
-                // Constellation lines
-                for (let j = i + 1; j < stars.length; j++) {
-                    const d = Math.hypot(stars[j].x - s.x, stars[j].y - s.y);
-                    if (d < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(s.x, s.y);
-                        ctx.lineTo(stars[j].x, stars[j].y);
-                        ctx.strokeStyle = `rgba(255,255,255,${0.04 * (1 - d / 120)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
+            // Garis konstelasi ringan (dibatasi 20 bintang pertama dengan bounding box check)
+            const maxConstellation = Math.min(22, stars.length);
+            ctx.beginPath();
+            for (let i = 0; i < maxConstellation; i++) {
+                for (let j = i + 1; j < maxConstellation; j++) {
+                    const dx = stars[j].x - stars[i].x;
+                    const dy = stars[j].y - stars[i].y;
+                    if (Math.abs(dx) < 110 && Math.abs(dy) < 110) {
+                        if (dx * dx + dy * dy < 12100) {
+                            ctx.moveTo(stars[i].x, stars[i].y);
+                            ctx.lineTo(stars[j].x, stars[j].y);
+                        }
                     }
                 }
-            });
-
-            // Draw shooting stars
-            shootingStars.forEach((ss, i) => {
-                ss.life++;
-                ss.x += Math.cos(ss.angle) * ss.speed;
-                ss.y += Math.sin(ss.angle) * ss.speed;
-                ss.op = 1 - (ss.life / ss.maxLife);
-
-                if (ss.op <= 0) { shootingStars.splice(i, 1); return; }
-
-                const tailX = ss.x - Math.cos(ss.angle) * ss.len;
-                const tailY = ss.y - Math.sin(ss.angle) * ss.len;
-
-                const grad = ctx.createLinearGradient(tailX, tailY, ss.x, ss.y);
-                grad.addColorStop(0, `rgba(255,255,255,0)`);
-                grad.addColorStop(0.7, `rgba(255,255,255,${ss.op * 0.5})`);
-                grad.addColorStop(1, `rgba(255,255,255,${ss.op})`);
-
-                ctx.beginPath();
-                ctx.moveTo(tailX, tailY);
-                ctx.lineTo(ss.x, ss.y);
-                ctx.strokeStyle = grad;
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-
-                // Bright head
-                ctx.beginPath();
-                ctx.arc(ss.x, ss.y, 2, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255,255,255,${ss.op})`;
-                ctx.fill();
-            });
+            }
+            ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
 
             requestAnimationFrame(drawStarfield);
         }
         drawStarfield();
     }
 
-    // ── NAVBAR ──
+    // ── NAVBAR (Optimized with RAF & cached elements) ──
     const nav = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if(nav) nav.classList.toggle('scrolled', window.scrollY > 40);
-        updateActiveNav();
-    });
+    const sections = ['home','expertise','skills','about','projects','contact']
+        .map(id => ({ id, el: document.getElementById(id) }))
+        .filter(s => s.el);
+    const navLinks = Array.from(document.querySelectorAll('.nav-links a'));
+    let scrollScheduled = false;
 
-    function updateActiveNav() {
-        const sections = ['home','expertise','skills','about','projects','contact'];
-        const links = document.querySelectorAll('.nav-links a');
-        let current = '';
-        sections.forEach(id => { 
-            const el = document.getElementById(id); 
-            if (el && el.getBoundingClientRect().top < 120) current = id; 
-        });
-        links.forEach(l => { 
-            l.classList.toggle('active', l.getAttribute('href') === '#'+current); 
-        });
-    }
+    window.addEventListener('scroll', () => {
+        if (!scrollScheduled) {
+            scrollScheduled = true;
+            requestAnimationFrame(() => {
+                const scrollY = window.scrollY;
+                if (nav) nav.classList.toggle('scrolled', scrollY > 40);
+
+                let current = '';
+                for (let i = 0; i < sections.length; i++) {
+                    if (sections[i].el.getBoundingClientRect().top < 150) {
+                        current = sections[i].id;
+                    }
+                }
+                navLinks.forEach(l => { 
+                    l.classList.toggle('active', l.getAttribute('href') === '#' + current); 
+                });
+                scrollScheduled = false;
+            });
+        }
+    }, { passive: true });
 
     // ── TYPING ──
     const roles = ['Web & Mobile Developer', 'AI & Machine Learning', 'React & Next.js Specialist', 'Informatika @ Telkom Univ'];
@@ -819,6 +798,40 @@ function App() {
                               <span className="stack-tag">Next.js</span><span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">MySQL</span>
                           </div>
                       </div>
+                   </div>
+
+                   {/* 6. DPRD Kabupaten Purbalingga */}
+                   <div className="project-card">
+                       <div className="project-thumb">
+                           <div className="project-screen-wrap img-loading" id="thumb-dprd">
+                               <img src={dprdImg}
+                                    alt="Web DPRD Kabupaten Purbalingga"
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
+                                    onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
+                               />
+                               <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                   <i className="fas fa-landmark" style={{ color: "#fff", fontSize: "2.5rem" }}></i>
+                                   <span style={{ color: "#fff", fontSize: "0.8rem", fontWeight: 700 }}>DPRD PURBALINGGA</span>
+                               </div>
+                           </div>
+                           <div className="overlay">
+                               <a href="https://dprd.purbalinggakab.go.id" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
+                               <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
+                           </div>
+                       </div>
+                       <div className="project-body">
+                           <div className="device-badges">
+                               <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
+                               <span className="device-badge mobile"><i className="fas fa-landmark" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Government</span>
+                           </div>
+                           <div className="project-tag">Government Portal · Public Service</div>
+                           <h4>DPRD Kabupaten Purbalingga</h4>
+                           <p>Portal web resmi Dewan Perwakilan Rakyat Daerah Kabupaten Purbalingga. Menyajikan transparansi informasi publik, agenda dewan, fraksi, komisi, publikasi produk hukum JDIH, serta layanan penyampaian aspirasi masyarakat secara terintegrasi.</p>
+                           <div className="project-stack">
+                               <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">PHP / Laravel</span><span className="stack-tag">MySQL</span>
+                           </div>
+                       </div>
                    </div>
                </div>
                <div className="text-center" style={{ marginTop: "40px", textAlign: "center" }}>
