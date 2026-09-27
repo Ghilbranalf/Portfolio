@@ -956,36 +956,6 @@ section { position: relative; z-index: 1; }
     40% { transform: scale(1.1); opacity: 1; }
 }
 
-/* Suggestions */
-.chatbot-suggestions {
-    display: flex;
-    gap: 6px;
-    padding: 8px 12px;
-    overflow-x: auto;
-    background: rgba(0, 0, 0, 0.45);
-    border-top: 1px solid var(--border);
-}
-.chatbot-suggestions::-webkit-scrollbar {
-    display: none;
-}
-.suggestion-pill {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border);
-    color: var(--muted2);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.73rem;
-    font-weight: 600;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.suggestion-pill:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.25);
-}
-
 /* Footer */
 .chatbot-footer {
     padding: 12px 14px;

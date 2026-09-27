@@ -42,17 +42,9 @@ const INITIAL_MESSAGES = [
   {
     id: 1,
     sender: 'bot',
-    text: 'Halo! Saya asisten AI portofolio Ghilbran. Ada yang ingin Anda tanyakan seputar proyek atau pengalamannya?',
+    text: 'Halo! Ada yang bisa saya bantu tentang portofolio atau proyek Ghilbran?',
     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
-];
-
-const QUICK_QUESTIONS = [
-  'Web DPRD Purbalingga itu apa?',
-  'GRADIA fungsinya buat apa?',
-  'E-Commerce Bakso Pak Mul',
-  'Tech Stack & Keahlian',
-  'Kontak & Magang'
 ];
 
 /**
@@ -475,25 +467,12 @@ export default function Chatbot() {
             <div ref={chatEndRef} />
           </div>
 
-          {/* Quick Suggestion Pills */}
-          <div className="chatbot-suggestions">
-            {QUICK_QUESTIONS.map((q, idx) => (
-              <button
-                key={idx}
-                className="suggestion-pill"
-                onClick={() => handleSend(q)}
-              >
-                {q}
-              </button>
-            ))}
-          </div>
-
           {/* Input Footer */}
           <div className="chatbot-footer">
             <input
               type="text"
               className="chatbot-input"
-              placeholder="Tanyakan proyek, skill, atau pengalaman Ghilbran..."
+              placeholder="Tulis pertanyaan Anda di sini..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
