@@ -2,70 +2,324 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const PROFILE_DATA = `
 DATA DIRI:
-- Nama: Ghilbran Alfaries
-- Status: Mahasiswa Informatika, Telkom University Purwokerto, angkatan 2023 (semester 6)
-- Student ID: 2311102267
-- IPK: 3.70
-- Fokus studi: Machine Learning, NLP, Mobile Development, Web Development
+- Nama Lengkap: Ghilbran Alfaries Pryma
+- Status: Mahasiswa S1 Teknik Informatika, Fakultas Informatika, Telkom University Purwokerto, angkatan 2023 (semester 6 aktif)
+- Student ID / NIM: 2311102267
+- IPK: 3.70 / 4.00
+- Domisili / Lokasi: Asal Bumiayu (Brebes) & beraktivitas perkuliahan di Purwokerto, Jawa Tengah, Indonesia
+- Karakter & Pola Kerja: Detail-oriented, tekun, terbiasa merancang arsitektur sistem end-to-end (dari perancangan database, backend API, hingga interaksi UI frontend berkecepatan tinggi), serta senang mengeksplorasi teknologi modern AI/ML.
 
 TECH STACK:
-- Frontend: React.js, React Native, Next.js (App Router), TypeScript, Tailwind CSS
-- Backend: Express.js, Supabase, PostgreSQL, MySQL
-- Tools & lainnya: Git, WordPress, Postman
-- AI/ML: Fine-tuning model (IndoBERT), Hugging Face Trainer API, Random Forest, scikit-learn
+- Frontend: React.js, Next.js (App Router), TypeScript, JavaScript (ES6+), Tailwind CSS, HTML5, CSS3, PWA
+- Backend: Express.js (Node.js), Supabase, PHP / Laravel, RESTful API
+- Database: MySQL, PostgreSQL
+- Mobile: React Native, Expo, Progressive Web Apps (PWA)
+- AI & Machine Learning: Python, IndoBERT fine-tuning, Hugging Face Trainer API, PyTorch, Random Forest, SMOTE, scikit-learn
+- Tools & Dev: Git, GitHub, Vercel, Postman, Figma, WordPress
 
-PENGALAMAN & PROJECT:
-- Internship di Bikin Kreatif ID
-- SanggaluriSM — sistem manajemen media sosial, kerja tim bareng Natasya, Rendi, dan Egi (termasuk desain roll-up banner & poster promosi)
-- GRADIA — aplikasi mobile React Native untuk manajemen akademik: presensi, penjadwalan, manajemen tugas, kalender interaktif
-- Bakso Pak Mul — platform e-commerce Next.js + Supabase untuk supplier bahan bakso, termasuk integrasi payment gateway (Midtrans/iPaymu), sistem ongkir, dan chatbot AI customer service
-- Geefi Residence — website properti Next.js untuk PT Abyakta Ageng Propertindo, termasuk chatbot terintegrasi n8n, simulasi KPR, dan berbagai komponen frontend
+FEATURED PROJECTS:
+1. Web DPRD Kabupaten Purbalingga:
+   - Deskripsi: Portal web resmi Dewan Perwakilan Rakyat Daerah Kabupaten Purbalingga sebagai pusat keterbukaan informasi publik, agenda dewan, fraksi, komisi, publikasi produk hukum JDIH, serta kanal aspirasi masyarakat terintegrasi.
+   - Stack: React, Tailwind CSS, PHP / Laravel, MySQL.
+   - Tautan: https://dprd.purbalinggakab.go.id
 
-PROJECT AKADEMIK:
-- Fine-tuning IndoBERT untuk klasifikasi sentimen review J&T menggunakan Hugging Face Trainer API
-- Klasifikasi honeypot dataset (CUIP-X25) menggunakan Random Forest dengan SMOTE balancing
+2. E-Commerce Bakso Pak Mul:
+   - Deskripsi: Platform e-commerce penyedia bahan baku bakso & mie ayam (B2B & B2C) dengan katalog produk, transaksi checkout instan, kemitraan grosir, payment gateway otomatis (Midtrans/iPaymu), hitung ongkir otomatis, dan chatbot AI customer service.
+   - Stack: Next.js (App Router), React, Supabase, Tailwind CSS, MySQL.
 
-GITHUB: github.com/Ghilbranalf
-`;
+3. GRADIA Mobile App:
+   - Deskripsi: Aplikasi mobile berbasis web (PWA) untuk manajemen akademik mahasiswa: presensi digital, jadwal kuliah, pelacak tugas & deadline, serta kalender interaktif native-like.
+   - Stack: React, Tailwind CSS, PWA, Vercel.
+   - Live Demo: https://gradia-three.vercel.app
 
-const CONTACT_INFO = `
-KONTAK:
-- GitHub: github.com/Ghilbranalf
-- Untuk kontak langsung (email/LinkedIn/WA), arahkan pengunjung ke halaman kontak di portfolio ini (#contact)
-`;
+4. Ibravia Residence:
+   - Deskripsi: Website company profile dan admin dashboard perumahan real estate: katalog unit properti, visualisasi grafik penjualan, manajemen konsumen, dan role-based access control (RBAC).
+   - Stack: WordPress, React, PHP, Java, MySQL, Bootstrap.
+   - Tautan: https://ibravia.com
 
-const META_ANSWERS = `
-JIKA DITANYA "siapa kamu" / "kamu AI ya" / "kamu siapa":
-Jawab santai: "Saya asisten AI yang dibuat Ghilbran untuk membantu menjawab pertanyaan seputar profil, skill, dan project-nya. Ada yang mau ditanyakan soal Ghilbran?"
+5. Geefi Residence:
+   - Deskripsi: Website properti modern untuk PT Abyakta Ageng Propertindo: galeri unit, simulasi KPR, optimasi konversi leads, dan integrasi chatbot n8n.
+   - Stack: React, Tailwind CSS, Vercel.
+   - Live Demo: https://geefi-residence.vercel.app
 
-JIKA DITANYA KETERSEDIAAN KERJA/MAGANG/FREELANCE:
-Jawab: "Ghilbran saat ini masih aktif kuliah semester 6 (IPK 3.70), tapi terbuka untuk kesempatan magang maupun proyek freelance. Silakan hubungi lewat halaman kontak di portfolio ini ya!"
+6. Sanggaluri Portal / SanggaluriSM:
+   - Deskripsi: Sistem manajemen media sosial & portal internal operasional terenkripsi khusus tim manajemen Sanggaluri (dikerjakan kolaboratif bersama Natasya, Rendi, dan Egi).
+   - Stack: React, Tailwind CSS, Vercel.
+   - Live Demo: https://dashboard-smms.vercel.app
 
-JIKA DITANYA "Ghilbran orangnya kayak gimana?":
-Jawab berdasarkan pola kerja yang terlihat dari project-projectnya: detail-oriented, suka membangun sistem end-to-end (dari database sampai UI), dan senang eksplorasi teknologi baru terutama di bidang AI/ML.
+RISET AKADEMIK & AI/ML:
+- Fine-tuning IndoBERT untuk analisis sentimen review logistik J&T menggunakan Hugging Face Trainer API & PyTorch.
+- Klasifikasi dataset ancaman honeypot (CUIP-X25) menggunakan algoritma Random Forest dengan penyeimbangan kelas SMOTE.
+- Internship / Magang di Bikin Kreatif ID.
+
+KONTAK RESMI:
+- Email: ghilbranroyale@gmail.com
+- GitHub: https://github.com/Ghilbranalf
+- LinkedIn: https://www.linkedin.com/in/ghilbran-alfaries-pryma-a4ba7b3b6
+- Instagram: https://www.instagram.com/ghilbrann
+- Ketersediaan: Terbuka untuk magang (internship), proyek freelance, dan kerja remote / kolaborasi.
 `;
 
 const OUT_OF_SCOPE_KEYWORDS = [
-  "presiden", "politik", "resep", "cuaca", "berita hari ini",
-  "buatkan program", "buatkan kode", "tulis kode untuk saya",
-  "game", "lirik lagu", "cerita dong yang lain",
+  "presiden", "politik uang", "resep masakan", "ramalan cuaca", "berita gosip",
+  "buatkan puisi cinta", "tulis lirik lagu", "cheat game", "judi", "slot"
 ];
 
 const INITIAL_MESSAGES = [
   {
     id: 1,
     sender: 'bot',
-    text: 'Halo, saya **Portfolio AI Assistant** milik Ghilbran Alfaries. Ada yang ingin Anda ketahui mengenai profil, keahlian, pengalaman, atau proyek Ghilbran?',
+    text: 'Halo! Saya **AI Assistant** milik Ghilbran Alfaries. Ada yang ingin Anda ketahui seputar keahlian teknis, 6 proyek unggulan (seperti Web DPRD Purbalingga & GRADIA), profil akademik, atau tawaran kerja sama?',
     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
 ];
 
 const QUICK_QUESTIONS = [
+  'Proyek DPRD Purbalingga',
   'Project Unggulan',
-  'Tech Stack & AI/ML',
+  'Tech Stack & Keahlian',
   'IPK & Profil',
-  'Kontak & Informasi'
+  'Tawaran Kerja & Kontak'
 ];
+
+/**
+ * Intelligent Rule-Based Response Engine
+ * Mampu memahami konteks pertanyaan spesifik tanpa menghasilkan jawaban template kaku.
+ */
+function getSmartReply(userQuery) {
+  const raw = userQuery.trim();
+  const q = raw.toLowerCase();
+
+  // 1. CEK BAHASA INGGRIS
+  const isEnglish = /\b(who are you|tell me about|what are your|skills|projects|show me|how to contact|can you build|hire you|resume|cv)\b/i.test(q);
+  if (isEnglish) {
+    if (/\b(skill|stack|technolog)\b/i.test(q)) {
+      return `Here is a summary of Ghilbran's technical skills:
+• **Frontend**: React.js, Next.js (App Router), TypeScript, Tailwind CSS, PWA
+• **Backend**: Express.js, Supabase, PHP / Laravel, RESTful APIs
+• **Database**: MySQL, PostgreSQL
+• **AI / Machine Learning**: Python, IndoBERT fine-tuning, Hugging Face, Random Forest, scikit-learn
+• **Mobile**: React Native, Progressive Web Apps
+Feel free to check out the [Skills Section](#skills) for more details!`;
+    }
+    if (/\b(project|portfolio|work|built)\b/i.test(q)) {
+      return `Ghilbran has developed several standout projects:
+• **DPRD Purbalingga Web Portal**: Official regional parliamentary portal with public transparency & legislative services.
+• **Bakso Pak Mul**: Fullstack E-Commerce with Next.js, Supabase, automated payments, and AI customer service.
+• **GRADIA Mobile App**: Academic management app for students (attendance, schedule, tasks) built with React PWA.
+• **Ibravia Residence**: Real estate company profile & sales analytics dashboard.
+• **Geefi Residence**: Modern property web app with KPR mortgage simulation.
+Explore them all in the [Featured Projects](#projects) section or on [GitHub](https://github.com/Ghilbranalf)!`;
+    }
+    if (/\b(contact|email|hire|freelance|reach)\b/i.test(q)) {
+      return `You can reach out to Ghilbran directly:
+• **Email**: [ghilbranroyale@gmail.com](mailto:ghilbranroyale@gmail.com)
+• **LinkedIn**: [Ghilbran's LinkedIn](https://www.linkedin.com/in/ghilbran-alfaries-pryma-a4ba7b3b6)
+• **GitHub**: [github.com/Ghilbranalf](https://github.com/Ghilbranalf)
+• Ghilbran is currently open to **internships, freelance projects, and remote opportunities**!`;
+    }
+    return `Hello! **Ghilbran Alfaries Pryma** is a Software Developer and Computer Science undergraduate at **Telkom University Purwokerto** (GPA: 3.70 / 4.00, 6th semester).
+He specializes in **React/Next.js Web Development**, **Mobile Apps (React Native)**, and applied **AI/NLP**.
+What specific information would you like to know about his projects or experience?`;
+  }
+
+  // 2. SALAM & SAPAAN
+  if (/^(halo|hai|hi|hello|hei|pagi|siang|sore|malam|assalamu|tes|test|ping)$/i.test(q) ||
+      /^(halo|hai|pagi|siang|sore|malam|assalamu).*?(ai|bot|ghilbran|min)/i.test(q)) {
+    return `Halo! Senang menyapa Anda. Saya asisten cerdas yang siap membantu menjawab pertanyaan seputar portofolio Ghilbran Alfaries.
+Ada yang bisa saya bantu jelaskan?
+• **Proyek Terbaru**: Seperti Web DPRD Kabupaten Purbalingga atau E-Commerce Bakso Pak Mul.
+• **Tech Stack**: Penguasaan React, Next.js, React Native, Supabase, hingga AI/ML.
+• **Latar Belakang**: Profil kuliah, IPK, dan pengalaman Ghilbran.
+• **Kolaborasi**: Peluang proyek freelance, magang (internship), atau kontak langsung.`;
+  }
+
+  // 3. APRESIASI & UCAPAN TERIMA KASIH
+  if (/\b(makasih|terima kasih|thanks|thank you|tengkyu|keren|mantap|hebat|sip|bagus|top|jos)\b/i.test(q)) {
+    return `Sama-sama! Senang bisa memberikan informasi yang bermanfaat untuk Anda.
+Jika Anda tertarik untuk berkolaborasi, mendiskusikan ide proyek, atau membutuhkan pengembang web/mobile, jangan ragu untuk menghubungi Ghilbran melalui [Contact Section](#contact) ya!`;
+  }
+
+  // 4. IDENTITAS BOT & KAPABILITAS
+  if (/\b(kamu siapa|siapa kamu|kamu bot|kamu ai|bisa apa|fitur apa|fungsi kamu|kamu bisa apa)\b/i.test(q)) {
+    return `Saya adalah **Portfolio AI Assistant** resmi milik Ghilbran Alfaries.
+Tugas saya adalah membantu pengunjung (recruiter, klien, atau sesama developer) untuk:
+• Memberikan penjelasan mendalam mengenai proyek-proyek yang pernah dibangun Ghilbran.
+• Menerangkan kecakapan teknis (Frontend, Backend, Mobile, dan AI/Machine Learning).
+• Menyajikan data akademik (IPK 3.70, Telkom University Purwokerto) dan riwayat magang.
+• Menghubungkan Anda ke saluran kontak Ghilbran untuk kebutuhan kerja sama atau freelance.`;
+  }
+
+  // 5. PROYEK SPESIFIK: DPRD KABUPATEN PURBALINGGA
+  if (/\b(dprd|purbalingga|dewan perwakilan|pemerintahan|dprd purbalingga|jdih)\b/i.test(q)) {
+    return `**Web DPRD Kabupaten Purbalingga** adalah portal web institusional resmi Dewan Perwakilan Rakyat Daerah Kabupaten Purbalingga:
+• **Tujuan & Fungsi**: Memperkuat transparansi publik terhadap kegiatan legislatif daerah, publikasi agenda rapat paripurna dewan, struktur fraksi & komisi, database regulasi daerah (JDIH), serta saluran e-aspirasi interaktif masyarakat.
+• **Tech Stack**: React, Tailwind CSS, PHP / Laravel, dan MySQL.
+• **Karakter Desain**: Tampilan antarmuka berstandar pemerintahan modern yang responsif, aman, dan mudah diakses dari perangkat desktop maupun smartphone.
+• **Tautan**: Kunjungi [Website DPRD Purbalingga](https://dprd.purbalinggakab.go.id) atau cek kartu proyeknya di [Featured Projects](#projects).`;
+  }
+
+  // 6. PROYEK SPESIFIK: BAKSO PAK MUL
+  if (/\b(bakso|pak mul|mie ayam|e-commerce|ecommerce|toko online|midtrans|ipaymu|ongkir)\b/i.test(q)) {
+    return `**E-Commerce Bakso Pak Mul** adalah platform belanja online grosir & eceran untuk penyedia bahan baku bakso & mie ayam:
+• **Fitur Unggulan**: Katalog produk terstruktur, pemesanan kilat, sistem kemitraan grosir, integrasi payment gateway otomatis (Midtrans/iPaymu), hitung tarif ongkir instan, serta chatbot AI customer support.
+• **Tech Stack**: Next.js (App Router), React, Supabase, Tailwind CSS, dan MySQL.
+• **Tautan Kode**: Anda dapat melihat repositorinya di [GitHub Ghilbran](https://github.com/Ghilbranalf).`;
+  }
+
+  // 7. PROYEK SPESIFIK: GRADIA MOBILE APP
+  if (/\b(gradia|mobile app|aplikasi mobile|akademik|presensi|jadwal kuliah)\b/i.test(q)) {
+    return `**GRADIA Mobile App** adalah aplikasi manajemen kegiatan akademik kampus yang dioptimasi khusus untuk layar smartphone:
+• **Fitur Utama**: Presensi digital interaktif, penjadwalan mata kuliah real-time, task management dengan deadline tracker, serta kalender kegiatan terpadu.
+• **Tech Stack**: React, Tailwind CSS, PWA (Progressive Web App), dan dideploy di Vercel.
+• **Live Demo**: Coba aplikasinya secara langsung di [GRADIA Live App](https://gradia-three.vercel.app).`;
+  }
+
+  // 8. PROYEK SPESIFIK: IBRAVIA RESIDENCE
+  if (/\b(ibravia|perumahan ibravia|dashboard ibravia|residence)\b/i.test(q)) {
+    return `**Ibravia Residence** adalah platform company profile dan sistem manajemen internal perumahan real estate:
+• **Fitur Utama**: Katalog unit hunian lengkap dengan spesifikasi arsitektur, visualisasi data grafik penjualan, pencatatan prospek pembeli, dan role-based access control (RBAC).
+• **Tech Stack**: WordPress, React, PHP, Java, MySQL, dan Bootstrap.
+• **Tautan**: Akses websitenya di [Ibravia Residence](https://ibravia.com).`;
+  }
+
+  // 9. PROYEK SPESIFIK: GEEFI RESIDENCE
+  if (/\b(geefi|pt abyakta|simulasi kpr|leads properti)\b/i.test(q)) {
+    return `**Geefi Residence** adalah website promosi perumahan modern untuk PT Abyakta Ageng Propertindo:
+• **Fitur Utama**: Galeri tipe rumah interaktif, kalkulator simulasi cicilan KPR, optimasi konversi leads pelanggan, dan chatbot otomatis terhubung n8n.
+• **Tech Stack**: React, Tailwind CSS, dan Vercel.
+• **Live Demo**: Akses langsung di [Geefi Residence Live](https://geefi-residence.vercel.app).`;
+  }
+
+  // 10. PROYEK SPESIFIK: SANGGALURI
+  if (/\b(sanggaluri|sanggalurism|portal internal|manajemen media sosial)\b/i.test(q)) {
+    return `**Sanggaluri Portal (SanggaluriSM)** adalah portal internal aman dan sistem manajemen operasional tim media sosial Sanggaluri:
+• **Fitur Utama**: Sistem login terenkripsi, manajemen penjadwalan konten promosi, serta dashboard monitoring aktivitas tim (dikerjakan kolaboratif bersama tim: Natasya, Rendi, dan Egi).
+• **Tech Stack**: React, Tailwind CSS, dan Vercel.
+• **Live Demo**: Buka sistemnya di [Sanggaluri Portal](https://dashboard-smms.vercel.app).`;
+  }
+
+  // 11. RISET AI / ML / NLP (INDOBERT & HONEYPOT)
+  if (/\b(indobert|bert|nlp|sentiment|sentimen|j&t|honeypot|cuip|random forest|smote|hugging face|machine learning|ai)\b/i.test(q)) {
+    return `Ghilbran aktif meneliti dan mengimplementasikan model **Artificial Intelligence & Machine Learning**:
+• **Fine-tuning IndoBERT**: Model Transformer bahasa Indonesia yang dilatih untuk klasifikasi sentimen ulasan pengiriman logistik J&T menggunakan Hugging Face Trainer API & PyTorch.
+• **Klasifikasi Honeypot CUIP-X25**: Pendeteksian pola serangan pada dataset honeypot menggunakan Random Forest dengan penyeimbangan data teknik SMOTE.
+• **Perangkat & Lib**: Python, PyTorch, Hugging Face Transformers, scikit-learn, Pandas, dan NumPy.`;
+  }
+
+  // 12. PERTANYAAN TENTANG SEMUA PROYEK (ALL PROJECTS)
+  if (/\b(proyek|project|portofolio|portfolio|karya|hasil kerja|bikin apa|buat apa)\b/i.test(q)) {
+    return `Berikut adalah **6 Featured Projects** yang pernah dibangun oleh Ghilbran Alfaries:
+1. **Web DPRD Kabupaten Purbalingga**: Portal web resmi transparansi kegiatan dewan & kanal e-aspirasi publik.
+2. **E-Commerce Bakso Pak Mul**: Toko online bahan baku bakso (Next.js, Supabase, Midtrans, AI chatbot).
+3. **GRADIA Mobile App**: Aplikasi mobile manajemen akademik & presensi (React, PWA).
+4. **Ibravia Residence**: Company profile properti & admin sales dashboard (WordPress, React, MySQL).
+5. **Geefi Residence**: Website perumahan interaktif dengan kalkulator simulasi KPR (React, Tailwind).
+6. **Sanggaluri Portal**: Sistem internal portal & manajemen media sosial terenkripsi (React).
+Lihat kartu proyek lengkapnya di bagian [Featured Projects](#projects)!`;
+  }
+
+  // 13. SPESIFIKASI SKILL: FRONTEND / REACT / NEXT.JS
+  if (/\b(react|next|next\.js|nextjs|frontend|front-end|tailwind|typescript|javascript|css|html)\b/i.test(q)) {
+    return `Di bidang **Frontend Web Development**, React & Next.js merupakan keahlian utama Ghilbran:
+• **Core Frameworks**: React.js, Next.js (App Router), TypeScript, dan JavaScript modern (ES6+).
+• **UI & Styling**: Tailwind CSS, CSS modern, optimasi rendering performa (60 FPS), dan desain responsif di semua ukuran layar.
+• **Arsitektur**: Custom React Hooks, state management, integrasi REST API, dan PWA (Progressive Web Apps).
+• **Portofolio Nyata**: Diterapkan langsung pada **Web DPRD Purbalingga**, **GRADIA**, **Bakso Pak Mul**, dan portofolio interaktif ini.`;
+  }
+
+  // 14. SPESIFIKASI SKILL: BACKEND & DATABASE
+  if (/\b(backend|back-end|database|basis data|sql|mysql|postgres|postgresql|supabase|express|node|nodejs|php|laravel|rest api|api)\b/i.test(q)) {
+    return `Di bidang **Backend & Database Architecture**, keahlian Ghilbran mencakup:
+• **Server & Runtime**: Express.js (Node.js), PHP / Laravel, dan perancangan RESTful API aman.
+• **BaaS & Cloud**: Supabase (Autentikasi JWT, Database Realtime, Storage bucket) dan integrasi Firebase.
+• **Database**: MySQL dan PostgreSQL dengan perancangan skema relasional, optimasi query, dan proteksi role-based access.
+• **API Testing**: Pengujian endpoint menyeluruh menggunakan Postman.`;
+  }
+
+  // 15. SPESIFIKASI SKILL: MOBILE APP
+  if (/\b(mobile|android|ios|react native|smartphone|aplikasi hp|expo|pwa)\b/i.test(q)) {
+    return `Untuk pengembangan **Mobile Apps**, Ghilbran memiliki pengalaman dalam:
+• **React Native & Expo**: Membangun aplikasi mobile lintas platform (Android & iOS) dengan performa andal dan antarmuka ramah pengguna.
+• **Progressive Web Apps (PWA)**: Mengembangkan aplikasi web yang dapat di-install langsung di layar beranda smartphone dengan sensasi UX native.
+• Contoh nyata yang telah dibangun adalah aplikasi **GRADIA Mobile App**.`;
+  }
+
+  // 16. TECH STACK LENGKAP
+  if (/\b(skill|skills|keahlian|kemampuan|tech stack|teknologi|bahasa pemrograman|stack)\b/i.test(q)) {
+    return `Ringkasan **Tech Stack & Keahlian Teknis** Ghilbran Alfaries:
+• **Frontend**: React.js, Next.js (App Router), TypeScript, Tailwind CSS, PWA
+• **Backend**: Express.js, Supabase, PHP / Laravel, RESTful API
+• **Database**: PostgreSQL, MySQL
+• **AI & Machine Learning**: Python, IndoBERT (Hugging Face), Random Forest, scikit-learn, SMOTE
+• **Mobile**: React Native, Progressive Web Apps
+• **Tools**: Git, GitHub, Postman, Vercel, WordPress
+Kunjungi bagian [Skills](#skills) untuk melihat bagan visual interaktifnya!`;
+  }
+
+  // 17. LAYANAN & JASA PEMBUATAN SOFTWARE
+  if (/\b(bisa buat|bisa bikin|bikinin|jasa|layanan|service|services|bantu tugas|joki|buat web|bikin website|bikin aplikasi)\b/i.test(q)) {
+    return `Ghilbran melayani pengembangan software secara profesional dan terukur:
+• **Website Development**: Pembuatan Company Profile institusi/bisnis, Portal Berita/Organisasi, E-Commerce, Landing Page konversi tinggi, dan Admin Dashboard.
+• **Mobile App Development**: Pembuatan aplikasi smartphone menggunakan React Native atau Progressive Web App (PWA).
+• **Integrasi AI & Automasi**: Integrasi AI chatbot cerdas, sistem pemrosesan teks (NLP), dan alur kerja terotomasi.
+• **Optimasi Performa**: Mengoptimasi website yang lambat agar cepat, responsif, dan SEO-friendly.
+Tertarik mendiskusikan kebutuhan Anda? Mari terhubung melalui form di [Contact Section](#contact)!`;
+  }
+
+  // 18. KETERSEDIAAN MAGANG / FREELANCE / KERJA SAMA
+  if (/\b(magang|intern|internship|freelance|kerja sama|hire|lowongan|rekrut|part-time|part time|remote|open to work|bisa kerja)\b/i.test(q)) {
+    return `Ghilbran saat ini masih aktif kuliah di semester 6 (IPK 3.70) di Telkom University Purwokerto, dan **sangat terbuka untuk**:
+• Peluang **Magang / Internship** (bidang Frontend Developer, Fullstack Developer, atau AI/Data Science).
+• Proyek **Freelance** (pembuatan website, aplikasi mobile, atau sistem manajemen).
+• Pekerjaan **Remote / Kolaborasi Tim**.
+Silakan kirimkan tawaran atau jadwalkan diskusi melalui email **ghilbranroyale@gmail.com** atau langsung kirim pesan lewat [Contact Section](#contact).`;
+  }
+
+  // 19. PENDIDIKAN, KAMPUS & IPK
+  if (/\b(kuliah|kampus|universitas|telkom|semester|ipk|gpa|nim|jurusan|prodi|pendidikan|kuliah di mana)\b/i.test(q)) {
+    return `Data Akademik & Pendidikan Ghilbran Alfaries:
+• **Kampus**: Telkom University Purwokerto
+• **Program Studi**: S1 Teknik Informatika (Fakultas Informatika)
+• **Angkatan & Semester**: Angkatan 2023 (saat ini semester 6 aktif)
+• **Indeks Prestasi Kumulatif (IPK)**: **3.70 / 4.00**
+• **Student ID / NIM**: 2311102267
+• **Fokus Akademik**: Machine Learning, Natural Language Processing, serta Web & Mobile Application Development.`;
+  }
+
+  // 20. BIODATA, LOKASI & PROFIL
+  if (/\b(biodata|profil|tentang ghilbran|siapa ghilbran|orangnya|asal|tinggal|domisili|umur|hobi)\b/i.test(q)) {
+    return `**Ghilbran Alfaries Pryma** adalah seorang Software Developer & Mahasiswa Informatika:
+• **Domisili**: Berasal dari **Bumiayu, Brebes** dan beraktivitas kuliah di **Purwokerto, Jawa Tengah**.
+• **Etos Kerja**: Detail-oriented, tekun, dan memiliki pemahaman sistem yang komprehensif (dari perancangan database backend hingga UI animasi interaktif).
+• **Visi**: Mengembangkan aplikasi praktis yang menggabungkan kemudahan teknologi web modern dengan kecerdasan buatan (AI) untuk memecahkan masalah nyata.`;
+  }
+
+  // 21. INFORMASI KONTAK & MEDIA SOSIAL
+  if (/\b(kontak|hubungi|email|nomor|no wa|whatsapp|linkedin|instagram|sosmed|github|reach out)\b/i.test(q)) {
+    return `Anda dapat terhubung langsung dengan Ghilbran melalui kontak berikut:
+• **Email**: [ghilbranroyale@gmail.com](mailto:ghilbranroyale@gmail.com)
+• **LinkedIn**: [Profil LinkedIn Ghilbran](https://www.linkedin.com/in/ghilbran-alfaries-pryma-a4ba7b3b6)
+• **GitHub**: [github.com/Ghilbranalf](https://github.com/Ghilbranalf)
+• **Instagram**: [@ghilbrann](https://www.instagram.com/ghilbrann)
+• Anda juga bisa mengirim pesan langsung melalui [Form Kontak Portofolio](#contact).`;
+  }
+
+  // 22. DYNAMIC CONTEXTUAL FALLBACK
+  // Menangkap kata kunci penting dari pertanyaan user dan menjawab secara spesifik & solutif
+  const words = raw.replace(/[^a-zA-Z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 2);
+  const keywordPreview = words.slice(0, 3).join(' ');
+
+  return `Terkait pertanyaan Anda mengenai **"${keywordPreview || raw}"**:
+Ghilbran Alfaries adalah Web & Mobile Developer sekaligus mahasiswa Informatika Telkom University Purwokerto (IPK 3.70).
+
+Informasi relevan yang dapat Anda ketahui:
+• **6 Proyek Unggulan**: Web DPRD Kabupaten Purbalingga, Bakso Pak Mul E-Commerce, GRADIA Mobile App, Ibravia Residence, Geefi Residence, dan Sanggaluri Portal.
+• **Keahlian Teknis**: React, Next.js (App Router), TypeScript, React Native, Tailwind CSS, Supabase, dan riset AI/NLP (IndoBERT).
+• **Ketersediaan Kerja**: Terbuka untuk magang (internship), proyek freelance web/mobile, dan kerja remote.
+
+Ingin informasi lebih mendalam mengenai salah satu poin di atas? Silakan tanyakan langsung atau klik salah satu tombol saran di bawah!`;
+}
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -93,59 +347,6 @@ export default function Chatbot() {
     }
   };
 
-  const getFallbackReply = (userQuery) => {
-    const q = userQuery.toLowerCase();
-
-    if (q.includes('ipk') || q.includes('kuliah') || q.includes('semester') || q.includes('telkom') || q.includes('nim') || q.includes('student id') || q.includes('jurusan')) {
-      return `Ghilbran Alfaries adalah mahasiswa S1 Teknik Informatika di **Telkom University Purwokerto** (angkatan 2023, semester 6) dengan **IPK 3.70** (NIM: 2311102267).
-
-Fokus studi utama Ghilbran:
-• **Machine Learning & NLP** (Fine-tuning IndoBERT & Random Forest)
-• **Mobile Development** (React Native & GRADIA App)
-• **Web Development** (React.js, Next.js App Router, & Tailwind CSS)`;
-    }
-
-    if (q.includes('proyek') || q.includes('project') || q.includes('gradia') || q.includes('bakso') || q.includes('geefi') || q.includes('sanggaluri') || q.includes('indobert')) {
-      return `Berikut adalah beberapa project unggulan Ghilbran:
-
-• **GRADIA**: Aplikasi mobile React Native untuk manajemen akademik (presensi, jadwal, tugas, kalender interaktif).
-• **Bakso Pak Mul**: E-commerce Next.js + Supabase untuk supplier bahan bakso (integrasi Midtrans/iPaymu, ongkir, AI chatbot CS).
-• **Geefi Residence**: Website properti Next.js untuk PT Abyakta Ageng Propertindo (chatbot n8n & simulasi KPR).
-• **SanggaluriSM**: Sistem manajemen media sosial (dikembangkan bersama tim: Natasya, Rendi, Egi).
-• **Fine-tuning IndoBERT**: Klasifikasi sentimen review J&T dengan Hugging Face Trainer API.
-• **CUIP-X25 Honeypot**: Klasifikasi honeypot dataset dengan Random Forest & SMOTE.
-
-Lihat selengkapnya di [GitHub Ghilbran](https://github.com/Ghilbranalf) atau bagian [Projects](#projects)!`;
-    }
-
-    if (q.includes('skill') || q.includes('stack') || q.includes('ai') || q.includes('ml') || q.includes('react') || q.includes('next') || q.includes('bert')) {
-      return `Tech Stack & Keahlian Ghilbran:
-
-• **Frontend**: React.js, React Native, Next.js (App Router), TypeScript, Tailwind CSS
-• **Backend**: Express.js, Supabase, PostgreSQL, MySQL
-• **AI & ML**: Fine-tuning IndoBERT, Hugging Face Trainer API, Random Forest, scikit-learn
-• **Tools**: Git, WordPress, Postman
-
-Jelajahi visualisasi lengkapnya di bagian [Tech Stack](#skills).`;
-    }
-
-    if (q.includes('siapa') || q.includes('profil') || q.includes('orangnya') || q.includes('biodata')) {
-      return `**Ghilbran Alfaries** adalah mahasiswa Informatika Telkom University Purwokerto (IPK 3.70) yang detail-oriented.
-
-Ia berfokus pada pembangunan sistem end-to-end (mulai dari perancangan database hingga antarmuka UI) serta aktif mengeksplorasi teknologi AI/ML dan Web/Mobile App Development.`;
-    }
-
-    if (q.includes('kontak') || q.includes('hubungi') || q.includes('magang') || q.includes('freelance') || q.includes('hire')) {
-      return `Ghilbran saat ini masih aktif kuliah semester 6 (IPK 3.70), tetapi **sangat terbuka untuk kesempatan magang maupun proyek freelance**.
-
-Silakan cek karya lainnya di [GitHub Ghilbran](https://github.com/Ghilbranalf) atau hubungi langsung melalui [Contact Section](#contact).`;
-    }
-
-    return `Ghilbran Alfaries adalah mahasiswa Informatika Telkom University Purwokerto (IPK 3.70) yang berfokus pada Machine Learning, NLP, serta Mobile & Web Development.
-
-Project unggulannya antara lain **Bakso Pak Mul** (e-commerce Next.js), **GRADIA** (aplikasi React Native), dan **Fine-tuning IndoBERT**. Cek [GitHub Ghilbran](https://github.com/Ghilbranalf) untuk detail lebih lanjut!`;
-  };
-
   const handleSend = async (textToSend) => {
     const query = textToSend || inputValue;
     if (!query.trim()) return;
@@ -170,16 +371,16 @@ Project unggulannya antara lain **Bakso Pak Mul** (e-commerce Next.js), **GRADIA
         const botMsg = {
           id: Date.now() + 1,
           sender: 'bot',
-          text: 'Maaf, saya adalah asisten AI khusus untuk portofolio Ghilbran Alfaries. Saya hanya membantu pertanyaan seputar profil, keahlian, pengalaman, dan proyek Ghilbran. Ada yang ingin Anda tanyakan mengenai hal tersebut?',
+          text: 'Maaf, saya adalah asisten AI khusus portofolio Ghilbran Alfaries. Saya hanya menjawab pertanyaan seputar keahlian coding, proyek yang dibangun, latar belakang akademik, dan peluang kerja sama. Ada yang ingin Anda ketahui seputar hal tersebut?',
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
         setMessages((prev) => [...prev, botMsg]);
         setIsTyping(false);
-      }, 450);
+      }, 400);
       return;
     }
 
-    // Groq API Integration with Fallback
+    // Cek apakah ada Groq API Key
     const apiKey = import.meta.env?.VITE_GROQ_API_KEY || (typeof process !== 'undefined' ? process.env?.GROQ_API_KEY : '') || '';
 
     if (apiKey) {
@@ -193,17 +394,13 @@ Project unggulannya antara lain **Bakso Pak Mul** (e-commerce Next.js), **GRADIA
 Kamu adalah asisten AI yang mewakili Ghilbran Alfaries di website portfolio pribadinya. Tugasmu menjawab pertanyaan pengunjung (recruiter, HR, sesama developer, atau calon klien) seputar profil, skill, pengalaman, dan project Ghilbran.
 
 ${PROFILE_DATA}
-${CONTACT_INFO}
-${META_ANSWERS}
 
 ATURAN PENTING:
-1. Jawab LANGSUNG, SPESIFIK, dan berdasarkan data di atas — jangan mengarang informasi yang tidak ada.
+1. Jawab LANGSUNG, SPESIFIK, dan cerdas berdasarkan data di atas. Jangan mengarang informasi fiktif.
 2. Gunakan format Markdown yang rapi: gunakan list poin (bullet points '•') jika menyebutkan beberapa skill/project agar mudah dibaca.
-3. Gunakan nada profesional, sopan, dan percaya diri.
-4. Kalau ditanya hal di luar topik profil/skill/project Ghilbran, arahkan sopan kembali ke topik portfolio.
-5. Jawaban ringkas, jelas, dan rapi (maksimal 3-5 kalimat/poin).
-6. Selalu jawab dalam Bahasa Indonesia kecuali pengunjung bertanya dalam Bahasa Inggris.
-7. SANGAT PENTING: DILARANG KERAS MENGGUNAKAN EMOTIKON ATAU EMOJI APAPUN (seperti 👋, 🚀, 😊, 🙂, dll) dalam balasan. Berikan jawaban profesional murni tanpa simbol emoji.
+3. Berikan jawaban yang natural, komunikatif, profesional, dan to-the-point.
+4. Jangan memberikan jawaban template berulang jika pengguna bertanya topik spesifik.
+5. SANGAT PENTING: DILARANG MENGGUNAKAN EMOJI DALAM BENTUK APAPUN. Tuliskan jawaban profesional murni.
 `;
 
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -242,24 +439,24 @@ ATURAN PENTING:
           }
         }
       } catch (err) {
-        console.warn('Groq API Call error, switching to smart fallback:', err);
+        console.warn('Groq API error, beralih ke Smart Engine lokal:', err);
       }
     }
 
-    // Smart Local Fallback
+    // Menggunakan Intelligent Engine Lokal yang Cepat & Akurat
     setTimeout(() => {
-      const fallbackReply = getFallbackReply(query);
+      const smartReply = getSmartReply(query);
       setMessages((prev) => [
         ...prev,
         {
           id: Date.now() + 1,
           sender: 'bot',
-          text: fallbackReply,
+          text: smartReply,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]);
       setIsTyping(false);
-    }, 600);
+    }, 450);
   };
 
   const handleKeyPress = (e) => {
@@ -370,7 +567,7 @@ ATURAN PENTING:
               <div className="chatbot-title-info">
                 <h4>Ghilbran AI Assistant</h4>
                 <span className="chatbot-status">
-                  <span className="chatbot-status-dot"></span> Groq AI Engine
+                  <span className="chatbot-status-dot"></span> Active Assistant
                 </span>
               </div>
             </div>
@@ -450,7 +647,7 @@ ATURAN PENTING:
             <input
               type="text"
               className="chatbot-input"
-              placeholder="Tanyakan sesuatu tentang Ghilbran..."
+              placeholder="Tanyakan proyek, skill, kontak Ghilbran..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
