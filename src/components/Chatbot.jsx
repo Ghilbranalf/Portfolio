@@ -1,6 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 const SYSTEM_PROMPT = `Kamu adalah asisten AI pribadi di website portofolio Ghilbran Alfaries Pryma.
+
+BATASAN TOPIK (STRICT GUARDRAILS - SANGAT PENTING):
+1. Ruang lingkup kamu HANYA seputar Ghilbran Alfaries Pryma dalam ranah profesional dan akademik: profil biodata profesional, latar belakang pendidikan, keahlian coding/teknologi, 6 proyek portofolio unggulannya, riset AI/ML, kontak, serta peluang kerja sama (freelance, magang, full-time).
+2. DILARANG KERAS menjawab hal pribadi/privasi, percintaan/asmara, keluarga, atau hal sensitif Ghilbran (misalnya: "siapa pacar Ghilbran", "apakah sudah punya pacar", "mantan", "nikah", "agama", "gaji/penghasilan pribadi"). Jika ditanya hal tersebut, tolaklah dengan sopan: "Hal tersebut merupakan privasi pribadi Ghilbran. Sebagai asisten portofolio, saya fokus membantu informasi seputar proyek coding, keahlian teknis, dan peluang kerja sama profesional Ghilbran."
+3. DILARANG KERAS menjawab pertanyaan pengetahuan umum di luar Ghilbran (seperti tokoh politik, presiden, pemilu, artis/selebriti, sejarah umum, resep masakan, cuaca, sains/matematika umum, coding umum di luar proyek Ghilbran, dll).
+4. JANGAN PERNAH menyamakan orang/tokoh lain dengan Ghilbran (misalnya jika ditanya "siapa Prabowo", JANGAN SEKALI-KALI menjawab dengan profil Ghilbran!).
+5. JIKA pengguna menanyakan apapun di luar topik profesional Ghilbran atau portofolionya (misalnya "siapa prabowo", "resep nasi goreng", "jelaskan fisika kuantum"), kamu WAJIB MENOLAK secara sopan dan singkat dalam 1-2 kalimat.
+   Format penolakan: "Maaf, saya asisten khusus portofolio Ghilbran Alfaries Pryma. Saya hanya dapat menjawab pertanyaan seputar keahlian, proyek, dan profil Ghilbran. Ada yang ingin Anda tanyakan seputar portofolio Ghilbran?"
+
 Profil Ghilbran:
 - Mahasiswa S1 Teknik Informatika di Telkom University Purwokerto (semester 6, IPK 3.70).
 - Fokus: Web Development (React, Next.js, Tailwind), Mobile Apps (React Native, PWA), dan AI/ML (IndoBERT, NLP, Random Forest).
@@ -34,9 +43,29 @@ Aturan Komunikasi:
 - Dilarang keras menggunakan emoji berlebihan.`;
 
 const OUT_OF_SCOPE_KEYWORDS = [
-  "presiden", "politik uang", "resep masakan", "ramalan cuaca", "berita gosip",
-  "buatkan puisi cinta", "tulis lirik lagu", "cheat game", "judi", "slot"
+  "presiden", "politik", "pemilu", "pilpres", "partai", "kabinet", "menteri",
+  "prabowo", "jokowi", "gibran rakabuming", "ganjar", "anies", "megawati",
+  "dpr ri", "pemerintah pusat",
+  "resep masakan", "resep", "cara masak", "ramalan cuaca", "cuaca", "berita gosip", "gosip",
+  "puisi", "lirik lagu", "chord gitar", "cheat game", "judi", "slot", "togel",
+  "crypto", "bitcoin", "saham", "pr sekolah", "rumus fisika", "tugas kimia"
 ];
+
+const PERSONAL_KEYWORDS = [
+  "pacar", "gebetan", "mantan", "jodoh", "nikah", "menikah", "istri", "suami", "jomblo", "single",
+  "selingkuh", "kencan", "cinta", "crush", "agama", "suku", "gaji", "penghasilan", "rekening", "saldo", "pinjaman", "utang"
+];
+
+const PERSONAL_REPLY = 'Hal tersebut merupakan ranah privasi pribadi Ghilbran. Sebagai asisten portofolio profesional, saya berfokus membantu informasi seputar proyek coding, keahlian teknis, dan peluang kerja sama dengan Ghilbran. Ada yang ingin Anda tanyakan seputar portofolio Ghilbran?';
+
+const isAskingOtherPerson = (text) => {
+  const q = text.toLowerCase();
+  if (/\b(siapa|tentang)\b/i.test(q)) {
+    const isAboutOwnerOrProject = /\b(ghilbran|alfaries|kamu|anda|bot|ai|lu|lo|dirimu|author|developer|pembuat|pemilik|pengembang|portfolio|portofolio|dprd|gradia|bakso|pak mul|ibravia|geefi|sanggaluri|indobert|honeypot)\b/i.test(q);
+    return !isAboutOwnerOrProject;
+  }
+  return false;
+};
 
 const INITIAL_MESSAGES = [
   {
@@ -55,6 +84,16 @@ function getSmartFallbackReply(userQuery) {
   const raw = userQuery.trim();
   const q = raw.toLowerCase();
 
+  // Cek privasi / hal pribadi / asmara
+  if (PERSONAL_KEYWORDS.some((k) => q.includes(k))) {
+    return PERSONAL_REPLY;
+  }
+
+  // Cek jika pertanyaan mengarah ke orang/topik luar
+  if (isAskingOtherPerson(q) || OUT_OF_SCOPE_KEYWORDS.some((k) => q.includes(k))) {
+    return 'Maaf, saya asisten khusus portofolio Ghilbran Alfaries Pryma. Saya hanya dapat menjawab pertanyaan seputar keahlian, proyek, latar belakang akademik, dan peluang kerja sama dengan Ghilbran. Ada yang ingin Anda tanyakan terkait portofolio Ghilbran?';
+  }
+
   // Salam sederhana layaknya manusia
   if (/^(halo|hai|hi|hello|hei|pagi|siang|sore|malam|assalamu|tes|test|ping)$/i.test(q) ||
       /^(halo|hai|pagi|siang|sore|malam|assalamu).*?(ai|bot|ghilbran|min)/i.test(q)) {
@@ -69,6 +108,12 @@ function getSmartFallbackReply(userQuery) {
   // Identitas bot
   if (/\b(kamu siapa|siapa kamu|kamu bot|kamu ai|bisa apa|fungsi kamu|kamu bisa apa)\b/i.test(q)) {
     return 'Saya asisten AI portofolio resmi Ghilbran Alfaries. Tugas saya membantu Anda memahami karya-karya proyek Ghilbran, keahlian teknisnya di Web/Mobile dan AI, hingga peluang kerja sama seperti magang atau freelance.';
+  }
+
+  // Siapa Ghilbran / Profil Ghilbran
+  if (/\b(siapa ghilbran|tentang ghilbran|profil ghilbran|biodata ghilbran|ghilbran itu siapa|pembuat web|developer web|pembuat website|developer website|pemilik website)\b/i.test(q) ||
+      /\b(tentang kamu|profil kamu|siapa anda|siapa yang buat)\b/i.test(q)) {
+    return `Ghilbran Alfaries Pryma adalah Web & Mobile Developer sekaligus mahasiswa Teknik Informatika di Telkom University Purwokerto (semester 6, IPK 3.70). Ia berfokus pada pengembangan aplikasi web modern (React, Next.js), mobile app, serta riset AI/NLP. Beberapa karya unggulannya antara lain Web DPRD Purbalingga, GRADIA Mobile App, dan E-Commerce Bakso Pak Mul. Ada hal spesifik seputar proyek atau keterampilannya yang ingin Anda tanyakan?`;
   }
 
   // Web DPRD Purbalingga
@@ -136,6 +181,21 @@ Inti fungsinya membantu calon pembeli melihat tipe-tipe rumah, menghitung simula
 Anda bisa melihat detail tiap proyek di bagian [Featured Projects](#projects)!`;
   }
 
+  // Skill & Keahlian
+  if (/\b(skill|keahlian|kemampuan|tech stack|teknologi|tools|bahasa pemrograman|coding)\b/i.test(q)) {
+    return `Ghilbran menguasai berbagai teknologi pengembangan modern:
+• **Frontend**: React.js, Next.js, Tailwind CSS, JavaScript (ES6+), HTML5/CSS3.
+• **Mobile**: React Native, Progressive Web Apps (PWA).
+• **Backend & Database**: Node.js (Express), PHP (Laravel), MySQL, PostgreSQL, Supabase.
+• **AI & Machine Learning**: Python, PyTorch, Hugging Face (IndoBERT), Scikit-Learn (Random Forest).
+• **Tools**: Git, GitHub, Postman, Vercel, Figma.`;
+  }
+
+  // Pengalaman / Karir
+  if (/\b(pengalaman|experience|karir|riwayat kerja|prestasi)\b/i.test(q)) {
+    return `Ghilbran berpengalaman mengembangkan berbagai sistem perangkat lunak, mulai dari portal pemerintahan (Web DPRD Purbalingga), e-commerce B2B/B2C (Bakso Pak Mul), web app produktivitas (GRADIA), hingga platform pemasaran properti (Ibravia & Geefi Residence), serta riset AI/NLP dan keamanan siber.`;
+  }
+
   // React & Frontend
   if (/\b(react|next|next\.js|nextjs|frontend|tailwind|typescript|javascript)\b/i.test(q)) {
     return `Bisa banget! React.js dan Next.js adalah spesialisasi utama Ghilbran di sisi frontend. Ghilbran terbiasa membangun antarmuka web yang kencang, responsif, dan rapi menggunakan arsitektur komponen modular dan styling Tailwind CSS, seperti yang diterapkan di Web DPRD Purbalingga, Bakso Pak Mul, dan GRADIA.`;
@@ -171,7 +231,8 @@ Anda bisa melihat detail tiap proyek di bagian [Featured Projects](#projects)!`;
 • Atau tinggalkan pesan di bagian [Contact Section](#contact)!`;
   }
 
-  return `Ghilbran Alfaries adalah Web & Mobile Developer sekaligus mahasiswa Informatika Telkom University Purwokerto (IPK 3.70). Beberapa karyanya yang paling populer antara lain Web DPRD Purbalingga, GRADIA Mobile App, dan E-Commerce Bakso Pak Mul. Ada hal spesifik seputar proyek atau keterampilannya yang ingin Anda tanyakan?`;
+  // Default jika pertanyaan di luar lingkup atau tidak terdeteksi
+  return 'Maaf, saya asisten khusus portofolio Ghilbran Alfaries Pryma. Saya hanya dapat menjawab pertanyaan seputar proyek, keahlian coding, latar belakang akademik, dan peluang kerja sama dengan Ghilbran. Ada hal seputar portofolio Ghilbran yang ingin Anda tanyakan?';
 }
 
 export default function Chatbot() {
@@ -217,19 +278,36 @@ export default function Chatbot() {
     setIsTyping(true);
 
     const msgLower = query.toLowerCase();
-    const isOutOfScope = OUT_OF_SCOPE_KEYWORDS.some((k) => msgLower.includes(k));
+
+    // 1. Cek hal pribadi / privasi / asmara
+    if (PERSONAL_KEYWORDS.some((k) => msgLower.includes(k))) {
+      setTimeout(() => {
+        const botMsg = {
+          id: Date.now() + 1,
+          sender: 'bot',
+          text: PERSONAL_REPLY,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        setMessages((prev) => [...prev, botMsg]);
+        setIsTyping(false);
+      }, 350);
+      return;
+    }
+
+    // 2. Cek out of scope (orang luar, politik, umum)
+    const isOutOfScope = isAskingOtherPerson(msgLower) || OUT_OF_SCOPE_KEYWORDS.some((k) => msgLower.includes(k));
 
     if (isOutOfScope) {
       setTimeout(() => {
         const botMsg = {
           id: Date.now() + 1,
           sender: 'bot',
-          text: 'Maaf, saya asisten khusus portofolio Ghilbran Alfaries. Saya hanya menjawab pertanyaan seputar proyek, skill coding, latar belakang akademik, dan kerja sama Ghilbran. Ada yang ingin ditanyakan seputar hal tersebut?',
+          text: 'Maaf, saya asisten khusus portofolio Ghilbran Alfaries Pryma. Saya hanya menjawab pertanyaan seputar proyek, skill coding, latar belakang akademik, dan peluang kerja sama dengan Ghilbran. Ada yang ingin ditanyakan seputar hal tersebut?',
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
         setMessages((prev) => [...prev, botMsg]);
         setIsTyping(false);
-      }, 400);
+      }, 350);
       return;
     }
 
