@@ -235,6 +235,87 @@ Anda bisa melihat detail tiap proyek di bagian [Featured Projects](#projects)!`;
   return 'Maaf, saya asisten khusus portofolio Ghilbran Alfaries Pryma. Saya hanya dapat menjawab pertanyaan seputar proyek, keahlian coding, latar belakang akademik, dan peluang kerja sama dengan Ghilbran. Ada hal seputar portofolio Ghilbran yang ingin Anda tanyakan?';
 }
 
+// Modern Sleek AI SVG Icons
+const AiSparkleIcon = ({ size = 18, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M12 2C12 2 12.8 7.2 14.5 8.9C16.2 10.6 21.4 11.4 21.4 11.4C21.4 11.4 16.2 12.2 14.5 13.9C12.8 15.6 12 20.8 12 20.8C12 20.8 11.2 15.6 9.5 13.9C7.8 12.2 2.6 11.4 2.6 11.4C2.6 11.4 7.8 10.6 9.5 8.9C11.2 7.2 12 2 12 2Z"
+      fill="currentColor"
+    />
+    <path
+      d="M19.5 2C19.5 2 19.8 4 20.5 4.7C21.2 5.4 23.2 5.7 23.2 5.7C23.2 5.7 21.2 6 20.5 6.7C19.8 7.4 19.5 9.4 19.5 9.4C19.5 9.4 19.2 7.4 18.5 6.7C17.8 6 15.8 5.7 15.8 5.7C15.8 5.7 17.8 5.4 18.5 4.7C19.2 4 19.5 2 19.5 2Z"
+      fill="currentColor"
+      opacity="0.8"
+    />
+  </svg>
+);
+
+const ChatAIBubbleIcon = ({ size = 26, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M12 3C6.477 3 2 7.03 2 12C2 14.07 2.793 15.975 4.144 17.472L3 21.5L7.29 20.217C8.71 20.72 10.306 21 12 21C17.523 21 22 16.97 22 12C22 7.03 17.523 3 12 3Z"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12 7.5L12.7 9.3L14.5 10L12.7 10.7L12 12.5L11.3 10.7L9.5 10L11.3 9.3L12 7.5Z"
+      fill="currentColor"
+    />
+    <circle cx="16.5" cy="13.5" r="1.2" fill="currentColor" opacity="0.8" />
+    <circle cx="7.5" cy="13.5" r="1.2" fill="currentColor" opacity="0.8" />
+  </svg>
+);
+
+const CloseModernIcon = ({ size = 20, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+);
+
+const SendModernIcon = ({ size = 16, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <line x1="22" y1="2" x2="11" y2="13"></line>
+    <polygon points="22 2 15 22 11 13 2 9 22 2" fill="currentColor" fillOpacity="0.15"></polygon>
+  </svg>
+);
+
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
@@ -478,7 +559,7 @@ export default function Chatbot() {
           <div className="chatbot-header">
             <div className="chatbot-avatar-container">
               <div className="chatbot-avatar">
-                <i className="fas fa-robot"></i>
+                <AiSparkleIcon size={20} />
               </div>
               <div className="chatbot-title-info">
                 <h4>Ghilbran AI Assistant</h4>
@@ -500,7 +581,7 @@ export default function Chatbot() {
                 title="Tutup Chat"
                 onClick={handleToggle}
               >
-                <i className="fas fa-times"></i>
+                <CloseModernIcon size={18} />
               </button>
             </div>
           </div>
@@ -513,8 +594,8 @@ export default function Chatbot() {
                 className={`chatbot-msg-row ${msg.sender === 'user' ? 'user-row' : 'bot-row'}`}
               >
                 {msg.sender === 'bot' && (
-                  <div className="chatbot-msg-avatar">
-                    <i className="fas fa-robot"></i>
+                  <div className="chatbot-msg-avatar" title="Ghilbran AI">
+                    <AiSparkleIcon size={14} />
                   </div>
                 )}
                 <div className="chatbot-msg-bubble">
@@ -531,7 +612,7 @@ export default function Chatbot() {
             {isTyping && (
               <div className="chatbot-msg-row bot-row">
                 <div className="chatbot-msg-avatar">
-                  <i className="fas fa-robot"></i>
+                  <AiSparkleIcon size={14} />
                 </div>
                 <div className="chatbot-msg-bubble typing-bubble">
                   <div className="typing-dots">
@@ -559,8 +640,9 @@ export default function Chatbot() {
               className="chatbot-send-btn"
               onClick={() => handleSend()}
               disabled={!inputValue.trim()}
+              title="Kirim pesan"
             >
-              <i className="fas fa-paper-plane"></i>
+              <SendModernIcon size={16} />
             </button>
           </div>
         </div>
@@ -573,10 +655,10 @@ export default function Chatbot() {
         aria-label="Toggle Chatbot"
       >
         {isOpen ? (
-          <i className="fas fa-times"></i>
+          <CloseModernIcon size={22} className="chatbot-icon-spin" />
         ) : (
           <>
-            <i className="fas fa-comments"></i>
+            <ChatAIBubbleIcon size={26} className="chatbot-icon-pulse" />
             {unreadCount > 0 && <span className="chatbot-unread-badge">{unreadCount}</span>}
           </>
         )}
