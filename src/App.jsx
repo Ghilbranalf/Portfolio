@@ -17,66 +17,20 @@ function App() {
     if (isMounted.current) return;
     isMounted.current = true;
 
-    // ── LOADER ──
-    setTimeout(() => {
+    // ── LOADER (Snappy & Fast) ──
+    const hideLoader = () => {
       const loader = document.getElementById('loader');
       if (loader) {
         loader.classList.add('hidden');
         startHeroAnimations();
       }
-    }, 1800);
-
-    // ── CURSOR (GPU Accelerated with translate3d) ──
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursor-ring');
-    let mx = -100, my = -100, rx = -100, ry = -100;
-    let cursorScale = 1, cursorOp = 1;
-    let hasMoved = false;
-    
-    const handleMouseMove = (e) => { 
-        mx = e.clientX; 
-        my = e.clientY; 
-        if (!hasMoved) {
-            rx = mx;
-            ry = my;
-            hasMoved = true;
-        }
     };
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    setTimeout(hideLoader, 350);
 
-    let animId;
-    function animCursor() {
-      if (hasMoved) {
-        rx += (mx - rx) * 0.16; 
-        ry += (my - ry) * 0.16;
-        if (cursor) { 
-          cursor.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%) scale(${cursorScale})`; 
-          cursor.style.opacity = cursorOp;
-        }
-        if (ring) { 
-          ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`; 
-        }
-      }
-      animId = requestAnimationFrame(animCursor);
-    }
-    animCursor();
-
-    document.querySelectorAll('a, button, .service-card, .skill-chip, .project-card').forEach(el => {
-      el.addEventListener('mouseenter', () => { 
-          cursorScale = 2.2;
-          cursorOp = 0.4;
-          if (ring) { ring.style.width = '56px'; ring.style.height = '56px'; }
-      });
-      el.addEventListener('mouseleave', () => { 
-          cursorScale = 1;
-          cursorOp = 1;
-          if (ring) { ring.style.width = '36px'; ring.style.height = '36px'; }
-      });
-    });
-
-    // ── STARFIELD + CONSTELLATIONS (Optimized) ──
+    // ── STARFIELD (Lightweight & Battery-Friendly) ──
     const canvas = document.getElementById('particle-canvas');
     let ctx, W, H, stars = [];
+    let starAnimId;
     if (canvas) {
         ctx = canvas.getContext('2d');
         function resizeCanvas() { 
@@ -89,18 +43,18 @@ function App() {
 
         function initStars() {
           stars = [];
-          // Ringan dan hemat CPU: max 70 bintang
-          const count = Math.min(70, Math.max(30, Math.floor((W * H) / 18000)));
+          // Ringan dan hemat CPU: max 35 bintang
+          const count = Math.min(35, Math.max(15, Math.floor((W * H) / 36000)));
           for (let i = 0; i < count; i++) {
               stars.push({
                   x: Math.random() * W, y: Math.random() * H,
-                  r: Math.random() * 1.5 + 0.4,
-                  baseOp: Math.random() * 0.5 + 0.25,
+                  r: Math.random() * 1.2 + 0.4,
+                  baseOp: Math.random() * 0.4 + 0.2,
                   op: 0,
-                  twinkleSpeed: Math.random() * 0.02 + 0.005,
+                  twinkleSpeed: Math.random() * 0.015 + 0.005,
                   twinkleOffset: Math.random() * Math.PI * 2,
-                  driftX: (Math.random() - 0.5) * 0.06,
-                  driftY: (Math.random() - 0.5) * 0.03,
+                  driftX: (Math.random() - 0.5) * 0.04,
+                  driftY: (Math.random() - 0.5) * 0.02,
               });
           }
         }
@@ -112,7 +66,6 @@ function App() {
             ctx.clearRect(0, 0, W, H);
             time += 0.016;
 
-            // Gambar semua inti bintang dalam single-path batching (1x fill)
             ctx.beginPath();
             stars.forEach((s) => {
                 s.x += s.driftX;
@@ -123,39 +76,28 @@ function App() {
                 if (s.y > H + 10) s.y = -10;
 
                 const twinkle = Math.sin(time * s.twinkleSpeed * 60 + s.twinkleOffset);
-                s.op = Math.max(0.1, Math.min(0.9, s.baseOp + twinkle * 0.25));
+                s.op = Math.max(0.1, Math.min(0.8, s.baseOp + twinkle * 0.2));
 
                 ctx.moveTo(s.x + s.r, s.y);
                 ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
             });
-            ctx.fillStyle = 'rgba(255,255,255,0.75)';
+            ctx.fillStyle = 'rgba(255,255,255,0.65)';
             ctx.fill();
 
-            // Garis konstelasi ringan (dibatasi 20 bintang pertama dengan bounding box check)
-            const maxConstellation = Math.min(22, stars.length);
-            ctx.beginPath();
-            for (let i = 0; i < maxConstellation; i++) {
-                for (let j = i + 1; j < maxConstellation; j++) {
-                    const dx = stars[j].x - stars[i].x;
-                    const dy = stars[j].y - stars[i].y;
-                    if (Math.abs(dx) < 110 && Math.abs(dy) < 110) {
-                        if (dx * dx + dy * dy < 12100) {
-                            ctx.moveTo(stars[i].x, stars[i].y);
-                            ctx.lineTo(stars[j].x, stars[j].y);
-                        }
-                    }
-                }
+            if (!document.hidden) {
+                starAnimId = requestAnimationFrame(drawStarfield);
             }
-            ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-
-            requestAnimationFrame(drawStarfield);
         }
         drawStarfield();
+
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                starAnimId = requestAnimationFrame(drawStarfield);
+            }
+        });
     }
 
-    // ── NAVBAR (Optimized with RAF & cached elements) ──
+    // ── NAVBAR (High Performance - zero layout thrashing) ──
     const nav = document.getElementById('navbar');
     const sections = ['home','expertise','skills','about','projects','contact']
         .map(id => ({ id, el: document.getElementById(id) }))
@@ -172,7 +114,8 @@ function App() {
 
                 let current = '';
                 for (let i = 0; i < sections.length; i++) {
-                    if (sections[i].el.getBoundingClientRect().top < 150) {
+                    const el = sections[i].el;
+                    if (el && el.offsetTop - 220 <= scrollY) {
                         current = sections[i].id;
                     }
                 }
@@ -326,9 +269,6 @@ function App() {
           <div className="loader-bar"><div className="loader-bar-inner"></div></div>
       </div>
 
-      <div id="cursor"></div>
-      <div id="cursor-ring"></div>
-
       <canvas id="particle-canvas"></canvas>
 
       {/* CSS SHOOTING STARS */}
@@ -396,7 +336,7 @@ function App() {
                   </div>
                   <div className="hero-visual">
                       <div className="hero-img-wrap" id="heroImg">
-                          <img src="/images/bran.png" alt="Ghilbran Alfaries Pryma" className="hero-img" onError={(e) => e.target.src='https://ui-avatars.com/api/?name=G+A&background=0d1628&color=2dd4bf&size=400&bold=true&font-size=0.4'} />
+                          <img src="/images/bran.png" alt="Ghilbran Alfaries Pryma" className="hero-img" decoding="async" fetchpriority="high" onError={(e) => e.target.src='https://ui-avatars.com/api/?name=G+A&background=0d1628&color=2dd4bf&size=400&bold=true&font-size=0.4'} />
                           <div className="hero-badge-float b1">
                               <div className="badge-icon"><i className="fas fa-code"></i></div>
                               <div className="badge-text"><strong>React Developer</strong><span>Frontend & Backend</span></div>
@@ -564,7 +504,7 @@ function App() {
                       <div className="orbit-scene">
                           {/* Central Photo */}
                           <div className="orbit-center">
-                              <img src="/images/bran.png" alt="Ghilbran Alfaries Pryma" onError={(e) => e.target.src='https://ui-avatars.com/api/?name=G+A&background=0d1628&color=2dd4bf&size=400&bold=true&font-size=0.4'} />
+                              <img src="/images/bran.png" alt="Ghilbran Alfaries Pryma" loading="lazy" decoding="async" onError={(e) => e.target.src='https://ui-avatars.com/api/?name=G+A&background=0d1628&color=2dd4bf&size=400&bold=true&font-size=0.4'} />
                               <div className="orbit-center-glow"></div>
                           </div>
 
@@ -641,6 +581,8 @@ function App() {
                           <div className="project-screen-wrap img-loading" id="thumb-ibravia">
                               <img src={ibraviaImg} 
                                    alt="Ibravia Company Profile & Dashboard"
+                                   loading="lazy"
+                                   decoding="async"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
                                    onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
@@ -675,6 +617,8 @@ function App() {
                           <div className="project-screen-wrap img-loading" id="thumb-geefi">
                               <img src={geefiImg}
                                    alt="Geefi Residence"
+                                   loading="lazy"
+                                   decoding="async"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
                               />
@@ -708,6 +652,8 @@ function App() {
                           <div className="project-screen-wrap img-loading" id="thumb-gradia">
                               <img src={gradiaImg}
                                    alt="Gradia Mobile App"
+                                   loading="lazy"
+                                   decoding="async"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
                               />
@@ -740,6 +686,8 @@ function App() {
                           <div className="project-screen-wrap img-loading" id="thumb-sanggaluri">
                               <img src={sanggaluriImg}
                                    alt="Sanggaluri Internal Portal"
+                                   loading="lazy"
+                                   decoding="async"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
                               />
@@ -773,6 +721,8 @@ function App() {
                           <div className="project-screen-wrap img-loading" id="thumb-baksopakmul">
                               <img src={baksoPakMulImg}
                                    alt="Ecommerce Bakso Pak Mul"
+                                   loading="lazy"
+                                   decoding="async"
                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
                               />
@@ -806,6 +756,8 @@ function App() {
                            <div className="project-screen-wrap img-loading" id="thumb-dprd">
                                <img src={dprdImg}
                                     alt="Web DPRD Kabupaten Purbalingga"
+                                    loading="lazy"
+                                    decoding="async"
                                     style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                                     onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
                                     onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
