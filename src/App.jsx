@@ -9,9 +9,169 @@ import baksoPakMulImg from './assets/baksopakmul.jpg';
 import dprdImg from './assets/dprd.jpg';
 import heritageRoastImg from './assets/heritage-roast.jpg';
 
+const PROJECTS_DATA = [
+  {
+    id: 'dprd',
+    title: 'DPRD Kabupaten Purbalingga',
+    tag: 'Government Portal · Public Service',
+    badges: [
+      { type: 'desktop', icon: 'fas fa-desktop', text: 'Desktop' },
+      { type: 'mobile', icon: 'fas fa-landmark', text: 'Government' }
+    ],
+    desc: 'Portal web resmi Dewan Perwakilan Rakyat Daerah Kabupaten Purbalingga. Menyajikan transparansi informasi publik, agenda dewan, fraksi, komisi, publikasi produk hukum JDIH, serta layanan penyampaian aspirasi masyarakat secara terintegrasi.',
+    stack: ['React', 'Tailwind', 'PHP / Laravel', 'MySQL'],
+    img: dprdImg,
+    fallbackIcon: 'fas fa-landmark',
+    liveUrl: 'https://dprd.purbalinggakab.go.id',
+    codeUrl: 'https://github.com/Ghilbranalf'
+  },
+  {
+    id: 'heritage',
+    title: 'The Heritage & Roast',
+    tag: 'Landing Page · F&B / Cafe · Brand Experience',
+    badges: [
+      { type: 'desktop', icon: 'fas fa-desktop', text: 'Desktop' },
+      { type: 'mobile', icon: 'fas fa-coffee', text: 'Cafe & Dining' }
+    ],
+    desc: 'Landing page modern dan elegan untuk artisan micro-roastery & coffee house. Menampilkan kurasi menu kopi single-origin, reservasi meja instan, storytelling brand premium, serta visual sinematik yang dioptimasi responsif untuk semua perangkat.',
+    stack: ['React', 'Tailwind', 'Framer Motion', 'Vercel'],
+    img: heritageRoastImg,
+    fallbackIcon: 'fas fa-coffee',
+    liveUrl: 'https://github.com/Ghilbranalf',
+    codeUrl: 'https://github.com/Ghilbranalf'
+  },
+  {
+    id: 'baksopakmul',
+    title: 'E-Commerce Bakso Pak Mul',
+    tag: 'Web App · E-Commerce',
+    badges: [
+      { type: 'desktop', icon: 'fas fa-desktop', text: 'Desktop' },
+      { type: 'mobile', icon: 'fas fa-mobile-alt', text: 'Mobile' }
+    ],
+    desc: 'Platform e-commerce penyedia bahan baku bakso & mie ayam. Dilengkapi katalog produk lengkap, sistem transaksi instan, kemitraan grosir, serta pengalaman belanja mobile & desktop yang intuitif.',
+    stack: ['Next.js', 'React', 'Tailwind', 'MySQL'],
+    img: baksoPakMulImg,
+    fallbackIcon: 'fas fa-shopping-cart',
+    liveUrl: 'https://github.com/Ghilbranalf',
+    codeUrl: 'https://github.com/Ghilbranalf'
+  },
+  {
+    id: 'gradia',
+    title: 'Gradia Mobile App',
+    tag: 'Mobile Application',
+    badges: [
+      { type: 'app', icon: 'fas fa-mobile-alt', text: 'Mobile App' }
+    ],
+    desc: 'Aplikasi mobile berbasis web yang didesain khusus dengan tampilan dan UX native-like. Dioptimasi untuk layar smartphone dengan navigasi intuitif dan performa tinggi menggunakan React.',
+    stack: ['React', 'Tailwind', 'PWA', 'Vercel'],
+    img: gradiaImg,
+    fallbackIcon: 'fas fa-mobile-alt',
+    liveUrl: 'https://gradia-three.vercel.app',
+    codeUrl: 'https://github.com/Ghilbranalf'
+  },
+  {
+    id: 'geefi',
+    title: 'Geefi Residence',
+    tag: 'Web App · Real Estate',
+    badges: [
+      { type: 'desktop', icon: 'fas fa-desktop', text: 'Desktop' },
+      { type: 'mobile', icon: 'fas fa-mobile-alt', text: 'Mobile' }
+    ],
+    desc: 'Website perumahan Geefi yang fully responsive untuk desktop dan mobile. Menampilkan galeri unit, harga, cicilan, dan lokasi properti dengan desain modern yang dioptimasi untuk konversi leads.',
+    stack: ['React', 'Tailwind', 'Vercel'],
+    img: geefiImg,
+    fallbackIcon: 'fas fa-home',
+    liveUrl: 'https://geefi-residence.vercel.app',
+    codeUrl: 'https://github.com/Ghilbranalf'
+  },
+  {
+    id: 'ibravia',
+    title: 'Ibravia Residence',
+    tag: 'Company Profile · Dashboard · Real Estate',
+    badges: [
+      { type: 'desktop', icon: 'fas fa-desktop', text: 'Desktop' },
+      { type: 'app', icon: 'fas fa-cog', text: 'Dashboard' }
+    ],
+    desc: 'Website company profile dan admin dashboard perumahan Ibravia. Menampilkan katalog unit, pencarian properti, serta dashboard internal dengan visualisasi penjualan, manajemen pembeli, dan role-based access control.',
+    stack: ['WordPress', 'React', 'PHP', 'MySQL', 'Bootstrap'],
+    img: ibraviaImg,
+    fallbackIcon: 'fas fa-building',
+    liveUrl: 'https://ibravia.com',
+    codeUrl: 'https://github.com/Ghilbranalf'
+  },
+  {
+    id: 'sanggaluri',
+    title: 'Sanggaluri Portal',
+    tag: 'Internal Portal · Management System',
+    badges: [
+      { type: 'ui', icon: 'fas fa-lock', text: 'Internal Portal' },
+      { type: 'desktop', icon: 'fas fa-desktop', text: 'Desktop' }
+    ],
+    desc: 'Internal portal aman & terpercaya khusus tim manajemen Sanggaluri. Dilengkapi sistem autentikasi terenkripsi untuk mengelola data operasional dan aktivitas perusahaan secara efisien.',
+    stack: ['React', 'Tailwind', 'Vercel'],
+    img: sanggaluriImg,
+    fallbackIcon: 'fas fa-user-shield',
+    liveUrl: 'https://dashboard-smms.vercel.app',
+    codeUrl: 'https://github.com/Ghilbranalf'
+  }
+];
+
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [cardsPerView, setCardsPerView] = useState(3);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
   const isMounted = useRef(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 640) {
+        setCardsPerView(1);
+      } else if (window.innerWidth <= 1024) {
+        setCardsPerView(2);
+      } else {
+        setCardsPerView(3);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const maxSlide = Math.max(0, PROJECTS_DATA.length - cardsPerView);
+
+  useEffect(() => {
+    setCurrentSlide(prev => Math.min(prev, maxSlide));
+  }, [maxSlide]);
+
+  const prevSlide = () => {
+    setCurrentSlide(prev => Math.max(0, prev - 1));
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide(prev => Math.min(maxSlide, prev + 1));
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const diff = touchStartX.current - touchEndX.current;
+    if (diff > 50) {
+      nextSlide();
+    } else if (diff < -50) {
+      prevSlide();
+    }
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  };
 
   useEffect(() => {
     // Mencegah glitch render 2x di React Strict Mode
@@ -233,23 +393,6 @@ function App() {
     }, { threshold: 0.1 });
     const firstVal = document.querySelector('.value-card');
     if (firstVal) valObs.observe(firstVal);
-
-    const projObs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                const cards = document.querySelectorAll('.project-card');
-                cards.forEach((c,i) => {
-                    setTimeout(() => {
-                        c.style.transition = 'opacity .7s ease, transform .7s ease, border-color .4s, box-shadow .4s';
-                        c.style.opacity = '1'; c.style.transform = 'none';
-                    }, i*120);
-                });
-                projObs.disconnect();
-            }
-        });
-    }, { threshold: 0.1 });
-    const firstProj = document.querySelector('.project-card');
-    if (firstProj) projObs.observe(firstProj);
 
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -574,255 +717,107 @@ function App() {
                   <h2 className="section-title">Featured Projects</h2>
                   <p className="section-desc">Beberapa proyek yang pernah saya kerjakan — dari skala personal hingga kebutuhan klien.</p>
               </div>
-              <div className="projects-grid">
+              {/* PROJECTS SLIDESHOW */}
+              <div className="projects-slider-wrapper reveal">
+                  {/* Prev Button */}
+                  <button 
+                      className="slider-nav-btn prev"
+                      onClick={prevSlide}
+                      disabled={currentSlide === 0}
+                      aria-label="Previous Slide"
+                  >
+                      <i className="fas fa-chevron-left"></i>
+                  </button>
 
-                  {/* 1. Ibravia - Company Profile & Admin Dashboard */}
-                  <div className="project-card">
-                      <div className="project-thumb">
-                          <div className="project-screen-wrap img-loading" id="thumb-ibravia">
-                              <img src={ibraviaImg} 
-                                   alt="Ibravia Company Profile & Dashboard"
-                                   loading="lazy"
-                                   decoding="async"
-                                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                                   onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
-                              />
-                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                  <i className="fas fa-building" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
-                                  <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>IBRAVIA</span>
+                  {/* Track Container */}
+                  <div 
+                      className="projects-track-container"
+                      onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={handleTouchEnd}
+                  >
+                      <div 
+                          className="projects-track"
+                          style={{
+                              transform: `translateX(calc(-${currentSlide} * ((100% + 24px) / ${cardsPerView})))`
+                          }}
+                      >
+                          {PROJECTS_DATA.map((proj) => (
+                              <div key={proj.id} className="project-slide-item">
+                                  <div className="project-card">
+                                      <div className="project-thumb">
+                                          <div className="project-screen-wrap img-loading" id={`thumb-${proj.id}`}>
+                                              <img 
+                                                  src={proj.img}
+                                                  alt={proj.title}
+                                                  loading="lazy"
+                                                  decoding="async"
+                                                  onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
+                                                  onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
+                                              />
+                                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                                  <i className={proj.fallbackIcon} style={{ color: '#fff', fontSize: '2.5rem' }}></i>
+                                                  <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>{proj.title.toUpperCase()}</span>
+                                              </div>
+                                          </div>
+                                          <div className="overlay">
+                                              {proj.liveUrl && (
+                                                  <a href={proj.liveUrl} target="_blank" rel="noreferrer" className="overlay-btn">
+                                                      <i className="fas fa-external-link-alt"></i> Live
+                                                  </a>
+                                              )}
+                                              {proj.codeUrl && (
+                                                  <a href={proj.codeUrl} target="_blank" rel="noreferrer" className="overlay-btn">
+                                                      <i className="fab fa-github"></i> Code
+                                                  </a>
+                                              )}
+                                          </div>
+                                      </div>
+                                      <div className="project-body">
+                                          <div className="device-badges">
+                                              {proj.badges.map((b, idx) => (
+                                                  <span key={idx} className={`device-badge ${b.type}`}>
+                                                      <i className={b.icon} style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> {b.text}
+                                                  </span>
+                                              ))}
+                                          </div>
+                                          <div className="project-tag">{proj.tag}</div>
+                                          <h4>{proj.title}</h4>
+                                          <p>{proj.desc}</p>
+                                          <div className="project-stack">
+                                              {proj.stack.map((tech, idx) => (
+                                                  <span key={idx} className="stack-tag">{tech}</span>
+                                              ))}
+                                          </div>
+                                      </div>
+                                  </div>
                               </div>
-                          </div>
-                          <div className="overlay">
-                              <a href="https://ibravia.com" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
-                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
-                          </div>
-                      </div>
-                      <div className="project-body">
-                          <div className="device-badges">
-                              <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
-                              <span className="device-badge app"><i className="fas fa-cog" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Dashboard</span>
-                          </div>
-                          <div className="project-tag">Company Profile · Dashboard · Real Estate</div>
-                          <h4>Ibravia Residence</h4>
-                          <p>Website company profile dan admin dashboard perumahan Ibravia. Menampilkan katalog unit, pencarian properti, serta dashboard internal dengan visualisasi penjualan, manajemen pembeli, dan role-based access control.</p>
-                          <div className="project-stack">
-                              <span className="stack-tag">WordPress</span><span className="stack-tag">React</span><span className="stack-tag">PHP</span><span className="stack-tag">Java</span><span className="stack-tag">MySQL</span><span className="stack-tag">Bootstrap</span>
-                          </div>
-                      </div>
-                  </div>
-                  
-                  {/* 2. Geefi Residence */}
-                  <div className="project-card">
-                      <div className="project-thumb">
-                          <div className="project-screen-wrap img-loading" id="thumb-geefi">
-                              <img src={geefiImg}
-                                   alt="Geefi Residence"
-                                   loading="lazy"
-                                   decoding="async"
-                                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                                   onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                              />
-                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                  <i className="fas fa-home" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
-                                  <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>GEEFI RESIDENCE</span>
-                              </div>
-                          </div>
-                          <div className="overlay">
-                              <a href="https://geefi-residence.vercel.app" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
-                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
-                          </div>
-                      </div>
-                      <div className="project-body">
-                          <div className="device-badges">
-                              <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
-                              <span className="device-badge mobile"><i className="fas fa-mobile-alt" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Mobile</span>
-                          </div>
-                          <div className="project-tag">Web App · Real Estate</div>
-                          <h4>Geefi Residence</h4>
-                          <p>Website perumahan Geefi yang fully responsive untuk desktop dan mobile. Menampilkan galeri unit, harga, cicilan, dan lokasi properti dengan desain modern yang dioptimasi untuk konversi leads.</p>
-                          <div className="project-stack">
-                              <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">Vercel</span>
-                          </div>
-                      </div>
-                  </div>
-
-                  {/* 3. Gradia Mobile App */}
-                  <div className="project-card">
-                      <div className="project-thumb">
-                          <div className="project-screen-wrap img-loading" id="thumb-gradia">
-                              <img src={gradiaImg}
-                                   alt="Gradia Mobile App"
-                                   loading="lazy"
-                                   decoding="async"
-                                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                                   onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                              />
-                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                  <i className="fas fa-mobile-alt" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
-                                  <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>GRADIA APP</span>
-                              </div>
-                          </div>
-                          <div className="overlay">
-                              <a href="https://gradia-three.vercel.app" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
-                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
-                          </div>
-                      </div>
-                      <div className="project-body">
-                          <div className="device-badges">
-                              <span className="device-badge app"><i className="fas fa-mobile-alt" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Mobile App</span>
-                          </div>
-                          <div className="project-tag">Mobile Application</div>
-                          <h4>Gradia Mobile App</h4>
-                          <p>Aplikasi mobile berbasis web yang didesain khusus dengan tampilan dan UX native-like. Dioptimasi untuk layar smartphone dengan navigasi intuitif dan performa tinggi menggunakan React.</p>
-                          <div className="project-stack">
-                              <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">PWA</span><span className="stack-tag">Vercel</span>
-                          </div>
+                          ))}
                       </div>
                   </div>
 
-                  {/* 4. Sanggaluri */}
-                  <div className="project-card">
-                      <div className="project-thumb">
-                          <div className="project-screen-wrap img-loading" id="thumb-sanggaluri">
-                              <img src={sanggaluriImg}
-                                   alt="Sanggaluri Internal Portal"
-                                   loading="lazy"
-                                   decoding="async"
-                                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                                   onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                              />
-                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                  <i className="fas fa-user-shield" style={{ color: '#fff', fontSize: '2.5rem' }}></i>
-                                  <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>SANGGALURI</span>
-                              </div>
-                          </div>
-                          <div className="overlay">
-                              <a href="https://dashboard-smms.vercel.app" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
-                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
-                          </div>
-                      </div>
-                      <div className="project-body">
-                          <div className="device-badges">
-                              <span className="device-badge ui"><i className="fas fa-lock" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Internal Portal</span>
-                              <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
-                          </div>
-                          <div className="project-tag">Internal Portal · Management System</div>
-                          <h4>Sanggaluri Portal</h4>
-                          <p>Internal portal aman & terpercaya khusus tim manajemen Sanggaluri. Dilengkapi sistem autentikasi terenkripsi untuk mengelola data operasional dan aktivitas perusahaan secara efisien.</p>
-                          <div className="project-stack">
-                              <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">Vercel</span>
-                          </div>
-                      </div>
+                  {/* Next Button */}
+                  <button 
+                      className="slider-nav-btn next"
+                      onClick={nextSlide}
+                      disabled={currentSlide >= maxSlide}
+                      aria-label="Next Slide"
+                  >
+                      <i className="fas fa-chevron-right"></i>
+                  </button>
+
+                  {/* Pagination Dots */}
+                  <div className="slider-pagination-wrap">
+                      {Array.from({ length: maxSlide + 1 }).map((_, idx) => (
+                          <button
+                              key={idx}
+                              className={`slider-dot ${currentSlide === idx ? 'active' : ''}`}
+                              onClick={() => setCurrentSlide(idx)}
+                              aria-label={`Go to slide ${idx + 1}`}
+                          />
+                      ))}
                   </div>
-
-                  {/* 5. Ecommerce Bakso Pak Mul */}
-                  <div className="project-card">
-                      <div className="project-thumb">
-                          <div className="project-screen-wrap img-loading" id="thumb-baksopakmul">
-                              <img src={baksoPakMulImg}
-                                   alt="Ecommerce Bakso Pak Mul"
-                                   loading="lazy"
-                                   decoding="async"
-                                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                                   onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                              />
-                              <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                  <i className="fas fa-shopping-cart" style={{ color: "#fff", fontSize: "2.5rem" }}></i>
-                                  <span style={{ color: "#fff", fontSize: "0.8rem", fontWeight: 700 }}>BAKSO PAK MUL</span>
-                              </div>
-                          </div>
-                          <div className="overlay">
-                              <a href="#" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
-                              <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
-                          </div>
-                      </div>
-                      <div className="project-body">
-                          <div className="device-badges">
-                              <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
-                              <span className="device-badge mobile"><i className="fas fa-mobile-alt" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Mobile</span>
-                          </div>
-                          <div className="project-tag">Web App · E-Commerce</div>
-                          <h4>E-Commerce Bakso Pak Mul</h4>
-                          <p>Platform e-commerce penyedia bahan baku bakso & mie ayam. Dilengkapi katalog produk lengkap, sistem transaksi instan, kemitraan grosir, serta pengalaman belanja mobile & desktop yang intuitif.</p>
-                          <div className="project-stack">
-                              <span className="stack-tag">Next.js</span><span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">MySQL</span>
-                          </div>
-                      </div>
-                   </div>
-
-                   {/* 6. DPRD Kabupaten Purbalingga */}
-                   <div className="project-card">
-                       <div className="project-thumb">
-                           <div className="project-screen-wrap img-loading" id="thumb-dprd">
-                               <img src={dprdImg}
-                                    alt="Web DPRD Kabupaten Purbalingga"
-                                    loading="lazy"
-                                    decoding="async"
-                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                                    onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
-                               />
-                               <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                   <i className="fas fa-landmark" style={{ color: "#fff", fontSize: "2.5rem" }}></i>
-                                   <span style={{ color: "#fff", fontSize: "0.8rem", fontWeight: 700 }}>DPRD PURBALINGGA</span>
-                               </div>
-                           </div>
-                           <div className="overlay">
-                               <a href="https://dprd.purbalinggakab.go.id" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
-                               <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
-                           </div>
-                       </div>
-                       <div className="project-body">
-                           <div className="device-badges">
-                               <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
-                               <span className="device-badge mobile"><i className="fas fa-landmark" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Government</span>
-                           </div>
-                           <div className="project-tag">Government Portal · Public Service</div>
-                           <h4>DPRD Kabupaten Purbalingga</h4>
-                           <p>Portal web resmi Dewan Perwakilan Rakyat Daerah Kabupaten Purbalingga. Menyajikan transparansi informasi publik, agenda dewan, fraksi, komisi, publikasi produk hukum JDIH, serta layanan penyampaian aspirasi masyarakat secara terintegrasi.</p>
-                           <div className="project-stack">
-                               <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">PHP / Laravel</span><span className="stack-tag">MySQL</span>
-                           </div>
-                       </div>
-                   </div>
-
-                   {/* 7. The Heritage & Roast - Cafe Landing Page */}
-                   <div className="project-card">
-                       <div className="project-thumb">
-                           <div className="project-screen-wrap img-loading" id="thumb-heritage">
-                               <img src={heritageRoastImg}
-                                    alt="The Heritage & Roast Cafe Landing Page"
-                                    loading="lazy"
-                                    decoding="async"
-                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
-                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
-                                    onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
-                               />
-                               <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
-                                   <i className="fas fa-coffee" style={{ color: "#fff", fontSize: "2.5rem" }}></i>
-                                   <span style={{ color: "#fff", fontSize: "0.8rem", fontWeight: 700 }}>THE HERITAGE & ROAST</span>
-                               </div>
-                           </div>
-                           <div className="overlay">
-                               <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
-                               <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
-                           </div>
-                       </div>
-                       <div className="project-body">
-                           <div className="device-badges">
-                               <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
-                               <span className="device-badge mobile"><i className="fas fa-coffee" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Cafe &amp; Dining</span>
-                           </div>
-                           <div className="project-tag">Landing Page · F&amp;B / Cafe · Brand Experience</div>
-                           <h4>The Heritage &amp; Roast</h4>
-                           <p>Landing page modern dan elegan untuk artisan micro-roastery &amp; coffee house. Menampilkan kurasi menu kopi single-origin, reservasi meja instan, storytelling brand premium, serta visual sinematik yang dioptimasi responsif untuk semua perangkat.</p>
-                           <div className="project-stack">
-                               <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">Framer Motion</span><span className="stack-tag">Vercel</span>
-                           </div>
-                       </div>
-                   </div>
-               </div>
+              </div>
                <div className="text-center" style={{ marginTop: "40px", textAlign: "center" }}>
                   <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="btn btn-ghost reveal"><i className="fab fa-github"></i> View All on GitHub</a>
               </div>
