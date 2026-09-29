@@ -17,13 +17,28 @@
     --radius: 16px;
 }
 
-html { scroll-behavior: smooth; }
+html { 
+    scroll-behavior: smooth; 
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+}
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background: var(--bg);
     color: var(--text);
     overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+    touch-action: pan-y;
+}
+
+#root {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
 }
 
 /* ── LOADER ── */
@@ -217,7 +232,7 @@ nav.scrolled {
 .badge-text span { font-size: 0.72rem; color: var(--muted2); }
 
 /* ── SECTION SHARED ── */
-section { position: relative; z-index: 1; }
+section { position: relative; z-index: 1; overflow-x: hidden; max-width: 100%; }
 .section-pad { padding: 110px 0; }
 .section-label { font-size: 0.72rem; font-weight: 800; color: var(--accent); letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 .section-label::before { content: ''; display: block; width: 24px; height: 2px; background: var(--accent); border-radius: 2px; }
@@ -555,6 +570,7 @@ section { position: relative; z-index: 1; }
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 10px;
+    overflow: hidden;
 }
 .projects-track-container {
     overflow: hidden;
@@ -651,10 +667,10 @@ section { position: relative; z-index: 1; }
     border-color: rgba(255, 255, 255, 0.08);
 }
 .slider-nav-btn.prev {
-    left: -22px;
+    left: 8px;
 }
 .slider-nav-btn.next {
-    right: -22px;
+    right: 8px;
 }
 
 .slider-pagination-wrap {
@@ -1247,24 +1263,41 @@ section { position: relative; z-index: 1; }
         right: 20px;
     }
     .chatbot-window {
-        width: calc(100vw - 32px);
-        right: 0;
-        bottom: 66px;
-        height: 480px;
+        position: fixed;
+        left: 14px;
+        right: 14px;
+        width: auto;
+        bottom: 86px;
+        height: 520px;
+        max-height: calc(100vh - 110px);
+        max-height: calc(100dvh - 110px);
+        border-radius: 18px;
     }
 
     /* Orbit responsive */
-    .orbit-scene { max-width: 320px; }
-    .orbit-center { width: 100px; height: 100px; }
-    .orbit-path.path-inner { width: 200px; height: 200px; }
-    .orbit-path.path-outer { width: 290px; height: 290px; }
-    .orbit-ring.ring-inner { width: 200px; height: 200px; margin-left: -100px; margin-top: -100px; }
-    .orbit-ring.ring-outer { width: 290px; height: 290px; margin-left: -145px; margin-top: -145px; }
-    .ring-inner .orbit-icon { transform: rotate(var(--angle)) translateX(100px) rotate(calc(-1 * var(--angle))); }
-    .ring-outer .orbit-icon { transform: rotate(var(--angle)) translateX(145px) rotate(calc(-1 * var(--angle))); }
-    .orbit-icon { width: 42px; height: 42px; margin-left: -21px; margin-top: -21px; border-radius: 10px; }
-    .orbit-icon i { font-size: 0.95rem; }
-    .orbit-icon span { font-size: 0.48rem; }
+    .about-visual {
+        overflow: hidden;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .orbit-scene { 
+        max-width: 280px; 
+        width: 280px; 
+        height: 280px; 
+        margin: 0 auto; 
+        overflow: hidden; 
+    }
+    .orbit-center { width: 90px; height: 90px; }
+    .orbit-path.path-inner { width: 170px; height: 170px; }
+    .orbit-path.path-outer { width: 250px; height: 250px; }
+    .orbit-ring.ring-inner { width: 170px; height: 170px; margin-left: -85px; margin-top: -85px; }
+    .orbit-ring.ring-outer { width: 250px; height: 250px; margin-left: -125px; margin-top: -125px; }
+    .ring-inner .orbit-icon { transform: rotate(var(--angle)) translateX(85px) rotate(calc(-1 * var(--angle))); }
+    .ring-outer .orbit-icon { transform: rotate(var(--angle)) translateX(125px) rotate(calc(-1 * var(--angle))); }
+    .orbit-icon { width: 38px; height: 38px; margin-left: -19px; margin-top: -19px; border-radius: 9px; }
+    .orbit-icon i { font-size: 0.85rem; }
+    .orbit-icon span { font-size: 0.44rem; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .about-facts { grid-template-columns: 1fr 1fr; }
 }
