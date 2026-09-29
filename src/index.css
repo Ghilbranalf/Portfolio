@@ -19,14 +19,12 @@
 
 html { 
     scroll-behavior: smooth; 
-    overflow-x: clip;
 }
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background: var(--bg);
     color: var(--text);
-    overflow-x: clip;
 }
 
 #root {
@@ -40,7 +38,7 @@ body {
     display: flex; align-items: center; justify-content: center; flex-direction: column;
     transition: opacity .6s ease, visibility .6s;
 }
-#loader.hidden { opacity: 0; visibility: hidden; }
+#loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; display: none; }
 .loader-logo { font-size: 2.5rem; font-weight: 900; color: #fff; display: inline-flex; gap: 0.4em; align-items: center; }
 .loader-logo span { color: var(--accent); display: inline-block; }
 .loader-bar { width: 120px; height: 2px; background: rgba(255,255,255,0.08); border-radius: 4px; margin-top: 24px; overflow: hidden; }
@@ -827,28 +825,33 @@ section { position: relative; z-index: 1; overflow-x: hidden; max-width: 100%; }
 
 /* ── CHATBOT ── */
 .chatbot-wrapper {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    z-index: 99999;
+    position: fixed !important;
+    bottom: 28px !important;
+    right: 28px !important;
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
 }
 
 .chatbot-trigger {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(35, 35, 42, 0.92) 0%, rgba(14, 14, 18, 0.98) 100%);
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    background: #18181b !important;
+    background: linear-gradient(135deg, rgba(35, 35, 42, 0.98) 0%, rgba(14, 14, 18, 0.99) 100%) !important;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 255, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
+    color: #ffffff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease !important;
+    position: relative !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 .chatbot-trigger:hover {
@@ -1253,13 +1256,15 @@ section { position: relative; z-index: 1; overflow-x: hidden; max-width: 100%; }
 /* ── RESPONSIVE CHATBOT & ORBIT ── */
 @media (max-width: 1024px) {
     .chatbot-wrapper {
-        bottom: 24px;
-        right: 24px;
-        z-index: 99999;
+        bottom: 24px !important;
+        right: 24px !important;
+        z-index: 9999999 !important;
         display: block !important;
         visibility: visible !important;
     }
     .chatbot-trigger {
+        width: 58px !important;
+        height: 58px !important;
         display: flex !important;
         visibility: visible !important;
     }
@@ -1267,29 +1272,29 @@ section { position: relative; z-index: 1; overflow-x: hidden; max-width: 100%; }
 
 @media (max-width: 640px) {
     .chatbot-wrapper {
-        bottom: 20px;
-        right: 20px;
-        z-index: 99999;
+        bottom: 20px !important;
+        right: 20px !important;
+        z-index: 9999999 !important;
         display: block !important;
         visibility: visible !important;
     }
     .chatbot-trigger {
-        width: 54px;
-        height: 54px;
+        width: 54px !important;
+        height: 54px !important;
         display: flex !important;
         visibility: visible !important;
     }
     .chatbot-window {
-        position: fixed;
-        left: 14px;
-        right: 14px;
-        width: auto;
-        bottom: 84px;
-        height: 520px;
-        max-height: calc(100vh - 105px);
-        max-height: calc(100dvh - 105px);
-        border-radius: 18px;
-        z-index: 99999;
+        position: fixed !important;
+        left: 12px !important;
+        right: 12px !important;
+        width: auto !important;
+        bottom: 84px !important;
+        height: 520px !important;
+        max-height: calc(100vh - 100px) !important;
+        max-height: calc(100dvh - 100px) !important;
+        border-radius: 18px !important;
+        z-index: 9999999 !important;
     }
 
     /* Orbit responsive */

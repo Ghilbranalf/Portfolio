@@ -280,20 +280,21 @@ const ChatAIBubbleIcon = ({ size = 26, className = "" }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className={className}
+    style={{ display: 'block' }}
   >
     <path
       d="M12 3C6.477 3 2 7.03 2 12C2 14.07 2.793 15.975 4.144 17.472L3 21.5L7.29 20.217C8.71 20.72 10.306 21 12 21C17.523 21 22 16.97 22 12C22 7.03 17.523 3 12 3Z"
-      stroke="currentColor"
-      strokeWidth="1.8"
+      stroke="#ffffff"
+      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M12 7.5L12.7 9.3L14.5 10L12.7 10.7L12 12.5L11.3 10.7L9.5 10L11.3 9.3L12 7.5Z"
-      fill="currentColor"
+      fill="#ffffff"
     />
-    <circle cx="16.5" cy="13.5" r="1.2" fill="currentColor" opacity="0.8" />
-    <circle cx="7.5" cy="13.5" r="1.2" fill="currentColor" opacity="0.8" />
+    <circle cx="16.5" cy="13.5" r="1.2" fill="#ffffff" opacity="0.9" />
+    <circle cx="7.5" cy="13.5" r="1.2" fill="#ffffff" opacity="0.9" />
   </svg>
 );
 
@@ -303,11 +304,12 @@ const CloseModernIcon = ({ size = 20, className = "" }) => (
     height={size}
     viewBox="0 0 24 24"
     fill="none"
-    stroke="currentColor"
-    strokeWidth="2.2"
+    stroke="#ffffff"
+    strokeWidth="2.4"
     strokeLinecap="round"
     strokeLinejoin="round"
     className={className}
+    style={{ display: 'block' }}
   >
     <line x1="18" y1="6" x2="6" y2="18"></line>
     <line x1="6" y1="6" x2="18" y2="18"></line>
