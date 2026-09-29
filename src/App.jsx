@@ -6,7 +6,7 @@ import geefiImg from './assets/geefi.jpg';
 import gradiaImg from './assets/gradia.jpg';
 import sanggaluriImg from './assets/sanggaluri.jpg';
 import baksoPakMulImg from './assets/baksopakmul.jpg';
-import dprdImg from './assets/dprd.svg';
+import dprdImg from './assets/dprd.jpg';
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
