@@ -19,26 +19,19 @@
 
 html { 
     scroll-behavior: smooth; 
-    overflow-x: hidden;
-    max-width: 100%;
-    width: 100%;
+    overflow-x: clip;
 }
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background: var(--bg);
     color: var(--text);
-    overflow-x: hidden;
-    max-width: 100%;
-    width: 100%;
-    position: relative;
-    touch-action: pan-y;
+    overflow-x: clip;
 }
 
 #root {
-    overflow-x: hidden;
-    max-width: 100%;
     width: 100%;
+    min-height: 100vh;
 }
 
 /* ── LOADER ── */
@@ -837,7 +830,7 @@ section { position: relative; z-index: 1; overflow-x: hidden; max-width: 100%; }
     position: fixed;
     bottom: 28px;
     right: 28px;
-    z-index: 9990;
+    z-index: 99999;
 }
 
 .chatbot-trigger {
@@ -1257,21 +1250,46 @@ section { position: relative; z-index: 1; overflow-x: hidden; max-width: 100%; }
     cursor: not-allowed;
 }
 
+/* ── RESPONSIVE CHATBOT & ORBIT ── */
+@media (max-width: 1024px) {
+    .chatbot-wrapper {
+        bottom: 24px;
+        right: 24px;
+        z-index: 99999;
+        display: block !important;
+        visibility: visible !important;
+    }
+    .chatbot-trigger {
+        display: flex !important;
+        visibility: visible !important;
+    }
+}
+
 @media (max-width: 640px) {
     .chatbot-wrapper {
         bottom: 20px;
         right: 20px;
+        z-index: 99999;
+        display: block !important;
+        visibility: visible !important;
+    }
+    .chatbot-trigger {
+        width: 54px;
+        height: 54px;
+        display: flex !important;
+        visibility: visible !important;
     }
     .chatbot-window {
         position: fixed;
         left: 14px;
         right: 14px;
         width: auto;
-        bottom: 86px;
+        bottom: 84px;
         height: 520px;
-        max-height: calc(100vh - 110px);
-        max-height: calc(100dvh - 110px);
+        max-height: calc(100vh - 105px);
+        max-height: calc(100dvh - 105px);
         border-radius: 18px;
+        z-index: 99999;
     }
 
     /* Orbit responsive */
