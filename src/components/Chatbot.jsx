@@ -29,6 +29,8 @@ Daftar 6 Proyek Unggulan & Inti Masalah yang Diselesaikan:
    - Inti: Website pemasaran perumahan modern untuk PT Abyakta Ageng Propertindo dengan fitur kalkulator simulasi cicilan KPR dan chatbot n8n untuk konversi leads.
 6. Sanggaluri Portal / SanggaluriSM (React, Tailwind, Vercel):
    - Inti: Portal internal terenkripsi tim kerja Sanggaluri untuk manajemen konten media sosial dan koordinasi operasional tim (dikerjakan kolaboratif bersama Natasya, Rendi, dan Egi).
+7. The Heritage & Roast (React, Tailwind CSS, Framer Motion, Vercel):
+   - Inti: Landing page eksklusif untuk artisan coffee house & micro-roastery premium, menyajikan kurasi menu kopi single-origin, reservasi meja online, dan visual brand elegan.
 
 Riset AI/ML:
 - Fine-tuning model IndoBERT untuk analisis sentimen review logistik J&T menggunakan Hugging Face Trainer API & PyTorch.
@@ -61,7 +63,7 @@ const PERSONAL_REPLY = 'Hal tersebut merupakan ranah privasi pribadi Ghilbran. S
 const isAskingOtherPerson = (text) => {
   const q = text.toLowerCase();
   if (/\b(siapa|tentang)\b/i.test(q)) {
-    const isAboutOwnerOrProject = /\b(ghilbran|alfaries|kamu|anda|bot|ai|lu|lo|dirimu|author|developer|pembuat|pemilik|pengembang|portfolio|portofolio|dprd|gradia|bakso|pak mul|ibravia|geefi|sanggaluri|indobert|honeypot)\b/i.test(q);
+    const isAboutOwnerOrProject = /\b(ghilbran|alfaries|kamu|anda|bot|ai|lu|lo|dirimu|author|developer|pembuat|pemilik|pengembang|portfolio|portofolio|dprd|gradia|bakso|pak mul|ibravia|geefi|sanggaluri|indobert|honeypot|heritage|roast|cafe|kafe|coffee)\b/i.test(q);
     return !isAboutOwnerOrProject;
   }
   return false;
@@ -161,6 +163,18 @@ Inti fungsinya membantu calon pembeli melihat tipe-tipe rumah, menghitung simula
     return `Sanggaluri Portal adalah sistem internal aman untuk tim operasional Sanggaluri dalam mengelola alur kerja konten promosi media sosial dan koordinasi tim secara terpusat. Proyek ini dibangun kolaboratif menggunakan **React dan Tailwind CSS**.`;
   }
 
+  // The Heritage & Roast
+  if (/\b(heritage|roast|cafe|kafe|kopi|coffee|roastery)\b/i.test(q)) {
+    return `The Heritage & Roast adalah landing page eksklusif untuk artisan micro-roastery dan coffee house modern.
+
+Fitur utamanya meliputi:
+• **Curated Menu**: Eksplorasi racikan kopi single-origin pilihan dengan visual menggugah selera.
+• **Reservasi Meja Instan**: Form reservasi langsung bagi pengunjung cafe.
+• **Brand Experience Elegan**: Desain atmosferik berkelas yang responsif di smartphone, tablet, maupun desktop.
+
+Dibangun dengan **React, Tailwind CSS, dan Framer Motion**.`;
+  }
+
   // AI & ML
   if (/\b(indobert|bert|nlp|sentiment|sentimen|j&t|honeypot|cuip|random forest|machine learning|ai)\b/i.test(q)) {
     return `Di bidang AI & Machine Learning, Ghilbran fokus pada NLP dan Keamanan Siber:
@@ -170,13 +184,14 @@ Inti fungsinya membantu calon pembeli melihat tipe-tipe rumah, menghitung simula
 
   // Semua Proyek
   if (/\b(proyek|project|portofolio|portfolio|karya|hasil kerja|udah bikin apa|pernah buat apa)\b/i.test(q)) {
-    return `Ghilbran memiliki 6 proyek unggulan yang memecahkan masalah nyata:
+    return `Ghilbran memiliki 7 proyek unggulan yang memecahkan masalah nyata:
 1. **Web DPRD Kabupaten Purbalingga**: Portal resmi legislatif daerah untuk transparansi publik dan e-aspirasi.
 2. **E-Commerce Bakso Pak Mul**: Toko online rantai pasok bahan baku bakso & mie ayam dengan transaksi otomatis.
-3. **GRADIA Mobile App**: Aplikasi mobile mahasiswa untuk mencatat jadwal kuliah, presensi, dan deadline tugas.
-4. **Ibravia Residence**: Platform perumahan terintegrasi dashboard monitoring penjualan.
-5. **Geefi Residence**: Website pemasaran properti dengan kalkulator simulasi KPR.
-6. **Sanggaluri Portal**: Sistem manajemen internal alur promosi media sosial tim.
+3. **The Heritage & Roast**: Landing page eksklusif artisan coffee house & micro-roastery.
+4. **GRADIA Mobile App**: Aplikasi mobile mahasiswa untuk mencatat jadwal kuliah, presensi, dan deadline tugas.
+5. **Ibravia Residence**: Platform perumahan terintegrasi dashboard monitoring penjualan.
+6. **Geefi Residence**: Website pemasaran properti dengan kalkulator simulasi KPR.
+7. **Sanggaluri Portal**: Sistem manajemen internal alur promosi media sosial tim.
 
 Anda bisa melihat detail tiap proyek di bagian [Featured Projects](#projects)!`;
   }

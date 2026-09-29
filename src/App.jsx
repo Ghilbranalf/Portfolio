@@ -7,6 +7,7 @@ import gradiaImg from './assets/gradia.jpg';
 import sanggaluriImg from './assets/sanggaluri.jpg';
 import baksoPakMulImg from './assets/baksopakmul.jpg';
 import dprdImg from './assets/dprd.jpg';
+import heritageRoastImg from './assets/heritage-roast.jpg';
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -782,6 +783,42 @@ function App() {
                            <p>Portal web resmi Dewan Perwakilan Rakyat Daerah Kabupaten Purbalingga. Menyajikan transparansi informasi publik, agenda dewan, fraksi, komisi, publikasi produk hukum JDIH, serta layanan penyampaian aspirasi masyarakat secara terintegrasi.</p>
                            <div className="project-stack">
                                <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">PHP / Laravel</span><span className="stack-tag">MySQL</span>
+                           </div>
+                       </div>
+                   </div>
+
+                   {/* 7. The Heritage & Roast - Cafe Landing Page */}
+                   <div className="project-card">
+                       <div className="project-thumb">
+                           <div className="project-screen-wrap img-loading" id="thumb-heritage">
+                               <img src={heritageRoastImg}
+                                    alt="The Heritage & Roast Cafe Landing Page"
+                                    loading="lazy"
+                                    decoding="async"
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                                    onLoad={(e) => e.target.parentElement.classList.remove('img-loading')}
+                                    onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
+                               />
+                               <div className="thumb-fallback" style={{ display: 'none', background: 'linear-gradient(135deg,#0a0a0a,#1a1a1a)', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px' }}>
+                                   <i className="fas fa-coffee" style={{ color: "#fff", fontSize: "2.5rem" }}></i>
+                                   <span style={{ color: "#fff", fontSize: "0.8rem", fontWeight: 700 }}>THE HERITAGE & ROAST</span>
+                               </div>
+                           </div>
+                           <div className="overlay">
+                               <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fas fa-external-link-alt"></i> Live</a>
+                               <a href="https://github.com/Ghilbranalf" target="_blank" rel="noreferrer" className="overlay-btn"><i className="fab fa-github"></i> Code</a>
+                           </div>
+                       </div>
+                       <div className="project-body">
+                           <div className="device-badges">
+                               <span className="device-badge desktop"><i className="fas fa-desktop" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Desktop</span>
+                               <span className="device-badge mobile"><i className="fas fa-coffee" style={{ fontSize: "0.55rem", marginRight: "3px" }}></i> Cafe &amp; Dining</span>
+                           </div>
+                           <div className="project-tag">Landing Page · F&amp;B / Cafe · Brand Experience</div>
+                           <h4>The Heritage &amp; Roast</h4>
+                           <p>Landing page modern dan elegan untuk artisan micro-roastery &amp; coffee house. Menampilkan kurasi menu kopi single-origin, reservasi meja instan, storytelling brand premium, serta visual sinematik yang dioptimasi responsif untuk semua perangkat.</p>
+                           <div className="project-stack">
+                               <span className="stack-tag">React</span><span className="stack-tag">Tailwind</span><span className="stack-tag">Framer Motion</span><span className="stack-tag">Vercel</span>
                            </div>
                        </div>
                    </div>
