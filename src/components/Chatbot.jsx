@@ -649,7 +649,7 @@ export default function Chatbot() {
               placeholder="Tulis pertanyaan Anda di sini..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
             />
             <button
               className="chatbot-send-btn"

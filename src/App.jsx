@@ -394,15 +394,22 @@ function App() {
     const firstVal = document.querySelector('.value-card');
     if (firstVal) valObs.observe(firstVal);
 
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-        a.addEventListener('click', e => {
-            const href = a.getAttribute('href');
-            if (href === '#') return;
-            const target = document.querySelector(href);
-            if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-        });
-    });
+    // Smooth scroll (delegated for all dynamic & static anchor links)
+    const handleAnchorClick = (e) => {
+        const a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        const href = a.getAttribute('href');
+        if (!href || href === '#' || href.length < 2) return;
+        const target = document.querySelector(href);
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+    document.addEventListener('click', handleAnchorClick);
+    return () => {
+        document.removeEventListener('click', handleAnchorClick);
+    };
 
   }, []);
 
@@ -435,7 +442,7 @@ function App() {
                   <li><a href="#projects">Projects</a></li>
                   <li><a href="#contact" className="nav-cta">Contact</a></li>
               </ul>
-              <button className="hamburger" id="ham" aria-label="menu" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              <button className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`} id="ham" aria-label="menu" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                   <span></span><span></span><span></span>
               </button>
           </div>
@@ -784,10 +791,24 @@ function App() {
                                           <div className="project-tag">{proj.tag}</div>
                                           <h4>{proj.title}</h4>
                                           <p>{proj.desc}</p>
-                                          <div className="project-stack">
-                                              {proj.stack.map((tech, idx) => (
-                                                  <span key={idx} className="stack-tag">{tech}</span>
-                                              ))}
+                                          <div className="project-footer">
+                                              <div className="project-stack">
+                                                  {proj.stack.map((tech, idx) => (
+                                                      <span key={idx} className="stack-tag">{tech}</span>
+                                                  ))}
+                                              </div>
+                                              <div className="project-links">
+                                                  {proj.liveUrl && (
+                                                      <a href={proj.liveUrl} target="_blank" rel="noreferrer" className="proj-action-link live" title="Live Preview">
+                                                          <i className="fas fa-external-link-alt"></i> Live
+                                                      </a>
+                                                  )}
+                                                  {proj.codeUrl && (
+                                                      <a href={proj.codeUrl} target="_blank" rel="noreferrer" className="proj-action-link code" title="Source Code">
+                                                          <i className="fab fa-github"></i> Code
+                                                      </a>
+                                                  )}
+                                              </div>
                                           </div>
                                       </div>
                                   </div>
@@ -806,16 +827,36 @@ function App() {
                       <i className="fas fa-chevron-right"></i>
                   </button>
 
-                  {/* Pagination Dots */}
-                  <div className="slider-pagination-wrap">
-                      {Array.from({ length: maxSlide + 1 }).map((_, idx) => (
-                          <button
-                              key={idx}
-                              className={`slider-dot ${currentSlide === idx ? 'active' : ''}`}
-                              onClick={() => setCurrentSlide(idx)}
-                              aria-label={`Go to slide ${idx + 1}`}
-                          />
-                      ))}
+                  {/* Slider Controls Bottom (Dots + Prev/Next for mobile) */}
+                  <div className="slider-controls-bottom">
+                      <button 
+                          className="slider-bottom-btn" 
+                          onClick={prevSlide} 
+                          disabled={currentSlide === 0} 
+                          aria-label="Previous Slide"
+                      >
+                          <i className="fas fa-chevron-left"></i>
+                      </button>
+
+                      <div className="slider-pagination-wrap">
+                          {Array.from({ length: maxSlide + 1 }).map((_, idx) => (
+                              <button
+                                  key={idx}
+                                  className={`slider-dot ${currentSlide === idx ? 'active' : ''}`}
+                                  onClick={() => setCurrentSlide(idx)}
+                                  aria-label={`Go to slide ${idx + 1}`}
+                              />
+                          ))}
+                      </div>
+
+                      <button 
+                          className="slider-bottom-btn" 
+                          onClick={nextSlide} 
+                          disabled={currentSlide >= maxSlide} 
+                          aria-label="Next Slide"
+                      >
+                          <i className="fas fa-chevron-right"></i>
+                      </button>
                   </div>
               </div>
                <div className="text-center" style={{ marginTop: "40px", textAlign: "center" }}>
