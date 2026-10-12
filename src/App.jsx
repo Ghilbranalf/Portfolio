@@ -183,8 +183,8 @@ function App() {
       const loader = document.getElementById('loader');
       if (loader) {
         loader.classList.add('hidden');
-        startHeroAnimations();
       }
+      startHeroAnimations();
     };
     setTimeout(hideLoader, 350);
 
